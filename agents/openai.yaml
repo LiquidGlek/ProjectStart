@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Start"
+  short_description: "Launch focused work in separate top-level tasks"
+  default_prompt: "Use $project-start to initialize this project and launch a focused software-team workflow around its exact outcome. Create every durable lane as a separate top-level Codex task with create_thread; never substitute a subagent."
