@@ -22,12 +22,12 @@ Publish the validated `project-start` Codex skill as a dedicated public GitHub r
 - [x] PUB-007 — Scan tracked content for private paths, credentials, caches, and unrelated product material. Evidence: bounded scan passed with no matches.
 - [x] PUB-008 — Commit the exact reviewed file set. Evidence: initial reviewed publication commit `784173a`.
 - [x] PUB-009 — Create and push to the public `LiquidGlek/ProjectStart` repository. Evidence: public `main` created and tracking `origin/main`.
-- [ ] PUB-010 — Read back repository visibility, default branch, commit, and public files from GitHub.
-- [ ] PUB-011 — Provide an easy install/download path and an explicit open-source license.
+- [x] PUB-010 — Read back repository visibility, default branch, commit, and public files from GitHub. Evidence: PUBLIC, `main`, local/remote commit `8238d8b`, and public `README.md` confirmed.
+- [x] PUB-011 — Provide an easy install/download path and an explicit open-source license. Evidence: archive button returned HTTP 200 and GitHub identified `LICENSE` as MIT.
 
 ## Current status
 
-- **Checked/open/total:** 9 / 2 / 11
-- **Verified complete:** isolated source, human-written public README, package validation, PowerShell parsing, fresh initialization, activation audit, and private-content scan.
+- **Checked/open/total:** 11 / 0 / 11
+- **Verified complete:** isolated source, human-written public README, package validation, PowerShell parsing, fresh initialization, activation audit, private-content scan, public push, easy download, and MIT license read-back.
 - **Critical failure:** none known.
-- **Next action:** publish the README/install/license update, then read back visibility, default branch, commit, download, and license state.
+- **Next action:** prepare the separate Reddit announcement draft; do not post it without explicit authorization.
