@@ -7,7 +7,9 @@
 [![Codex Skill](https://img.shields.io/badge/Codex-Skill-111827?style=for-the-badge)](./SKILL.md)
 [![PowerShell](https://img.shields.io/badge/PowerShell-Validated-2563EB?style=for-the-badge&logo=powershell&logoColor=white)](./scripts)
 [![Anti Drift](https://img.shields.io/badge/Anti--Drift-Fail--Closed-E11D48?style=for-the-badge)](./assets/project-kit/FOCUS_PROTOCOL.md)
-[![Public](https://img.shields.io/badge/Repository-Public-16A34A?style=for-the-badge&logo=github)](https://github.com/LiquidGlek/ProjectStart)
+[![MIT License](https://img.shields.io/badge/License-MIT-16A34A?style=for-the-badge)](./LICENSE)
+
+<a href="https://github.com/LiquidGlek/ProjectStart/archive/refs/heads/main.zip"><img alt="Download ProjectStart" src="https://img.shields.io/badge/Download_ProjectStart-111827?style=for-the-badge&logo=github&logoColor=white"></a>
 
 </div>
 
@@ -74,7 +76,19 @@ Your Project/
 
 ## Install
 
-Clone the repository into your Codex skills directory as `project-start`.
+### Easiest: ask Codex to install it
+
+Copy this into a Codex task:
+
+```text
+Use $skill-installer to install the project-start skill from https://github.com/LiquidGlek/ProjectStart and name it project-start.
+```
+
+The installer downloads public GitHub skills directly and refuses to overwrite an existing skill directory.
+
+### Manual install
+
+Clone the repository into your Codex skills directory as `project-start`:
 
 ### Windows PowerShell
 
@@ -158,10 +172,13 @@ Strict mode rejects unresolved plans, malformed task registries, missing `create
 | [`assets/project-kit/`](./assets/project-kit) | The project documents and templates |
 | [`scripts/Initialize-ProjectStart.ps1`](./scripts/Initialize-ProjectStart.ps1) | The safe initializer |
 | [`scripts/Test-ProjectControls.ps1`](./scripts/Test-ProjectControls.ps1) | Activation and strict validation |
+| [`LICENSE`](./LICENSE) | MIT open-source license |
 
 ## Current validation
 
 The current package has passed skill-package validation, PowerShell parsing, fresh initialization, activation auditing, a deliberate test proving a `spawn_agent` project lane is rejected, and another initialization from a clean ZIP extraction.
+
+ProjectStart is open source under the [MIT License](./LICENSE).
 
 ---
 

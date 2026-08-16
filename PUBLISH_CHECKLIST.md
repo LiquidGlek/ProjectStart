@@ -20,13 +20,14 @@ Publish the validated `project-start` Codex skill as a dedicated public GitHub r
 - [x] PUB-005 — Inspect Git status and diff before staging. Evidence: isolated repository contains only the skill package, public README, ignore rules, and this checklist.
 - [x] PUB-006 — Run package validation, PowerShell parsing, initialization, and activation audit from the repository copy. Evidence: all four checks passed from the isolated checkout.
 - [x] PUB-007 — Scan tracked content for private paths, credentials, caches, and unrelated product material. Evidence: bounded scan passed with no matches.
-- [ ] PUB-008 — Commit the exact reviewed file set.
-- [ ] PUB-009 — Create and push to the public `LiquidGlek/ProjectStart` repository.
+- [x] PUB-008 — Commit the exact reviewed file set. Evidence: initial reviewed publication commit `784173a`.
+- [x] PUB-009 — Create and push to the public `LiquidGlek/ProjectStart` repository. Evidence: public `main` created and tracking `origin/main`.
 - [ ] PUB-010 — Read back repository visibility, default branch, commit, and public files from GitHub.
+- [ ] PUB-011 — Provide an easy install/download path and an explicit open-source license.
 
 ## Current status
 
-- **Checked/open/total:** 7 / 3 / 10
+- **Checked/open/total:** 9 / 2 / 11
 - **Verified complete:** isolated source, human-written public README, package validation, PowerShell parsing, fresh initialization, activation audit, and private-content scan.
 - **Critical failure:** none known.
-- **Next action:** stage the exact reviewed files, commit, create the public repository, push, and read back the published state.
+- **Next action:** publish the README/install/license update, then read back visibility, default branch, commit, download, and license state.
