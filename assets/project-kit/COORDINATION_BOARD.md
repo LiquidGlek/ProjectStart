@@ -27,6 +27,13 @@ The coordinator must:
 19. Keep every health/readiness claim scoped; overall product or release health cannot exceed the weakest required Critical row.
 20. Reject `spawn_agent` as a substitute for a durable project task. A subagent may only provide one-shot temporary support with no master row, production/runtime ownership, checklist, deadline, acceptance gate, or independently resumable lane.
 21. If `create_thread` is unavailable or fails, mark that lane `BLOCKED`; do not hide it behind a nested agent or absorb it into the Director.
+22. Rehydrate `PROJECT_STATE.md` at every user turn and after compaction, restart, or handoff before scheduling, creating tasks, waiting, or editing production.
+23. Build a ready set from accepted-plan lanes whose hard prerequisites are satisfied. Launch or resume the entire ready set before the first wait; never wait on one task while another ready independent lane is idle or uncreated.
+24. Use one multi-target `wait_threads` call for up to eight active lanes and replenish from the ready set before waiting again. A single-target wait is allowed only when exactly one non-Director lane is legitimately ready and target `1` is recorded. A lane blocked by a real collision, resource, authority, or hard dependency is not ready; record the exact reason.
+25. Reuse the existing registered task for a stable lane whenever its ownership, checklist, model, and project/workspace remain valid. A new candidate, review pass, or slice is not a new lane and does not justify a new task.
+26. Create a replacement only after recording why the existing task is absent, misconfigured, irrecoverable, duplicate, superseded, or explicitly stopped. Verify actual startup metadata rather than intended launch arguments.
+27. Archive terminal lifecycle debris only after preserving handoff evidence, dirty/unintegrated work, and task-owned process state. Idle, waiting, blocked, or reusable is not terminal. If the host proves a terminal task cannot be archived because its backing record is gone, record `UNARCHIVABLE` with the failed archive receipt and proof that no unintegrated changes/processes remain; do not block disjoint product work or claim it was archived.
+28. Capture exploratory ideas in the master backlog and affected checklists; do not let unpromoted `IDEA-###` rows consume a lane or completion percentage.
 
 The coordinator must not silently implement shared integration work, waive a gate, self-approve human acceptance, or mark external behavior complete from local proof.
 
@@ -35,9 +42,19 @@ The coordinator must not silently implement shared integration work, waive a gat
 - **Coordinator:** `<name/task/deeplink>`
 - **Team mode and active roles:** `<SOLO/SMALL/FULL; roles>`
 - **Last reconciled:** `<ISO timestamp>`
-- **Active tasks:** `<count>`
+- **Last state rehydration:** `<ISO timestamp and reason/receipt>`
+- **Ready independent lanes:** `<semicolon-separated stable lane IDs or NONE>`
+- **Running ready lanes:** `<number; excludes Director>`
+- **Useful concurrency target:** `<number; equals ready independent lane count>`
+- **Under-utilization reason:** `<NONE or exact failed task/dependency/collision>`
+- **Next launch wave:** `<stable lane IDs and trigger or NONE>`
+- **Last launch/replenishment receipt:** `<timestamp; stable lane IDs and exact create/send receipts, or NOT APPLICABLE before lanes exist>`
+- **Director wait state/receipt:** `<NOT WAITING and action / WAITING; timestamp; bounded wait_threads batch(es) covering all stable lane/task IDs/cursors>`
+- **Active tasks:** `<count including Director>`
 - **Planned durable lanes lacking create_thread receipt:** `<IDs/lanes or NONE>`
 - **Subagents currently carrying durable work:** `<MUST BE NONE>`
+- **Task lifecycle backlog:** `<NONE / ARCHIVE PENDING exact IDs and retry / UNARCHIVABLE exact IDs plus failed archive and no-unintegrated-state receipt>`
+- **Duplicate live stable lanes:** `<NONE or stable lane IDs/tasks requiring reconciliation>`
 - **Ready for review:** `<count>`
 - **Blocked tasks:** `<count>`
 - **Unassigned critical rows:** `<IDs or none>`
@@ -63,13 +80,13 @@ The coordinator must not silently implement shared integration work, waive a gat
 
 ## Agent registry
 
-One row per top-level Codex task or durable lane. Every non-Director row must have a `create_thread` receipt. A task without that receipt, task ID/deeplink, checklist, and exact ownership is not authorized to read project files, edit, test, or coordinate.
+One row per top-level Codex task or durable lane, retaining archived/replaced rows as history. Every stable lane has at most one non-archived live task. Every non-Director row must retain its original `create_thread` receipt. A task without that receipt, exact task ID/deeplink, actual startup read-back, checklist, and exact ownership is not authorized to read project files, edit, test, or coordinate.
 
-| Task/lane | Creation mechanism/receipt | Task ID or deeplink | Model/effort | Checklist | Master IDs | Exact write ownership | Time budget/deadline | Excluded/shared regions | State | Last meaningful update | Next action |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| `<lane>` | `create_thread / <returned receipt>` | `<task ID/deeplink>` | `<Luna Max read-only; Sol Low/Light, Medium, or Max>` | `agent-checklists/<name>.md` | `<IDs>` | `<paths/regions/systems>` | `<budget/deadline>` | `<paths>` | `PROPOSED` | `<timestamp>` | `<action>` |
+| Stable lane ID | Task/lane | Creation/reuse receipt | Task ID/deeplink | Actual model/effort | Actual project/root/worktree | Checklist | Master IDs | Exact write ownership | Hard prerequisites | Time budget/deadline | Excluded/shared regions | Lifecycle/archive receipt | State | Last meaningful update | Next action |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| `<LANE-ID>` | `<lane>` | `create_thread / <returned receipt>; <reuse/replacement receipt>` | `<task ID/deeplink>` | `<actual task read-back>` | `<actual project/root/worktree read-back>` | `agent-checklists/<name>.md` | `<IDs>` | `<paths/regions/systems>` | `<NONE or exact prerequisite>` | `<budget/deadline>` | `<paths>` | `<LIVE / ARCHIVED receipt / ARCHIVE PENDING retry / UNARCHIVABLE failed-attempt receipt>` | `PROPOSED` | `<timestamp>` | `<action>` |
 
-Allowed states: `PROPOSED`, `ASSIGNED`, `ACTIVE`, `BLOCKED`, `READY FOR REVIEW`, `CHANGES REQUESTED`, `ACCEPTED`, `STOPPED`.
+Allowed states: `PROPOSED`, `ASSIGNED`, `ACTIVE`, `BLOCKED`, `READY FOR REVIEW`, `CHANGES REQUESTED`, `ACCEPTED`, `STOPPED`, `REPLACED`, `MISCONFIGURED`, `DUPLICATE`, `SUPERSEDED`. `STOPPED`, `REPLACED`, `MISCONFIGURED`, `DUPLICATE`, and `SUPERSEDED` are terminal and require an archive receipt after safe lifecycle reconciliation, or a verified `UNARCHIVABLE` receipt when the host has lost the backing task and no unintegrated changes/processes remain.
 
 Role labels: `PROJECT DIRECTOR`, `PRODUCT/UX`, `TECH LEAD/INTEGRATOR`, `DEVELOPER`, `QA`, `VISUAL AUDITOR`, `RELEASE/ACCEPTANCE`. One task may hold compatible roles on a small project, but an implementer may not independently approve its own gate.
 
@@ -106,7 +123,10 @@ Ready does not mean integrated. Preserve order when lanes share contracts.
 ## Coordinator review checklist
 
 - [ ] This durable lane is a separate top-level Codex task created through `create_thread`; it is not a subagent.
-- [ ] The task creation receipt, ID, deeplink, and checklist were registered before lane work began.
+- [ ] The task creation receipt, ID, deeplink, actual model/effort, actual project/root/worktree, checklist, and startup state were registered and matched before lane work began.
+- [ ] Existing stable-lane tasks were reconciled and reused; any replacement has a recorded reason and old/new task IDs.
+- [ ] Every simultaneously ready independent lane was launched/resumed before waiting, and the wait covered all active targets together.
+- [ ] Terminal/duplicate/superseded/misconfigured tasks were archived only after dirty work, handoff, and processes were reconciled, or carry verified `UNARCHIVABLE` evidence; reusable blocked/waiting tasks remain available.
 - [ ] Agent stayed inside exact ownership.
 - [ ] Changed and preserved files are listed.
 - [ ] Relevant requirements and discoveries are present in the master checklist.

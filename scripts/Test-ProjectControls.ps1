@@ -78,6 +78,7 @@ if (-not (Test-Path -LiteralPath $root -PathType Container)) {
 $requiredFiles = @(
     'README.md',
     'AGENTS.md',
+    'PROJECT_STATE.md',
     'PROJECT_CHARTER.md',
     'MASTER_CHECKLIST.md',
     'PRIOR_ART_RESEARCH.md',
@@ -117,11 +118,32 @@ Require-Text 'MASTER_CHECKLIST.md' '| [ ] | GATE-021 |'
 Require-Text 'MASTER_CHECKLIST.md' '| [ ] | GATE-022 |'
 Require-Text 'MASTER_CHECKLIST.md' '| [ ] | GATE-023 |'
 Require-Text 'MASTER_CHECKLIST.md' '| [ ] | GATE-024 |'
+Require-Text 'MASTER_CHECKLIST.md' '| [ ] | GATE-025 |'
+Require-Text 'MASTER_CHECKLIST.md' '| [ ] | GATE-026 |'
+Require-Text 'MASTER_CHECKLIST.md' '| [ ] | GATE-027 |'
+Require-Text 'MASTER_CHECKLIST.md' '| [ ] | GATE-028 |'
+Require-Text 'MASTER_CHECKLIST.md' '| [ ] | GATE-029 |'
+Require-Text 'MASTER_CHECKLIST.md' '| [ ] | GATE-030 |'
 Require-Text 'MASTER_CHECKLIST.md' '## Claim-scoped health'
 Require-Text 'MASTER_CHECKLIST.md' '## Candidate promotion gate'
+Require-Text 'MASTER_CHECKLIST.md' '## Brainstorm and future backlog'
+Require-Text 'MASTER_CHECKLIST.md' '**Open brainstorm items:**'
+Require-Text 'PROJECT_STATE.md' '## Mandatory rehydration'
+Require-Text 'PROJECT_STATE.md' '**Skill contract:** `$project-start`'
+Require-Text 'PROJECT_STATE.md' '**Ready independent lanes:**'
+Require-Text 'PROJECT_STATE.md' '**Useful concurrency target:**'
+Require-Text 'PROJECT_STATE.md' '**Last launch/replenishment receipt:**'
+Require-Text 'PROJECT_STATE.md' '**Director wait state/receipt:**'
+Require-Text 'PROJECT_STATE.md' '**Task lifecycle backlog:**'
+Require-Text 'PROJECT_STATE.md' '## Active task read-backs'
 Require-Text 'DECISION_LOG.md' '## Correction and regression ledger'
 Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '**Active correction IDs:**'
 Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '**Critical journey transaction contract:**'
+Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '**Stable lane ID:**'
+Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '**Actual task startup read-back:**'
+Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '**Replacement/reuse receipt:**'
+Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '**Linked open idea IDs:**'
+Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '## Linked brainstorm/backlog'
 Require-Text 'PROJECT_CHARTER.md' '## User intent synthesis'
 Require-Text 'PROJECT_CHARTER.md' '**Anti-intent:**'
 Require-Text 'PROJECT_CHARTER.md' '**Emotional promise:**'
@@ -131,25 +153,35 @@ Require-Text 'PROJECT_PLAN.md' '## Adversarial self-audit'
 Require-Text 'PROJECT_PLAN.md' '## Critical journey transaction contract'
 Require-Text 'PRIOR_ART_RESEARCH.md' '## Reuse decision'
 Require-Text 'PRIOR_ART_RESEARCH.md' '## Baseline capability matrix'
-Require-Text 'PRIOR_ART_RESEARCH.md' 'REQUIRED NOW / INTENTIONALLY EXCLUDED / NOT APPLICABLE'
-Require-Text 'PRIOR_ART_RESEARCH.md' '<REUSE/ADAPT/LEARN/REJECT>'
+Require-Text 'PRIOR_ART_RESEARCH.md' 'INTENTIONALLY EXCLUDED'
 Require-Text 'PRIOR_ART_RESEARCH.md' 'license'
 Require-Text 'PROJECT_PLAN.md' '## Ordered vertical slices'
 Require-Text 'PROJECT_PLAN.md' '## Checklist derivation gate'
 Require-Text 'PROJECT_PLAN.md' '**Plan state:**'
 Require-Text 'PROJECT_PLAN.md' 'Creation mechanism'
-Require-Text 'PROJECT_PLAN.md' 'Each planned lane must use `create_thread`; `spawn_agent` is prohibited.'
+Require-Text 'PROJECT_PLAN.md' 'Each lane''s original creation mechanism is `create_thread`; `spawn_agent` is prohibited.'
+Require-Text 'PROJECT_PLAN.md' 'Launch wave'
+Require-Text 'PROJECT_PLAN.md' 'Hard prerequisite'
 Require-Text 'COORDINATION_BOARD.md' 'Lanes showing test churn/no outcome movement'
 Require-Text 'COORDINATION_BOARD.md' 'Primary outcome state'
 Require-Text 'COORDINATION_BOARD.md' 'Current timebox stage'
 Require-Text 'COORDINATION_BOARD.md' 'Planned durable lanes lacking create_thread receipt'
 Require-Text 'COORDINATION_BOARD.md' 'Subagents currently carrying durable work'
+Require-Text 'COORDINATION_BOARD.md' 'Ready independent lanes'
+Require-Text 'COORDINATION_BOARD.md' 'Useful concurrency target'
+Require-Text 'COORDINATION_BOARD.md' 'Under-utilization reason'
+Require-Text 'COORDINATION_BOARD.md' 'Last launch/replenishment receipt'
+Require-Text 'COORDINATION_BOARD.md' 'Director wait state/receipt'
+Require-Text 'COORDINATION_BOARD.md' 'Task lifecycle backlog'
+Require-Text 'COORDINATION_BOARD.md' 'Duplicate live stable lanes'
 Require-Text 'AGENT_COMMUNICATION.md' '## Director address'
 Require-Text 'AGENT_COMMUNICATION.md' '## Task directory'
 Require-Text 'AGENT_COMMUNICATION.md' '## Task creation contract'
 Require-Text 'AGENT_COMMUNICATION.md' '**Durable lane creation tool:** `create_thread`'
 Require-Text 'AGENT_COMMUNICATION.md' '**Forbidden substitute:** `spawn_agent`'
 Require-Text 'AGENT_COMMUNICATION.md' 'No durable domain is hidden behind a subagent.'
+Require-Text 'AGENT_COMMUNICATION.md' 'A stable lane keeps one live task'
+Require-Text 'AGENT_COMMUNICATION.md' 'Actual model/effort'
 Require-Text 'RUNTIME_OWNERSHIP.md' '## Current lock'
 Require-Text 'RUNTIME_OWNERSHIP.md' 'An out-of-lane mismatch is a routed blocker'
 Require-Text 'INTEGRATION_CONTRACTS.md' 'Installed candidate is not source'
@@ -179,6 +211,9 @@ Require-Text 'TEAM_OPERATING_MODEL.md' 'Use **Sol Low**'
 Require-Text 'TEAM_OPERATING_MODEL.md' 'Use **Luna Max**'
 Require-Text 'TEAM_OPERATING_MODEL.md' 'top-level Codex task'
 Require-Text 'TEAM_OPERATING_MODEL.md' 'If `create_thread` is unavailable or fails'
+Require-Text 'TEAM_OPERATING_MODEL.md' '## Compact recovery is mandatory'
+Require-Text 'TEAM_OPERATING_MODEL.md' '## Parallel launch barrier'
+Require-Text 'TEAM_OPERATING_MODEL.md' '## Stable lane and task lifecycle'
 Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '**Task type:**'
 Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '**Creation mechanism/receipt:**'
 Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '**Subagent status:**'
@@ -199,6 +234,8 @@ Reject-Text 'MASTER_CHECKLIST.md' '- **Current candidate classification:** `<DEV
 Reject-Text 'MASTER_CHECKLIST.md' '- **Two-candidate circuit breaker:** `<CLEAR / TRIGGERED; required plan/review evidence>`'
 Reject-Text 'COORDINATION_BOARD.md' '- **Coordinator:** `<name/task/deeplink>`'
 Reject-Text 'COORDINATION_BOARD.md' '- **Primary outcome state:** `<NOT ATTEMPTED/FAIL/PARTIAL/PASS and EV-###>`'
+Reject-Text 'PROJECT_STATE.md' '- **Primary outcome:** `<exact observable outcome>`'
+Reject-Text 'PROJECT_STATE.md' '- **Current user-directed priority:** `<exact current milestone/outcome; explicit steering controls>`'
 Reject-Text 'AGENT_COMMUNICATION.md' '- **Project Director task:** `<exact task title>`'
 Reject-Text 'AGENT_COMMUNICATION.md' '- **Task ID:** `<exact ID>`'
 Reject-Text 'AGENT_COMMUNICATION.md' '- **Deeplink:** `<exact copied deeplink>`'
@@ -316,16 +353,33 @@ if (Test-Path -LiteralPath $checklistDirectory -PathType Container) {
         if (-not $agent.Contains('**Subagent status:**')) {
             $errors.Add("$($agentFile.Name) has no subagent status field.")
         }
+        if (-not $agent.Contains('**Stable lane ID:**')) {
+            $errors.Add("$($agentFile.Name) has no stable lane ID field.")
+        }
+        if (-not $agent.Contains('**Actual task startup read-back:**')) {
+            $errors.Add("$($agentFile.Name) has no actual task startup read-back field.")
+        }
+        if (-not $agent.Contains('**Replacement/reuse receipt:**')) {
+            $errors.Add("$($agentFile.Name) has no replacement/reuse receipt field.")
+        }
+        if (-not $agent.Contains('**Linked open idea IDs:**')) {
+            $errors.Add("$($agentFile.Name) has no linked open idea IDs field.")
+        }
 
         if ($Strict) {
             $relativeAgentPath = [System.IO.Path]::GetRelativePath($root, $agentFile.FullName)
             Require-ResolvedField $relativeAgentPath 'Task type'
             Require-ResolvedField $relativeAgentPath 'Creation mechanism/receipt'
             Require-ResolvedField $relativeAgentPath 'Subagent status'
+            Require-ResolvedField $relativeAgentPath 'Stable lane ID'
+            Require-ResolvedField $relativeAgentPath 'Actual task startup read-back'
+            Require-ResolvedField $relativeAgentPath 'Replacement/reuse receipt'
+            Require-ResolvedField $relativeAgentPath 'Linked open idea IDs'
 
             $taskType = [regex]::Match($agent, '(?m)^- \*\*Task type:\*\* (.+)$').Groups[1].Value.Trim()
             $creationMechanism = [regex]::Match($agent, '(?m)^- \*\*Creation mechanism/receipt:\*\* (.+)$').Groups[1].Value.Trim()
             $subagentStatus = [regex]::Match($agent, '(?m)^- \*\*Subagent status:\*\* (.+)$').Groups[1].Value.Trim()
+            $startupReadback = [regex]::Match($agent, '(?m)^- \*\*Actual task startup read-back:\*\* (.+)$').Groups[1].Value.Trim()
 
             if ($taskType -notin @('TOP-LEVEL CODEX TASK', 'CURRENT DIRECTOR TASK')) {
                 $errors.Add("$($agentFile.Name) task type must be TOP-LEVEL CODEX TASK or CURRENT DIRECTOR TASK.")
@@ -336,11 +390,17 @@ if (Test-Path -LiteralPath $checklistDirectory -PathType Container) {
             if ($creationMechanism -match 'spawn_agent' -or $subagentStatus -ne 'NOT A SUBAGENT') {
                 $errors.Add("$($agentFile.Name) is a durable project checklist assigned to a subagent; create a top-level Codex task instead.")
             }
+            if ($startupReadback -match '(?i)NOT VERIFIED|PENDING|UNKNOWN|<[^>]+>') {
+                $errors.Add("$($agentFile.Name) has no verified actual task startup read-back.")
+            }
+            if ($agent -match 'IDEA-001 \| `<exact wording and speaker/time>`') {
+                $errors.Add("$($agentFile.Name) linked brainstorm table still contains the unresolved sample row.")
+            }
         }
     }
 }
 
-$activeFiles = @('PROJECT_CHARTER.md', 'MASTER_CHECKLIST.md', 'PRIOR_ART_RESEARCH.md', 'PROJECT_PLAN.md', 'COORDINATION_BOARD.md', 'AGENT_COMMUNICATION.md', 'agent-checklists\coordinator.md')
+$activeFiles = @('PROJECT_STATE.md', 'PROJECT_CHARTER.md', 'MASTER_CHECKLIST.md', 'PRIOR_ART_RESEARCH.md', 'PROJECT_PLAN.md', 'COORDINATION_BOARD.md', 'AGENT_COMMUNICATION.md', 'agent-checklists\coordinator.md')
 foreach ($relativePath in $activeFiles) {
     $path = Join-Path $root $relativePath
     if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
@@ -357,6 +417,35 @@ foreach ($relativePath in $activeFiles) {
 
 if ($Strict) {
     $strictFields = @{
+        'PROJECT_STATE.md' = @(
+            'Last updated',
+            'Last rehydrated',
+            'Rehydration reason/receipt',
+            'Current phase',
+            'Primary outcome',
+            'Acceptance journey',
+            'Current user-directed priority',
+            'Plan state/decision',
+            'Current candidate classification',
+            'Last direct journey attempt',
+            'Active correction IDs',
+            'Current authority envelope',
+            'Forbidden without new user authority',
+            'Open brainstorm backlog',
+            'Ready independent lanes',
+            'Running ready lanes',
+            'Useful concurrency target',
+            'Under-utilization reason',
+            'Next launch wave',
+            'Last launch/replenishment receipt',
+            'Director wait state/receipt',
+            'Director production/runtime ownership',
+            'Subagents carrying durable work',
+            'Task lifecycle backlog',
+            'Current blockers',
+            'Whole-product status',
+            'Next Director action'
+        )
         'MASTER_CHECKLIST.md' = @(
             'Current candidate classification',
             'Candidate promotion justification',
@@ -431,23 +520,42 @@ if ($Strict) {
         if ($plan -notmatch '(?m)^\*\*Plan state:\*\* ACCEPTED\s*$') {
             $errors.Add('PROJECT_PLAN.md Plan state must be ACCEPTED before substantive implementation.')
         }
-        if ($plan -notmatch '(?m)^\*\*Decision ID:\*\* DEC-[0-9]+\s*$') {
+        $planDecisionMatch = [regex]::Match($plan, '(?m)^\*\*Decision ID:\*\* (DEC-[0-9]+)\s*$')
+        if (-not $planDecisionMatch.Success) {
             $errors.Add('PROJECT_PLAN.md must cite an accepted DEC-number before substantive implementation.')
+        }
+        else {
+            $acceptedPlanDecisionId = $planDecisionMatch.Groups[1].Value
         }
         if ($plan -match '<finding>|<simplification>|<autonomous route>|<merge/split/reroute>|<scope correction>|<evidence or correction>|<proof plan or honest blocker>|<controlling correction>|<transaction-contract repair>|<candidate-churn guardrail>|<guardrail/direct journey>') {
             $errors.Add('PROJECT_PLAN.md adversarial self-audit still contains unresolved sample findings or repairs.')
         }
 
         $planTaskSection = [regex]::Match($plan, '(?ms)^## Top-level task design\s*(.*?)(?=^## |\z)').Groups[1].Value
-        $planTaskRows = @($planTaskSection -split "`r?`n" | Where-Object { $_ -match '^\|' -and $_ -notmatch '^\|---' -and $_ -notmatch '^\| Proposed top-level task/lane ' })
+        $planTaskRows = @($planTaskSection -split "`r?`n" | Where-Object { $_ -match '^\|' -and $_ -notmatch '^\|---' -and $_ -notmatch '^\| Stable lane ID ' })
+        $planLaneIds = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
         foreach ($row in $planTaskRows) {
             $columns = @($row.Trim('|') -split '\|' | ForEach-Object { $_.Trim() })
             if ($row -match '<[^>]+>') {
                 $errors.Add('PROJECT_PLAN.md top-level task design still contains an unresolved sample or placeholder row.')
                 continue
             }
-            if ($columns.Count -lt 3 -or $columns[2].Trim('`') -ne 'create_thread') {
+            if ($columns.Count -lt 12 -or $columns[3].Trim('`') -ne 'create_thread') {
                 $errors.Add('Every PROJECT_PLAN.md durable lane must name create_thread as its creation mechanism.')
+            }
+            if ($columns.Count -ge 12) {
+                if ($columns[0] -notmatch '^[A-Z][A-Z0-9_-]*$') {
+                    $errors.Add('Every PROJECT_PLAN.md durable lane must have a stable lane ID.')
+                }
+                elseif (-not $planLaneIds.Add($columns[0])) {
+                    $errors.Add("PROJECT_PLAN.md contains duplicate stable lane ID '$($columns[0])'.")
+                }
+                if ([string]::IsNullOrWhiteSpace($columns[4]) -or [string]::IsNullOrWhiteSpace($columns[5]) -or [string]::IsNullOrWhiteSpace($columns[10])) {
+                    $errors.Add("PROJECT_PLAN.md lane '$($columns[0])' must resolve launch wave, hard prerequisite, and intended project/root/worktree.")
+                }
+                elseif (-not $columns[10].Contains($root)) {
+                    $errors.Add("PROJECT_PLAN.md lane '$($columns[0])' intended project/root/worktree does not name the authoritative project root.")
+                }
             }
         }
     }
@@ -458,6 +566,214 @@ if ($Strict) {
         if ($strictMaster.Contains('| Primary journey | `<NOT RUN/PARTIAL/FAIL/BLOCKED/PASS>`')) {
             $errors.Add('MASTER_CHECKLIST.md claim-scoped health still contains the unresolved Primary journey sample row.')
         }
+        if ($strictMaster -match 'IDEA-001 \| `<exact brainstorm wording and speaker/time>`') {
+            $errors.Add('MASTER_CHECKLIST.md brainstorm backlog still contains the unresolved sample row.')
+        }
+
+        $ideaCountMatch = [regex]::Match($strictMaster, '(?m)^- \*\*Open brainstorm items:\*\*\s*([0-9]+)\s*$')
+        $newestIdeaMatch = [regex]::Match($strictMaster, '(?m)^- \*\*Newest brainstorm ID:\*\*\s*(.+)$')
+        $ideaSection = [regex]::Match($strictMaster, '(?ms)^## Brainstorm and future backlog\s*(.*?)(?=^## |\z)').Groups[1].Value
+        $backlogRows = @($ideaSection -split "`r?`n" | Where-Object { $_ -match '^\| BACKLOG \| IDEA-[0-9]+ \|' })
+        $backlogIdeaIds = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
+        foreach ($row in $backlogRows) {
+            $columns = @($row.Trim('|') -split '\|' | ForEach-Object { $_.Trim().Trim('`') })
+            if ($columns.Count -lt 7) {
+                $errors.Add('MASTER_CHECKLIST.md contains a malformed BACKLOG idea row.')
+                continue
+            }
+            $ideaId = $columns[1]
+            [void]$backlogIdeaIds.Add($ideaId)
+            $linkedChecklistPaths = @($columns[4] -split '[;,]' | ForEach-Object { $_.Trim().Trim('`') } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) -and $_ -ne 'NONE' })
+            if ($linkedChecklistPaths.Count -eq 0) {
+                $errors.Add("MASTER_CHECKLIST.md backlog idea '$ideaId' has no affected task checklist link.")
+            }
+            foreach ($linkedChecklistPath in $linkedChecklistPaths) {
+                $ideaChecklistPath = Join-Path $root $linkedChecklistPath
+                if (-not (Test-Path -LiteralPath $ideaChecklistPath -PathType Leaf)) {
+                    $errors.Add("MASTER_CHECKLIST.md backlog idea '$ideaId' links a missing checklist: $linkedChecklistPath")
+                    continue
+                }
+                $ideaChecklist = Get-Content -LiteralPath $ideaChecklistPath -Raw
+                $linkedOpenMatch = [regex]::Match($ideaChecklist, '(?m)^- \*\*Linked open idea IDs:\*\*\s*(.+)$')
+                $linkedIdeaSection = [regex]::Match($ideaChecklist, '(?ms)^## Linked brainstorm/backlog\s*(.*?)(?=^## |\z)').Groups[1].Value
+                if (-not $linkedOpenMatch.Success -or $linkedOpenMatch.Groups[1].Value -notmatch ('(?<![A-Z0-9-])' + [regex]::Escape($ideaId) + '(?![A-Z0-9-])') -or
+                    $linkedIdeaSection -notmatch ('(?m)^\|\s*' + [regex]::Escape($ideaId) + '\s*\|')) {
+                    $errors.Add("Backlog idea '$ideaId' is not linked in both the field and table of checklist '$linkedChecklistPath'.")
+                }
+            }
+        }
+        if (-not $ideaCountMatch.Success -or [int]$ideaCountMatch.Groups[1].Value -ne $backlogRows.Count) {
+            $errors.Add('MASTER_CHECKLIST.md open brainstorm count does not match BACKLOG rows.')
+        }
+        if ($backlogRows.Count -eq 0 -and (-not $newestIdeaMatch.Success -or $newestIdeaMatch.Groups[1].Value.Trim() -ne 'NONE')) {
+            $errors.Add('MASTER_CHECKLIST.md newest brainstorm ID must be NONE when no BACKLOG rows exist.')
+        }
+        if ($backlogRows.Count -gt 0 -and (-not $newestIdeaMatch.Success -or $newestIdeaMatch.Groups[1].Value.Trim() -notmatch '^IDEA-[0-9]+(?:\s*[,;]\s*IDEA-[0-9]+)*$')) {
+            $errors.Add('MASTER_CHECKLIST.md newest brainstorm ID must name exact IDEA IDs when backlog items exist.')
+        }
+        if (Test-Path -LiteralPath $checklistDirectory -PathType Container) {
+            foreach ($ideaAgentFile in Get-ChildItem -LiteralPath $checklistDirectory -Filter '*.md' -File) {
+                $ideaAgent = Get-Content -LiteralPath $ideaAgentFile.FullName -Raw
+                $linkedOpenMatch = [regex]::Match($ideaAgent, '(?m)^- \*\*Linked open idea IDs:\*\*\s*(.+)$')
+                if ($linkedOpenMatch.Success -and $linkedOpenMatch.Groups[1].Value.Trim() -ne 'NONE') {
+                    $linkedIds = @([regex]::Matches($linkedOpenMatch.Groups[1].Value, 'IDEA-[0-9]+') | ForEach-Object { $_.Value })
+                    foreach ($linkedId in $linkedIds) {
+                        if (-not $backlogIdeaIds.Contains($linkedId)) {
+                            $errors.Add("Checklist '$($ideaAgentFile.Name)' links open idea '$linkedId' that is not a current MASTER_CHECKLIST.md BACKLOG row.")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    $strictStatePath = Join-Path $root 'PROJECT_STATE.md'
+    if (Test-Path -LiteralPath $strictStatePath -PathType Leaf) {
+        $strictState = Get-Content -LiteralPath $strictStatePath -Raw
+        $statePlanMatch = [regex]::Match($strictState, '(?m)^- \*\*Plan state/decision:\*\* ACCEPTED (DEC-[0-9]+)\b')
+        if (-not $statePlanMatch.Success) {
+            $errors.Add('PROJECT_STATE.md plan state must be ACCEPTED with the same DEC-number required for substantive work.')
+        }
+        elseif (-not [string]::IsNullOrWhiteSpace($acceptedPlanDecisionId) -and $statePlanMatch.Groups[1].Value -ne $acceptedPlanDecisionId) {
+            $errors.Add('PROJECT_STATE.md plan decision ID does not match PROJECT_PLAN.md.')
+        }
+        $rehydratedMatch = [regex]::Match($strictState, '(?m)^- \*\*Last rehydrated:\*\*\s*(.+)$')
+        $rehydratedTime = [DateTimeOffset]::MinValue
+        if (-not $rehydratedMatch.Success -or -not [DateTimeOffset]::TryParse($rehydratedMatch.Groups[1].Value.Trim(), [ref]$rehydratedTime)) {
+            $errors.Add('PROJECT_STATE.md last rehydrated value must be a parseable timestamp with timezone.')
+        }
+        if ($strictState -notmatch '(?m)^- \*\*Current phase:\*\* (INTAKE|RESEARCH|PLAN|SKELETON|DEVELOPMENT|QA|INTEGRATION|RELEASE|BLOCKED)\s*$') {
+            $errors.Add('PROJECT_STATE.md current phase is invalid.')
+        }
+        if ($strictState -notmatch '(?m)^- \*\*Current candidate classification:\*\* (DEVELOPMENT|DIAGNOSTIC|INTEGRATION|RELEASE CANDIDATE|RELEASED)\s*$') {
+            $errors.Add('PROJECT_STATE.md candidate classification is invalid.')
+        }
+        $readyMatch = [regex]::Match($strictState, '(?m)^- \*\*Ready independent lanes:\*\*\s*(.+)$')
+        $runningMatch = [regex]::Match($strictState, '(?m)^- \*\*Running ready lanes:\*\*\s*([0-9]+)\s*$')
+        $targetMatch = [regex]::Match($strictState, '(?m)^- \*\*Useful concurrency target:\*\*\s*([0-9]+)\s*$')
+        $underMatch = [regex]::Match($strictState, '(?m)^- \*\*Under-utilization reason:\*\*\s*(.+)$')
+        $launchReceiptMatch = [regex]::Match($strictState, '(?m)^- \*\*Last launch/replenishment receipt:\*\*\s*(.+)$')
+        $waitReceiptMatch = [regex]::Match($strictState, '(?m)^- \*\*Director wait state/receipt:\*\*\s*(.+)$')
+        $stateIdeaMatch = [regex]::Match($strictState, '(?m)^- \*\*Open brainstorm backlog:\*\*\s*([0-9]+)\b')
+        if (-not $stateIdeaMatch.Success) {
+            $errors.Add('PROJECT_STATE.md open brainstorm backlog must begin with a numeric count.')
+        }
+        elseif ($ideaCountMatch.Success -and [int]$stateIdeaMatch.Groups[1].Value -ne [int]$ideaCountMatch.Groups[1].Value) {
+            $errors.Add('PROJECT_STATE.md brainstorm count does not match MASTER_CHECKLIST.md.')
+        }
+        $readyIds = @()
+        if ($readyMatch.Success -and $readyMatch.Groups[1].Value.Trim() -ne 'NONE') {
+            $readyIds = @($readyMatch.Groups[1].Value -split ';' | ForEach-Object { $_.Trim() } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
+            foreach ($readyId in $readyIds) {
+                if ($readyId -notmatch '^[A-Z][A-Z0-9_-]*$') {
+                    $errors.Add("PROJECT_STATE.md has an invalid ready stable lane ID: $readyId")
+                }
+            }
+        }
+        if (-not $runningMatch.Success -or -not $targetMatch.Success) {
+            $errors.Add('PROJECT_STATE.md running-ready and useful-concurrency fields must begin with integers.')
+        }
+        else {
+            $runningCount = [int]$runningMatch.Groups[1].Value
+            $targetCount = [int]$targetMatch.Groups[1].Value
+            if ($targetCount -ne $readyIds.Count) {
+                $errors.Add('PROJECT_STATE.md useful concurrency target must equal the ready independent lane count.')
+            }
+            if ($runningCount -ne $targetCount) {
+                $errors.Add('PROJECT_STATE.md running ready lanes must equal the useful concurrency target before strict validation or a wait.')
+            }
+            if ($runningCount -eq $targetCount -and ($underMatch.Success -and $underMatch.Groups[1].Value.Trim() -ne 'NONE')) {
+                $errors.Add('PROJECT_STATE.md under-utilization reason must be NONE when running ready lanes equal target.')
+            }
+        }
+        $launchReceipt = if ($launchReceiptMatch.Success) { $launchReceiptMatch.Groups[1].Value.Trim() } else { '' }
+        $waitReceipt = if ($waitReceiptMatch.Success) { $waitReceiptMatch.Groups[1].Value.Trim() } else { '' }
+        if ($readyIds.Count -gt 0) {
+            if ($launchReceipt -match '(?i)^NOT APPLICABLE\b' -or $launchReceipt -notmatch '[0-9]{4}-[0-9]{2}-[0-9]{2}T') {
+                $errors.Add('PROJECT_STATE.md ready lanes require a timestamped launch/replenishment receipt.')
+            }
+            foreach ($readyId in $readyIds) {
+                $idPattern = '(?<![A-Z0-9_-])' + [regex]::Escape($readyId) + '(?![A-Z0-9_-])'
+                if ($launchReceipt -notmatch $idPattern) {
+                    $errors.Add("PROJECT_STATE.md launch/replenishment receipt omits ready lane '$readyId'.")
+                }
+            }
+        }
+        if ($waitReceipt -match '(?i)^WAITING\b') {
+            if ($readyIds.Count -eq 0) {
+                $errors.Add('PROJECT_STATE.md cannot wait on project tasks when no independent lane is ready.')
+            }
+            if ($waitReceipt -notmatch '\bwait_threads\b' -or $waitReceipt -notmatch '[0-9]{4}-[0-9]{2}-[0-9]{2}T') {
+                $errors.Add('PROJECT_STATE.md WAITING state requires a timestamped wait_threads target/cursor receipt.')
+            }
+            foreach ($readyId in $readyIds) {
+                $idPattern = '(?<![A-Z0-9_-])' + [regex]::Escape($readyId) + '(?![A-Z0-9_-])'
+                if ($waitReceipt -notmatch $idPattern) {
+                    $errors.Add("PROJECT_STATE.md wait_threads receipt omits ready lane '$readyId'.")
+                }
+            }
+            $waitTaskIds = @([regex]::Matches($waitReceipt, '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'))
+            if ($waitTaskIds.Count -lt $readyIds.Count) {
+                $errors.Add('PROJECT_STATE.md wait_threads receipt does not contain one exact task ID per ready lane.')
+            }
+        }
+        elseif ($waitReceipt -notmatch '(?i)^NOT WAITING\b') {
+            $errors.Add('PROJECT_STATE.md Director wait state must begin with WAITING or NOT WAITING.')
+        }
+        if ($strictState -notmatch '(?m)^- \*\*Subagents carrying durable work:\*\* NONE\s*$') {
+            $errors.Add('PROJECT_STATE.md must state that no subagents carry durable work.')
+        }
+        $stateLifecycleMatch = [regex]::Match($strictState, '(?m)^- \*\*Task lifecycle backlog:\*\*\s*(.+)$')
+        $stateLifecycle = if ($stateLifecycleMatch.Success) { $stateLifecycleMatch.Groups[1].Value.Trim() } else { '' }
+        $validUnarchivableState = $stateLifecycle -match '(?i)^UNARCHIVABLE\b' -and
+            $stateLifecycle -match '[0-9a-fA-F]{8}-[0-9a-fA-F-]{27}' -and
+            $stateLifecycle -match '(?i)archive attempt' -and
+            $stateLifecycle -match '(?i)no unintegrated changes/processes'
+        if ($stateLifecycle -ne 'NONE' -and -not $validUnarchivableState) {
+            $errors.Add('PROJECT_STATE.md task lifecycle backlog must be NONE or a verified UNARCHIVABLE receipt with task ID, failed archive attempt, and no-unintegrated-changes/processes proof.')
+        }
+        elseif ($validUnarchivableState) {
+            $warnings.Add('PROJECT_STATE.md records truthful host-level UNARCHIVABLE task debris; product work may continue but the sidebar cleanup limitation remains.')
+        }
+        if ($strictState -match '(?i)ARCHIVE PENDING|NOT VERIFIED') {
+            $errors.Add('PROJECT_STATE.md contains an unresolved task startup or archive state.')
+        }
+
+        $stateTaskSection = [regex]::Match($strictState, '(?ms)^## Active task read-backs\s*(.*?)(?=^## |\z)').Groups[1].Value
+        $stateTaskRows = @($stateTaskSection -split "`r?`n" | Where-Object { $_ -match '^\|' -and $_ -notmatch '^\|---' -and $_ -notmatch '^\| Stable lane ID ' })
+        $stateLaneIds = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
+        $stateLaneStatuses = @{}
+        foreach ($row in $stateTaskRows) {
+            $columns = @($row.Trim('|') -split '\|' | ForEach-Object { $_.Trim() })
+            if ($columns.Count -lt 9 -or $row -match '<[^>]+>') {
+                $errors.Add('PROJECT_STATE.md active task table contains an unresolved or malformed row.')
+                continue
+            }
+            if (-not $stateLaneIds.Add($columns[0])) {
+                $errors.Add("PROJECT_STATE.md contains duplicate active stable lane ID '$($columns[0])'.")
+            }
+            $stateLaneStatuses[$columns[0]] = $columns[4]
+            if ($columns[1] -notmatch '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}' -or
+                $columns[1] -notmatch 'codex://threads/[0-9a-fA-F-]{36}') {
+                $errors.Add("PROJECT_STATE.md lane '$($columns[0])' lacks an exact task ID and deeplink read-back.")
+            }
+            if ($columns[2] -match '(?i)NOT VERIFIED|PENDING|UNKNOWN' -or $columns[3] -match '(?i)NOT VERIFIED|PENDING|UNKNOWN') {
+                $errors.Add("PROJECT_STATE.md lane '$($columns[0])' lacks verified actual model or project/workspace metadata.")
+            }
+            elseif (-not $columns[3].Contains($root)) {
+                $errors.Add("PROJECT_STATE.md lane '$($columns[0])' actual project/workspace does not name the authoritative project root.")
+            }
+        }
+        foreach ($readyId in $readyIds) {
+            if (-not $stateLaneIds.Contains($readyId) -or $stateLaneStatuses[$readyId] -ne 'ACTIVE') {
+                $errors.Add("PROJECT_STATE.md ready lane '$readyId' must have a current ACTIVE task read-back.")
+            }
+        }
+        foreach ($stateLaneId in $stateLaneIds) {
+            if ($stateLaneId -ne 'DIRECTOR' -and $stateLaneStatuses[$stateLaneId] -eq 'ACTIVE' -and $stateLaneId -notin $readyIds) {
+                $errors.Add("PROJECT_STATE.md ACTIVE lane '$stateLaneId' is missing from the ready independent lane set.")
+            }
+        }
     }
 
     $researchPath = Join-Path $root 'PRIOR_ART_RESEARCH.md'
@@ -465,6 +781,24 @@ if ($Strict) {
         $research = Get-Content -LiteralPath $researchPath -Raw
         if ($research.Contains('| `<direct link>` |') -or $research.Contains('| `<ordinary category workflow>` |')) {
             $errors.Add('PRIOR_ART_RESEARCH.md still contains sample candidate or baseline rows.')
+        }
+        foreach ($tableContract in @(
+            @{ Section = 'Candidate register'; Header = '^\| Candidate/source '; DecisionColumn = 5; Allowed = @('REUSE', 'ADAPT', 'LEARN', 'REJECT') },
+            @{ Section = 'Baseline capability matrix'; Header = '^\| Baseline workflow/capability '; DecisionColumn = 3; Allowed = @('REQUIRED NOW', 'INTENTIONALLY EXCLUDED', 'NOT APPLICABLE') },
+            @{ Section = 'Reuse decision'; Header = '^\| Needed capability '; DecisionColumn = 1; Allowed = @('REUSE', 'ADAPT', 'BUILD') }
+        )) {
+            $section = [regex]::Match($research, '(?ms)^## ' + [regex]::Escape($tableContract.Section) + '\s*(.*?)(?=^## |\z)').Groups[1].Value
+            $rows = @($section -split "`r?`n" | Where-Object { $_ -match '^\|' -and $_ -notmatch '^\|---' -and $_ -notmatch $tableContract.Header })
+            if ($rows.Count -eq 0) {
+                $errors.Add("PRIOR_ART_RESEARCH.md section '$($tableContract.Section)' has no resolved decision rows.")
+                continue
+            }
+            foreach ($row in $rows) {
+                $columns = @($row.Trim('|') -split '\|' | ForEach-Object { $_.Trim().Trim('`') })
+                if ($columns.Count -le $tableContract.DecisionColumn -or $columns[$tableContract.DecisionColumn] -notin $tableContract.Allowed) {
+                    $errors.Add("PRIOR_ART_RESEARCH.md section '$($tableContract.Section)' has an invalid decision; allowed: $($tableContract.Allowed -join ', ').")
+                }
+            }
         }
     }
 
@@ -474,8 +808,50 @@ if ($Strict) {
         if ($strictBoard -notmatch '(?m)^- \*\*Subagents currently carrying durable work:\*\* NONE\s*$') {
             $errors.Add('COORDINATION_BOARD.md must state that no subagents are carrying durable work.')
         }
-        if ($strictBoard -match '(?m)^\| `?<lane>`? \|') {
+        $boardLifecycleMatch = [regex]::Match($strictBoard, '(?m)^- \*\*Task lifecycle backlog:\*\*\s*(.+)$')
+        $boardLifecycle = if ($boardLifecycleMatch.Success) { $boardLifecycleMatch.Groups[1].Value.Trim() } else { '' }
+        if ($null -ne $stateLifecycle -and $boardLifecycle -ne $stateLifecycle) {
+            $errors.Add('COORDINATION_BOARD.md task lifecycle backlog does not match PROJECT_STATE.md.')
+        }
+        if ($strictBoard -notmatch '(?m)^- \*\*Duplicate live stable lanes:\*\* NONE\s*$') {
+            $errors.Add('COORDINATION_BOARD.md must have no duplicate live stable lanes before strict validation.')
+        }
+        if ($strictBoard -match '(?m)^\| `?<LANE-ID>`? \|') {
             $errors.Add('COORDINATION_BOARD.md agent registry still contains the unresolved sample lane.')
+        }
+        if ($strictBoard -match '(?i)ARCHIVE PENDING') {
+            $errors.Add('COORDINATION_BOARD.md still has a task awaiting archive reconciliation.')
+        }
+        $boardReadyMatch = [regex]::Match($strictBoard, '(?m)^- \*\*Ready independent lanes:\*\*\s*(.+)$')
+        $boardRunningMatch = [regex]::Match($strictBoard, '(?m)^- \*\*Running ready lanes:\*\*\s*([0-9]+)\s*$')
+        $boardTargetMatch = [regex]::Match($strictBoard, '(?m)^- \*\*Useful concurrency target:\*\*\s*([0-9]+)\s*$')
+        $boardUnderMatch = [regex]::Match($strictBoard, '(?m)^- \*\*Under-utilization reason:\*\*\s*(.+)$')
+        $boardLaunchMatch = [regex]::Match($strictBoard, '(?m)^- \*\*Last launch/replenishment receipt:\*\*\s*(.+)$')
+        $boardWaitMatch = [regex]::Match($strictBoard, '(?m)^- \*\*Director wait state/receipt:\*\*\s*(.+)$')
+        $boardActiveMatch = [regex]::Match($strictBoard, '(?m)^- \*\*Active tasks:\*\*\s*([0-9]+)\s*$')
+        if (-not $boardActiveMatch.Success) {
+            $errors.Add('COORDINATION_BOARD.md active tasks must be a numeric count.')
+        }
+        else {
+            $boardActiveCount = [int]$boardActiveMatch.Groups[1].Value
+        }
+        if ($readyMatch.Success -and (-not $boardReadyMatch.Success -or $boardReadyMatch.Groups[1].Value.Trim() -ne $readyMatch.Groups[1].Value.Trim())) {
+            $errors.Add('COORDINATION_BOARD.md ready independent lanes do not match PROJECT_STATE.md.')
+        }
+        if ($runningMatch.Success -and (-not $boardRunningMatch.Success -or $boardRunningMatch.Groups[1].Value -ne $runningMatch.Groups[1].Value)) {
+            $errors.Add('COORDINATION_BOARD.md running ready lane count does not match PROJECT_STATE.md.')
+        }
+        if ($targetMatch.Success -and (-not $boardTargetMatch.Success -or $boardTargetMatch.Groups[1].Value -ne $targetMatch.Groups[1].Value)) {
+            $errors.Add('COORDINATION_BOARD.md useful concurrency target does not match PROJECT_STATE.md.')
+        }
+        if ($underMatch.Success -and (-not $boardUnderMatch.Success -or $boardUnderMatch.Groups[1].Value.Trim() -ne $underMatch.Groups[1].Value.Trim())) {
+            $errors.Add('COORDINATION_BOARD.md under-utilization reason does not match PROJECT_STATE.md.')
+        }
+        if ($launchReceiptMatch.Success -and (-not $boardLaunchMatch.Success -or $boardLaunchMatch.Groups[1].Value.Trim() -ne $launchReceiptMatch.Groups[1].Value.Trim())) {
+            $errors.Add('COORDINATION_BOARD.md launch/replenishment receipt does not match PROJECT_STATE.md.')
+        }
+        if ($waitReceiptMatch.Success -and (-not $boardWaitMatch.Success -or $boardWaitMatch.Groups[1].Value.Trim() -ne $waitReceiptMatch.Groups[1].Value.Trim())) {
+            $errors.Add('COORDINATION_BOARD.md Director wait receipt does not match PROJECT_STATE.md.')
         }
     }
 
@@ -483,19 +859,39 @@ if ($Strict) {
     if (Test-Path -LiteralPath $strictCommunicationPath -PathType Leaf) {
         $strictCommunication = Get-Content -LiteralPath $strictCommunicationPath -Raw
         $directorySection = [regex]::Match($strictCommunication, '(?ms)^## Task directory\s*(.*?)(?=^## |\z)').Groups[1].Value
-        $directoryRows = @($directorySection -split "`r?`n" | Where-Object { $_ -match '^\|' -and $_ -notmatch '^\|---' -and $_ -notmatch '^\| Role/domain ' })
+        $directoryRows = @($directorySection -split "`r?`n" | Where-Object { $_ -match '^\|' -and $_ -notmatch '^\|---' -and $_ -notmatch '^\| Stable lane ID ' })
         $nonDirectorCount = 0
+        $liveLaneIds = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
+        $registeredLaneIds = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
         foreach ($row in $directoryRows) {
             $columns = @($row.Trim('|') -split '\|' | ForEach-Object { $_.Trim() })
-            if ($columns.Count -lt 5 -or $row -match '<[^>]+>') {
+            if ($columns.Count -lt 14 -or $row -match '<[^>]+>') {
                 $errors.Add('AGENT_COMMUNICATION.md task directory contains an unresolved or malformed task row.')
                 continue
             }
 
-            $role = $columns[0]
-            $mechanism = $columns[2].Trim('`')
-            $taskId = $columns[3].Trim('`')
-            $deeplink = $columns[4].Trim('`')
+            $stableLaneId = $columns[0]
+            $role = $columns[1]
+            $mechanism = $columns[3].Trim('`')
+            $taskId = $columns[4].Trim('`')
+            $deeplink = $columns[5].Trim('`')
+            $actualModel = $columns[6].Trim('`')
+            $actualProject = $columns[7].Trim('`')
+            $checklist = $columns[8].Trim('`')
+            $lifecycle = $columns[11].Trim('`')
+            $status = $columns[12].Trim('`')
+            $terminalStates = @('STOPPED', 'REPLACED', 'MISCONFIGURED', 'DUPLICATE', 'SUPERSEDED')
+            $isArchived = $lifecycle -match '(?i)^ARCHIVED\b'
+            $isUnarchivable = $lifecycle -match '(?i)^UNARCHIVABLE\b' -and
+                $lifecycle -match '(?i)archive attempt' -and
+                $lifecycle -match '(?i)no unintegrated changes/processes'
+            $isRetired = $isArchived -or $isUnarchivable
+            if ($stableLaneId -notmatch '^[A-Z][A-Z0-9_-]*$') {
+                $errors.Add("Task directory row '$role' has no valid stable lane ID.")
+            }
+            else {
+                [void]$registeredLaneIds.Add($stableLaneId)
+            }
             if ($role -eq 'Project Director') {
                 if ($mechanism -ne 'current task') {
                     $errors.Add('The Project Director registry row must identify the current task as its origin.')
@@ -513,10 +909,66 @@ if ($Strict) {
             if ($deeplink -notmatch '^codex://threads/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$') {
                 $errors.Add("Task directory row '$role' has no exact returned Codex deeplink.")
             }
+            if ($actualModel -match '(?i)NOT VERIFIED|PENDING|UNKNOWN' -or $actualProject -match '(?i)NOT VERIFIED|PENDING|UNKNOWN') {
+                $errors.Add("Task directory row '$role' lacks verified actual model or project/root/worktree metadata.")
+            }
+            elseif (-not $actualProject.Contains($root)) {
+                $errors.Add("Task directory row '$role' actual project/root/worktree does not name the authoritative project root.")
+            }
+            $checklistPath = Join-Path $root $checklist
+            if (-not (Test-Path -LiteralPath $checklistPath -PathType Leaf)) {
+                $errors.Add("Task directory row '$role' points to a missing checklist: $checklist")
+            }
+            else {
+                $checklistContent = Get-Content -LiteralPath $checklistPath -Raw
+                $checklistLaneMatch = [regex]::Match($checklistContent, '(?m)^- \*\*Stable lane ID:\*\*\s*(.+)$')
+                $checklistStartupMatch = [regex]::Match($checklistContent, '(?m)^- \*\*Actual task startup read-back:\*\*\s*(.+)$')
+                if (-not $checklistLaneMatch.Success -or $checklistLaneMatch.Groups[1].Value.Trim() -ne $stableLaneId) {
+                    $errors.Add("Checklist '$checklist' stable lane ID does not match registry row '$stableLaneId'.")
+                }
+                if (-not $isRetired -and (-not $checklistStartupMatch.Success -or
+                    -not $checklistStartupMatch.Groups[1].Value.Contains($taskId) -or
+                    -not $checklistStartupMatch.Groups[1].Value.Contains($deeplink) -or
+                    -not $checklistStartupMatch.Groups[1].Value.Contains($actualModel) -or
+                    -not $checklistStartupMatch.Groups[1].Value.Contains($actualProject))) {
+                    $errors.Add("Checklist '$checklist' startup read-back does not contain its exact task ID, deeplink, actual model, and actual project/root/worktree.")
+                }
+            }
+            if ($lifecycle -match '(?i)ARCHIVE PENDING') {
+                $errors.Add("Task directory row '$role' still awaits archive reconciliation.")
+            }
+            if ($status -in $terminalStates -and -not $isRetired) {
+                $errors.Add("Terminal task directory row '$role' has no verified archive or UNARCHIVABLE receipt.")
+            }
+            if (-not $isRetired -and -not $liveLaneIds.Add($stableLaneId)) {
+                $errors.Add("Stable lane '$stableLaneId' has more than one non-archived live task.")
+            }
         }
 
         if ($planTaskRows.Count -gt $nonDirectorCount) {
             $errors.Add('PROJECT_PLAN.md defines more durable lanes than AGENT_COMMUNICATION.md registers with create_thread receipts.')
+        }
+        if ($null -ne $planLaneIds) {
+            foreach ($planLaneId in $planLaneIds) {
+                if (-not $registeredLaneIds.Contains($planLaneId)) {
+                    $errors.Add("PROJECT_PLAN.md stable lane '$planLaneId' has no AGENT_COMMUNICATION.md registry row.")
+                }
+            }
+        }
+        if ($null -ne $stateLaneIds) {
+            foreach ($liveLaneId in $liveLaneIds) {
+                if (-not $stateLaneIds.Contains($liveLaneId)) {
+                    $errors.Add("Live registry lane '$liveLaneId' is missing from PROJECT_STATE.md active task read-backs.")
+                }
+            }
+            foreach ($stateLaneId in $stateLaneIds) {
+                if (-not $liveLaneIds.Contains($stateLaneId)) {
+                    $errors.Add("PROJECT_STATE.md lane '$stateLaneId' is not a non-archived live registry task.")
+                }
+            }
+        }
+        if ($null -ne $boardActiveCount -and $boardActiveCount -ne $liveLaneIds.Count) {
+            $errors.Add('COORDINATION_BOARD.md active task count does not match non-archived registry tasks.')
         }
     }
 }
@@ -551,7 +1003,7 @@ if ($errors.Count -gt 0) {
     exit 1
 }
 
-Write-Output 'PASS: required controls, outcome lock, timebox, drift alarms, visual skeleton contract, links, and active coordinator checklist are present.'
+Write-Output 'PASS: required controls, outcome lock, resume packet, brainstorm linkage, parallel-launch state, verified task lifecycle, timebox, drift, visual, links, and active checklists are coherent.'
 if (-not $Strict -and $warnings.Count -gt 0) {
     Write-Output 'Activation passed with placeholders. Complete them and run again with -Strict before substantive implementation.'
 }

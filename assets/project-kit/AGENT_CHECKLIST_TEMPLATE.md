@@ -1,12 +1,15 @@
 # Agent Checklist — `<lane name>`
 
-Copy this file once for every top-level Codex task or durable work lane. A durable lane must be created through `create_thread`, never `spawn_agent`. The task owns this checklist; the coordinator owns corresponding master-row status.
+Copy this file once for each stable durable lane, then reuse the same checklist across that lane's slices, candidates, reviews, and justified replacement tasks. A durable lane's top-level task must originate through `create_thread`, never `spawn_agent`. The task owns this checklist; the coordinator owns corresponding master-row status.
 
 ## Identity and assignment
 
 - **Agent/task/deeplink:** `<identity>`
+- **Stable lane ID:** `<permanent lane ID reused across slices/candidates/reviews>`
 - **Task type:** `<TOP-LEVEL CODEX TASK / CURRENT DIRECTOR TASK>`
 - **Creation mechanism/receipt:** `<create_thread plus returned receipt / current Director task>`
+- **Actual task startup read-back:** `<timestamp; exact ID/deeplink; actual model/effort; actual project/root/worktree; checklist; status>`
+- **Replacement/reuse receipt:** `<REUSED exact task ID / NEW because exact recorded reason / CURRENT DIRECTOR TASK>`
 - **Subagent status:** `<NOT A SUBAGENT>`
 - **Lane outcome:** `<plain-language result>`
 - **Primary outcome lock:** `<exact master outcome this lane must advance>`
@@ -40,6 +43,7 @@ Copy this file once for every top-level Codex task or durable work lane. A durab
 - **Visible UI authority:** `<background-only or exact allowed interaction>`
 - **Active correction IDs:** `<CORR-### IDs or NONE>`
 - **Correction acknowledgment receipt:** `<exact replacement behavior acknowledged at timestamp>`
+- **Linked open idea IDs:** `<IDEA-### IDs or NONE; not authorized work until promoted>`
 
 ## Lane status
 
@@ -77,7 +81,9 @@ Status: `[ ]` open, `[~]` active/partial, `[R]` ready for review, `[x]` coordina
 ## Preflight
 
 - [ ] Read the user request, charter, master checklist, board, and nearest instructions.
+- [ ] Read and reconcile `../PROJECT_STATE.md`; record a current rehydration receipt after any user turn, compaction, restart, or handoff.
 - [ ] Inspect root, branch, HEAD, dirty state, relevant source, tests, and existing behavior.
+- [ ] Verify the actual task startup read-back matches the assigned model, project/root/worktree, checklist, and stable lane before substantive work.
 - [ ] Record exact ownership and confirm no collision on the coordination board.
 - [ ] Preserve unrelated dirty work and list protected regions.
 - [ ] Translate every assigned promise into a lane gate with exact exit proof.
@@ -128,6 +134,14 @@ Do not quietly absorb scope changes. Send project-level discoveries to the coord
 |---|---|---|---|---|---|
 | DISC-001 | `<fact>` | `<IDs>` | `<level>` | `<action>` | `<pending/decision>` |
 
+## Linked brainstorm/backlog
+
+Link every exploratory user idea or agent-generated enhancement relevant to this lane. Capture is mandatory; work is forbidden until the idea is promoted to a stable master row or an explicit current instruction. Backlog rows do not count toward lane completion.
+
+| Idea ID | Exact wording/source | Lane relevance | State | Do-not-start condition / promotion receipt |
+|---|---|---|---|---|
+| IDEA-001 | `<exact wording and speaker/time>` | `<relationship to lane>` | BACKLOG | Do not research, implement, test, or create a task until `<DEC-### and master ID>` |
+
 ## Verification ledger
 
 Put durable details in `../EVIDENCE_LEDGER.md`; cite IDs here.
@@ -163,8 +177,11 @@ A blocker is narrow. Keep unrelated gates moving.
 ## Agent completion audit
 
 - [ ] Re-read assigned master rows and later coordinator/user messages.
+- [ ] Rehydrated `PROJECT_STATE.md` after the latest user turn/compaction/restart and reconciled exact task state.
+- [ ] Startup read-back proves this is the intended model, project/root/worktree, checklist, and stable lane.
 - [ ] Stayed within ownership or recorded every transfer.
 - [ ] Added every discovered promise, defect, and safety obligation.
+- [ ] Linked every relevant brainstorm item; no unpromoted idea became active work or affected completion math.
 - [ ] Every locally checked row has matching current evidence.
 - [ ] Failures, skips, blockers, and `NOT RUN` gates are explicit.
 - [ ] No build/mock/source/static result is presented as installed, physical, external, or human proof.

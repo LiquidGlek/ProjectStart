@@ -44,6 +44,7 @@ Before another version, package, install, or acceptance candidate, record: the m
 - Required total = `[ ] + [~] + [R] + [x] + [!]`.
 - Verified completion = `[x] / required total × 100`.
 - `[D]` is excluded only with an explicit decision ID.
+- `IDEA-###` backlog rows are not requirement gates and never enter the required total or completion percentage unless the user/Director explicitly promotes one into a new stable master row and records the decision.
 - Split independently provable outcomes into separate rows.
 - Report critical failures separately from the percentage.
 
@@ -110,6 +111,30 @@ Keep only applicable gates, but explicitly mark non-applicable gates with a reas
 | [ ] | GATE-022 | Every outcome-critical persistent/shared/external journey has a complete state-transition, authority, mutation, read-back, commit, recovery, idempotency, and external-effect contract before implementation | Architecture/Reliability | Accepted transaction contract + adversarial review | `<EV-### or N/A decision>` |
 | [ ] | GATE-023 | Candidate promotion, claim-scoped health, and the two-candidate circuit breaker prevent patch spirals and unsupported release language | Direction/Release | Candidate ledger + journey evidence + circuit-breaker audit | `<EV-###>` |
 | [ ] | GATE-024 | Every durable project role/domain is a separately registered top-level Codex task created through `create_thread`; no subagent owns a lane, master row, production/runtime work, checklist, deadline, or acceptance gate | Direction/Coordination | Task creation receipts + exact IDs/deeplinks + registry/checklist audit | `<EV-###>` |
+| [ ] | GATE-025 | Every user turn, context compaction, restart, and handoff rehydrates the active outcome, priority, corrections, authority, lanes, and next action from the compact project state and controlling records | Direction/Coordination | Current `PROJECT_STATE.md` receipt + source/task reconciliation audit | `<EV-###>` |
+| [ ] | GATE-026 | Every simultaneously ready independent lane is launched or resumed before the Director waits; waits monitor all active lanes together and replenish the ready set | Direction/Coordination | Launch-wave receipts + multi-target wait/replenishment audit | `<EV-###>` |
+| [ ] | GATE-027 | Every top-level task proves its actual ID/deeplink, model/effort, project/root/worktree, checklist, and startup state before substantive project work | Direction/Coordination | Returned creation receipt + task self-read-back + Director comparison | `<EV-###>` |
+| [ ] | GATE-028 | Stable durable lanes reuse valid existing tasks; every replacement is justified; terminal, duplicate, superseded, stopped, and misconfigured tasks are safely archived after state/process reconciliation, or truthfully proven `UNARCHIVABLE` when the host lost their backing records | Direction/Coordination | Registry history + handoff/process checks + archive receipts or failed-attempt/no-unintegrated-state evidence | `<EV-###>` |
+| [ ] | GATE-029 | Exploratory user brainstorming and agent ideas are durably linked in the master backlog and affected task checklists without interrupting current work or inflating completion | Product/Direction | `IDEA-###` register + checklist links + promotion decision audit | `<EV-### or N/A decision>` |
+| [ ] | GATE-030 | Director status leads with whole-product capability, missing major outcomes, weakest Critical row, active lanes, and next action before component or QA detail | Direction | Checkpoint reports compared with master/product truth | `<EV-###>` |
+
+## Brainstorm and future backlog
+
+This register captures ideas without silently changing the current mission.
+
+- An explicit instruction such as “do this now,” “add this,” or a correction is current work: update the Primary Outcome Lock/requirements/priority as appropriate and record the decision or correction. User steering is not agent scope drift or a milestone-lock violation.
+- Exploratory language such as “could we,” “maybe,” “what if,” or “should we” becomes an `IDEA-###` row with state `BACKLOG` unless the user explicitly promotes it.
+- Agent-generated enhancements also start as `BACKLOG` unless they are already-required table stakes, safety obligations, or accepted-plan work.
+- Record the exact wording/source here and link the same ID from every affected task checklist before the discussion ends.
+- `BACKLOG` authorizes capture and bounded clarification only—not research, task creation, implementation, testing, or interruption of the active slice.
+- Promotion requires an explicit `DEC-###` (or current user instruction), a stable master row, owner, priority, exit proof, and active-critical-path decision. `REJECTED` and `DUPLICATE` rows remain as history.
+
+- **Open brainstorm items:** `<number>`
+- **Newest brainstorm ID:** `<IDEA-### IDs or NONE>`
+
+| State | Idea ID | Exact wording/source | Affected domain | Linked task checklist(s) | Why not now / promotion decision | Promoted master/decision |
+|---|---|---|---|---|---|---|
+| BACKLOG | IDEA-001 | `<exact brainstorm wording and speaker/time>` | `<domain>` | `<paths>` | `<why parked>` | NONE |
 
 ## Critical defects and blockers
 
@@ -128,6 +153,10 @@ Keep only applicable gates, but explicitly mark non-applicable gates with a reas
 - [ ] Re-read the original request and later decisions.
 - [ ] Every promise maps to a stable master ID.
 - [ ] Every active agent checklist maps back to master IDs.
+- [ ] Every brainstormed idea is linked in the backlog and affected checklists; no unpromoted idea entered active work or completion math.
+- [ ] Compact resume state was rehydrated after the latest user turn/compaction/restart and matches exact task read-backs.
+- [ ] Every ready independent lane was launched/resumed before waiting; no valid stable lane was needlessly duplicated.
+- [ ] Terminal/duplicate/superseded/misconfigured tasks are safely archived with receipts, or carry verified `UNARCHIVABLE` evidence; no reusable blocked/waiting task was archived as “unused.”
 - [ ] Every `[x]` row cites current, matching evidence.
 - [ ] Every critical/high defect is resolved or explicitly rejected by the user.
 - [ ] Installed, physical, external, accessibility, security/privacy, and user-acceptance promises have matching proof or remain open.

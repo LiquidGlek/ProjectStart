@@ -19,7 +19,7 @@ I built this after asking agents to fix one button and coming back twelve hours 
 
 A checklist helped immediately. This skill is the larger version of that idea.
 
-ProjectStart gives a Codex project a Director, one master checklist, separate task checklists, deadlines, ownership boundaries, correction records, prior-art research, visual gates, and evidence rules. The point is not to create more paperwork. The point is to let the agents work without constant babysitting while making it difficult for them to quietly drift away from the actual product.
+ProjectStart gives a Codex project a Director, one master checklist, separate task checklists, deadlines, ownership boundaries, correction records, prior-art research, visual gates, and evidence rules. It now also keeps a compact resume packet, launches independent lanes together, reuses stable task lanes, archives terminal task debris when the host permits, records truthful unarchivable leftovers when it does not, and parks brainstorms without losing them. The point is not to create more paperwork. The point is to let the agents work without constant babysitting while making it difficult for them to quietly drift away from the actual product.
 
 > [!IMPORTANT]
 > Every lasting role or product domain must be a separate, sidebar-visible Codex task created with `create_thread`. `spawn_agent` is not a substitute for a developer, QA task, visual auditor, integrator, release owner, researcher, or any other durable project lane. If task creation fails, that lane stays blocked.
@@ -35,6 +35,11 @@ ProjectStart gives a Codex project a Director, one master checklist, separate ta
 | A correction was forgotten ten hours later | Records corrections as durable IDs and checks for recurrence |
 | Agents could not find or communicate with one another | Registers every task by exact ID and deeplink |
 | A hidden subagent ended up owning half the product | Requires every durable lane to be a real top-level task |
+| The Director launched one task, waited, and left every other lane asleep | Computes a ready set, starts the whole launch wave, and waits on active tasks together |
+| Long context compaction erased the operating rules | Rehydrates a compact `PROJECT_STATE.md` packet every turn, restart, and handoff |
+| New random tasks replaced usable old tasks | Gives each lane a stable ID, verifies actual startup metadata, and requires reuse or a recorded replacement reason |
+| Finished and duplicate tasks piled up forever | Reconciles dirty work/processes, archives safely terminal tasks, and keeps archive receipts |
+| A casual “could we?” derailed the current milestone | Captures it as a linked `IDEA-###` backlog item until explicitly promoted |
 | A build or unit test was reported as proof the app worked | Requires evidence at the same level as the claim |
 
 ## How a project runs
@@ -44,8 +49,8 @@ flowchart LR
     A["Instructions<br/>and mockups"] --> B["Inspect the real project"]
     B --> C["Research existing work<br/>and expected features"]
     C --> D["Write and audit the plan"]
-    D --> E["Create top-level tasks<br/>with create_thread"]
-    E --> F["Build narrow<br/>vertical slices"]
+    D --> E["Reuse or create verified<br/>top-level task lanes"]
+    E --> F["Launch every ready lane<br/>in parallel waves"]
     F --> G["Independent QA<br/>and visual review"]
     G --> H["Try the exact<br/>user journey"]
     H -->|Fail| F
@@ -59,11 +64,12 @@ Planning happens before the large checklists are created. The initial checklist 
 ```text
 Your Project/
 ├── PROJECT_CHARTER.md          # What the user actually wants and does not want
+├── PROJECT_STATE.md            # Compact resume packet for turns, compaction, and handoffs
 ├── PRIOR_ART_RESEARCH.md       # Existing products, open source, and reuse decisions
 ├── PROJECT_PLAN.md             # Architecture and ordered vertical slices
 ├── MASTER_CHECKLIST.md         # The only authority for project completion
 ├── COORDINATION_BOARD.md       # Ownership, deadlines, blockers, and live state
-├── AGENT_COMMUNICATION.md      # Task IDs, deeplinks, and message routing
+├── AGENT_COMMUNICATION.md      # Task IDs, actual startup read-backs, reuse, routing, and archives
 ├── DECISION_LOG.md             # Decisions and user corrections that must survive context loss
 ├── EVIDENCE_LEDGER.md          # Proof for every completed claim
 ├── FOCUS_PROTOCOL.md           # Drift alarms and patch-spiral circuit breakers
@@ -112,7 +118,7 @@ Open a Codex task inside the project you want to build. Give it your instruction
 $project-start
 ```
 
-The Director will inspect the project and references, write down the user intent, research what already exists, create an audited project plan, and split the work into a small number of independently owned lanes. Each durable lane becomes its own top-level Codex task with an exact checklist, task ID, deeplink, deadline, and handoff.
+The Director will inspect the project and references, write down the user intent, research what already exists, create an audited project plan, and split the work into a small number of independently owned lanes. Each durable lane gets one stable ID and one reusable top-level Codex task with an exact checklist, verified model/project/workspace, deadline, and handoff. Every currently ready independent lane is started before the Director waits.
 
 The Director coordinates and checks evidence. It does not quietly become the main developer when another task is blocked.
 
@@ -128,7 +134,7 @@ It needs a **new top-level Codex task** if it owns any of the following:
 
 A subagent is only for one bounded piece of temporary help inside an existing task. It owns no project lane, production change, runtime, checklist, deadline, or approval.
 
-If there is any doubt, create a top-level task.
+If there is any doubt, classify the work as a durable lane—then reuse that lane's valid registered top-level task. Create a new one only when no valid task exists.
 
 ## Validation
 
@@ -151,11 +157,14 @@ The validator has two modes:
 .\scripts\Test-ProjectControls.ps1 -TargetPath C:\Projects\MyApp -Strict
 ```
 
-Strict mode rejects unresolved plans, malformed task registries, missing `create_thread` receipts, and durable lanes assigned to `spawn_agent`.
+Strict mode rejects unresolved plans, malformed task registries, missing `create_thread` receipts, unverified model/project/workspace startup, serialized ready lanes, unresolved archive debris, stale resume state, and durable lanes assigned to `spawn_agent`.
 
 ## A few rules I care about
 
 - The user's latest explicit direction wins. Write it down instead of trusting chat history.
+- Casual brainstorming is saved in both the backlog and affected checklist, but it stays out of active work and completion math until promoted.
+- Reuse the valid task for a stable lane; a new slice or review pass is not a reason to make another task.
+- Start all ready independent lanes before waiting, then monitor them together.
 - Research before rebuilding something that already exists.
 - Build the real mockup skeleton before filling it with features.
 - Do not ask the user for approval on ordinary, reversible work inside an assigned lane.
@@ -172,11 +181,12 @@ Strict mode rejects unresolved plans, malformed task registries, missing `create
 | [`assets/project-kit/`](./assets/project-kit) | The project documents and templates |
 | [`scripts/Initialize-ProjectStart.ps1`](./scripts/Initialize-ProjectStart.ps1) | The safe initializer |
 | [`scripts/Test-ProjectControls.ps1`](./scripts/Test-ProjectControls.ps1) | Activation and strict validation |
+| [`scripts/Test-ProjectStartRegression.ps1`](./scripts/Test-ProjectStartRegression.ps1) | Fresh-fixture and adversarial failure regression suite |
 | [`LICENSE`](./LICENSE) | MIT open-source license |
 
 ## Current validation
 
-The current package has passed skill-package validation, PowerShell parsing, fresh initialization, activation auditing, a deliberate test proving a `spawn_agent` project lane is rejected, and another initialization from a clean ZIP extraction.
+The current package has passed skill-package validation, PowerShell parsing, fresh initialization, activation auditing, a fully resolved strict fixture, and adversarial regressions proving that serialized ready lanes, single-target waits that omit another ready lane, wrong task projects, unverified startup metadata, durable subagent lanes, unarchived terminal tasks, retryable archive debris, duplicate live lanes, backlog-count drift, missing checklist links, and stale resume state are rejected. Separate positive cases prove that one archived history plus one reused live lane is valid and permanently missing host task records can remain truthfully `UNARCHIVABLE` without stopping product work.
 
 ProjectStart is open source under the [MIT License](./LICENSE).
 

@@ -1,6 +1,6 @@
 ---
 name: project-start
-description: Initialize and launch a focused, autonomous software-project workflow with durable Markdown controls, a Project Director, separate top-level Codex tasks created through create_thread for every durable product domain, per-task checklists, outcome/deadline/drift gates, independent QA, and mockup-to-real-control skeleton validation. Never use spawn_agent as a substitute for a planned project task. Use when the user invokes $project-start or asks Codex to start, organize, or autonomously run a new or existing coding project without babysitting, especially when multiple project tasks, a visual reference, or a strict deadline are involved.
+description: Initialize and launch a focused, autonomous software-project workflow with durable Markdown controls, a compaction-safe Project Director, separate reusable top-level Codex tasks created through create_thread for every durable product domain, parallel launch waves, per-task checklists, brainstorm backlog, outcome/deadline/drift gates, independent QA, lifecycle cleanup, and mockup-to-real-control skeleton validation. Never use spawn_agent as a substitute for a planned project task. Use when the user invokes $project-start or asks Codex to start, organize, or autonomously run a new or existing coding project without babysitting, especially when multiple project tasks, a visual reference, or a strict deadline are involved.
 ---
 
 # Project Start
@@ -34,6 +34,7 @@ If the project does not already contain this control system, run:
   -DirectorTaskTitle "<exact current task title>" `
   -DirectorTaskId "<exact current task ID>" `
   -DirectorDeeplink "<exact copied deeplink>" `
+  -DirectorModelEffort "<actual current model/effort read-back>" `
   -Outcome "<exact outcome>" `
   -AcceptanceJourney "<starting state -> action -> authoritative result -> persistence/recovery>" `
   -ProjectDeadline "<ISO timestamp with timezone, or omit>" `
@@ -57,21 +58,22 @@ Activation must pass before task creation. Run with `-Strict` before substantive
 
 ## 3. Lock the work before forming the team
 
-Use the generated documents in this order:
+Use the generated documents in this order. At the start of every user turn and after any context compaction, restart, or handoff, read `AGENTS.md` and rehydrate `PROJECT_STATE.md` before scheduling, editing, creating tasks, or waiting:
 
-1. `PROJECT_CHARTER.md`  -  authority, deadline, pre-mortem, visual references, and success boundary.
-2. `PROJECT_CHARTER.md`  -  synthesize explicit intent, mockup-implied priorities, category expectations, labeled inferences, desired return state, and anti-intent.
-3. `MASTER_CHECKLIST.md`  -  fill only the exact Primary Outcome Lock initially.
-4. `PRIOR_ART_RESEARCH.md`  -  bounded primary-source survey of the actual product, credible repositories, formulas/data, licenses, and reusable components.
-5. `PROJECT_PLAN.md`  -  product definition, chosen architecture, ordered vertical slices, verification, and proposed durable task boundaries.
-6. `MASTER_CHECKLIST.md`  -  derive stable detailed requirement/gate IDs from the accepted plan and original promises.
-7. `TEAM_OPERATING_MODEL.md`  -  roles, durable task boundary, and escalation policy.
-8. `AGENT_COMMUNICATION.md`  -  exact Director and sibling task IDs/deeplinks and routing.
-9. `RUNTIME_OWNERSHIP.md`  -  exact shared installed/runtime candidate lease.
-10. `INTEGRATION_CONTRACTS.md`  -  workspace isolation, shared-seam envelopes, decision deadlines, and integration queue.
-11. `RESOURCE_BUDGET.md`  -  whole-path attempts, process ownership, non-interference, and emergency stop.
-12. `COORDINATION_BOARD.md`  -  top-level task ownership, deadlines, and live state.
-13. `FOCUS_PROTOCOL.md`, `TIMEBOX_PROTOCOL.md`, and `VISUAL_PROTOCOL.md`  -  mandatory gates.
+1. `PROJECT_STATE.md`  -  compact current priority, corrections, authority, active tasks, ready set, lifecycle backlog, whole-product truth, and next action; a projection that must be reconciled with the authoritative records.
+2. `PROJECT_CHARTER.md`  -  authority, deadline, pre-mortem, visual references, and success boundary.
+3. `PROJECT_CHARTER.md`  -  synthesize explicit intent, mockup-implied priorities, category expectations, labeled inferences, desired return state, and anti-intent.
+4. `MASTER_CHECKLIST.md`  -  fill only the exact Primary Outcome Lock initially; capture exploratory ideas in its separate backlog.
+5. `PRIOR_ART_RESEARCH.md`  -  bounded primary-source survey of the actual product, credible repositories, formulas/data, licenses, and reusable components.
+6. `PROJECT_PLAN.md`  -  product definition, chosen architecture, ordered vertical slices, stable lane IDs, launch waves, verification, and proposed durable task boundaries.
+7. `MASTER_CHECKLIST.md`  -  derive stable detailed requirement/gate IDs from the accepted plan and original promises.
+8. `TEAM_OPERATING_MODEL.md`  -  roles, durable task boundary, parallel launch, lifecycle, and escalation policy.
+9. `AGENT_COMMUNICATION.md`  -  exact Director and sibling task IDs/deeplinks, actual startup read-backs, lifecycle history, and routing.
+10. `RUNTIME_OWNERSHIP.md`  -  exact shared installed/runtime candidate lease.
+11. `INTEGRATION_CONTRACTS.md`  -  workspace isolation, shared-seam envelopes, decision deadlines, and integration queue.
+12. `RESOURCE_BUDGET.md`  -  whole-path attempts, process ownership, non-interference, and emergency stop.
+13. `COORDINATION_BOARD.md`  -  top-level task ownership, ready/running concurrency, deadlines, and live state.
+14. `FOCUS_PROTOCOL.md`, `TIMEBOX_PROTOCOL.md`, and `VISUAL_PROTOCOL.md`  -  mandatory gates.
 
 Intent synthesis happens before research. Separate explicit statements, mockup-implied workflow/hierarchy/character, category-implied expectations, and agent inferences with confidence. Record the user's underlying job, desired return state, intended recipient/audience, occasion or relationship context, emotional promise, private/internal/public distribution, personalization, polish, and anti-intent: outcomes that could satisfy literal words while violating the spirit. Translate emotional language into observable visual, copy, onboarding, reliability, packaging, and first-launch criteria rather than generic decoration. Treat derived signing, packaging, privacy, update, or support implications as labeled facts or inferences. Ask one focused question only when competing interpretations materially change the product; otherwise record the strongest evidence-backed interpretation and proceed. Research may improve the route but cannot replace intent with competitor conventions.
 
@@ -84,6 +86,8 @@ Before accepting `PROJECT_PLAN.md`, perform its adversarial self-audit with no p
 Accept `PROJECT_PLAN.md` only after that repair pass. The plan must describe the smallest useful product, deliberate advantage over existing products, baseline/table-stakes coverage and intentional exclusions, smallest architecture, reuse decisions, ordered end-to-end slices, task ownership, shared seams, and exact verification. For an outcome-critical journey that mutates persistent/shared state or causes an external effect, require a transaction contract before implementation: authoritative starting state, ordered transitions, owners, permitted and forbidden mutations, read-back authority, commit point, failure/recovery/idempotency, and external-effect ordering. Record plan acceptance in `DECISION_LOG.md`.
 
 Then convert every user promise and accepted plan outcome into one independently provable master row before implementation. Keep the primary outcome Critical. Create five task-specific pre-mortem paths with early warnings and responses.
+
+Classify user input precisely. A direct instruction such as “do this now,” “add this,” or a correction is active work and may reprioritize immediately. Explicit user steering is controlling direction, not agent scope drift or a milestone-lock violation; persist the replacement priority in `PROJECT_STATE.md`, the master, and affected checklists before resuming. Exploratory “could we,” “maybe,” “what if,” or “should we” language becomes `IDEA-###` in the master brainstorm backlog and every affected task checklist before the discussion ends. Agent-generated enhancements follow the same backlog path unless already required by accepted table stakes, safety, or the plan. An unpromoted idea authorizes capture and bounded clarification only: do not research it, implement it, test it, create a task for it, interrupt current work for it, or include it in completion math. Promotion requires the explicit user direction or `DEC-###`, a stable master row, owner, priority, exit proof, and active-path decision.
 
 Keep only 3-10 master rows in the active critical-path window. The exhaustive register may remain large, but active tasks must not use it as permission to pursue hundreds of small gates. Set a whole-path attempt limit before task creation; add resource caps only when the project actually needs them.
 
@@ -101,7 +105,7 @@ Classify work before delegating. It is a **durable top-level task** when any con
 - it must communicate with the Director or sibling lanes; or
 - it must remain independently resumable beyond one bounded support call.
 
-If uncertain, create a top-level task. A subagent is permitted only when every condition is true: the work is one-shot and temporary inside one existing top-level task; it owns no master ID, production file/system, runtime, checklist, deadline, or independent gate; it returns its result only to its parent; and current user/system instructions allow subagents. A bounded read-only search may qualify. Planned implementation, QA, visual review, research ownership, integration, release, and product decisions do not qualify.
+If uncertain about whether work is durable, classify it as a durable lane; then reuse that lane's valid registered top-level task or create one only when none exists. “Durable” does not mean “always create another task.” A subagent is permitted only when every condition is true: the work is one-shot and temporary inside one existing top-level task; it owns no master ID, production file/system, runtime, checklist, deadline, or independent gate; it returns its result only to its parent; and current user/system instructions allow subagents. A bounded read-only search may qualify. Planned implementation, QA, visual review, research ownership, integration, release, and product decisions do not qualify.
 
 Task creation is fail-closed. If `create_thread` is unavailable or fails, record the lane `BLOCKED` and report the missing task capability. Do not silently replace it with `spawn_agent`, a nested agent, or Director implementation. In `SOLO` mode the Director may keep the explicitly accepted narrow implementation lane, but any required independent QA or visual approval still needs a separate top-level task.
 
@@ -109,21 +113,27 @@ In `SOLO` mode, the Director may implement, package, and operate the narrow lane
 
 Record the current Director task's exact ID/deeplink in `AGENT_COMMUNICATION.md` before creating siblings. Do not rely on title discovery. If the ID/deeplink cannot be discovered from available task tools or current context, ask the user for the copied Director deeplink once; this is required durable routing information.
 
-Use `create_thread` to create tasks such as Core Engine, User Interface, Data/Persistence, Visual Skeleton, QA, or Integration only when they own genuinely independent work. Derive the actual lanes from the accepted plan; do not copy these names mechanically. Prefer the smallest effective team. Before creation, record `Creation mechanism: create_thread` in the proposed lane. After creation, record the exact returned task ID/deeplink before the lane reads, edits, tests, or coordinates project work.
+Use `create_thread` to create tasks such as Core Engine, User Interface, Data/Persistence, Visual Skeleton, QA, or Integration only when they own genuinely independent work. Derive the actual lanes from the accepted plan; do not copy these names mechanically. Prefer the smallest effective team. Give each durable lane one permanent stable lane ID. Before any creation call, reconcile `AGENT_COMMUNICATION.md`, the board, and exact task state. Reuse the existing task by exact ID/deeplink when its ownership, checklist, actual model, project/root/worktree, and authority still match. A new slice, candidate, fix, or review pass is not a new lane.
+
+A replacement task is permitted only when no registered task exists or the prior task is verified misconfigured, irrecoverable, duplicate, superseded, or explicitly stopped. Record the old/new IDs and exact reason. “Idle,” “finished one slice,” “needs another pass,” and “not found by title” are forbidden replacement reasons.
 
 Use Luna Max only for high-volume read-only groundwork with rigid outputs; never let it implement, choose architecture/product direction, judge visual quality, own integration, or approve completion. A Sol task verifies Luna output, and the Director stops filler or invented scope. Use Sol Low (the "Sol Light" tier) for small, sharply bounded QA/evidence tasks with exact pass/fail criteria. Use Sol Medium for the Director, normal development, integration, visual work, and QA requiring diagnosis. Reserve Sol Max for one inspected, genuinely complex, outcome-critical development task such as a concurrency-heavy core engine or cross-cutting recovery boundary. Do not use higher effort. Choose Max upfront when the complexity is already clear; provide it a complete plan and record the usage reason in the charter, board, and checklist. Escalate Low QA to Medium only when the inspected reasoning scope expands, not merely because a check fails. Max work still requires independent verification.
 
-Before creating each task, confirm that `PROJECT_PLAN.md` is accepted. Then:
+Before creating or resuming each task, confirm that `PROJECT_PLAN.md` is accepted. Then:
 
-1. Copy `AGENT_CHECKLIST_TEMPLATE.md` to `agent-checklists/<lane>.md`.
+1. If the stable lane has no checklist, copy `AGENT_CHECKLIST_TEMPLATE.md` once to `agent-checklists/<lane>.md`; otherwise update and reuse the existing checklist without resetting its history.
 2. Fill exact task/deeplink placeholder, master IDs, outcome, acceptance journey, Git identity, file/system ownership, excluded/shared regions, deadline, exit proof, and pre-mortem risks.
 3. Add the proposed lane to `COORDINATION_BOARD.md` and resolve collisions.
 4. Select and record a safe workspace mode from `INTEGRATION_CONTRACTS.md`; never discard or silently copy dirty user work.
 5. Create a pre-authorized shared-seam contract before the task reaches an overlapping source boundary.
 6. Give the task the authoritative root, controlling document order, checklist path, exact allowed and prohibited scope, required evidence, and handoff contract.
-7. Call `create_thread`; do not call `spawn_agent`.
+7. Reuse the valid registered task, or call `create_thread` only with the recorded new/replacement reason; do not call `spawn_agent`.
 
-After task creation, record the returned task ID/deeplink and `create_thread` receipt in `AGENT_COMMUNICATION.md`, its checklist, and the board before any project work. Send the new task the Director deeplink and communication-registry path. Created tasks must read the controls, inspect their seam, and report evidence-backed movement. They do not create competing master plans or sibling tasks. A task without this receipt is unauthorized to work.
+After task creation/resume, record the original `create_thread` receipt or reuse receipt in `AGENT_COMMUNICATION.md`, its checklist, and the board. Send the task the Director deeplink and communication-registry path. Its first action is a startup read-back: exact ID/deeplink, actual model/effort, actual project/root/worktree, checklist path, and current status. Each launched task performs this check concurrently and may proceed without waiting for a separate Director approval when every value matches its assignment. Intended launch arguments are not proof. On mismatch, stop substantive work, mark `MISCONFIGURED`, preserve/hand off any state, safely archive it, and create one corrected replacement. Tasks do not create competing master plans or sibling tasks.
+
+Before the first wait, and again whenever a dependency clears or a lane finishes/blocks, compute the ready set: every stable lane whose hard prerequisites are satisfied and whose ownership, workspace, runtime, and seams can operate concurrently. Set useful concurrency target equal to this count. Launch or resume the entire ready set before waiting and record one launch/replenishment receipt containing every stable lane plus exact create/send receipts. If two or more lanes are ready, two or more must be active simultaneously. Never single-target-wait while another ready independent lane remains uncreated, idle, or resumable. Monitor 2–8 active task IDs/cursors with one `wait_threads` call and persist that exact target/cursor list; use bounded groups if more than eight. A single-target wait is allowed only when exactly one non-Director lane is legitimately ready and the state records target `1` with no other disjoint lane. Reconcile the first terminal/blocking event, replenish from the ready set, then wait again. A real collision, resource, authority, or dependency constraint removes a lane from ready and must be recorded exactly. Do not invent filler tasks.
+
+At each checkpoint, reconcile task lifecycle. Reuse active/assigned/blocked/ready-for-review/changes-requested tasks when valid. Safely archive only terminal, duplicate, superseded, explicitly stopped, or misconfigured tasks after recording handoff evidence, unintegrated/dirty work, task-owned processes, and replacement if any. Call the archive tool, verify archived state, and retain the history row. Idle, sleeping, blocked on a real prerequisite, awaiting review, or likely to be reused is not terminal. A retryable failure is `ARCHIVE PENDING` with exact ID/retry. If the host proves the backing task is missing, record `UNARCHIVABLE` with the failed archive receipt and proof of no unintegrated changes/processes; do not claim it was archived and do not halt safe product work for impossible sidebar cleanup.
 
 ## 5. Stage work like a software company
 
@@ -137,7 +147,7 @@ Use these stage gates:
 6. **Independent verification:** QA and Visual Auditor tasks review exact candidate evidence and cannot self-approve implementation.
 7. **Integration/release:** Integration task owns shared seams and candidate identity; external/installed/human gates stay open until actually performed.
 
-Backend or infrastructure tasks that do not depend on the visual skeleton may progress in parallel. Do not let "parallel" mean two tasks editing the same shared seam.
+Backend or infrastructure tasks that do not depend on the visual skeleton progress in the same launch wave. Do not let "parallel" mean two tasks editing the same shared seam, and do not use a visual dependency to serialize unrelated work.
 
 Installed/physical acceptance freezes only the exact candidate bytes and runtime in `RUNTIME_OWNERSHIP.md`. It does not freeze isolated source development. Shared source changes flow through the Integrator queue and a pre-authorized envelope; do not require redundant approval for an already accepted narrow interface.
 
@@ -145,12 +155,14 @@ Installed/physical acceptance freezes only the exact candidate bytes and runtime
 
 The Director handles routine architecture, task routing, ownership, tests, retries of safe local operations, corrections, and integration. Escalate only material product ambiguity, missing authority/input, destructive or external action, unresolved controlling conflict, or required human acceptance.
 
-At the start of every user turn, classify new content as new requirement, correction to prior behavior, decision, acceptance evidence, or ordinary discussion. Persist requirements, corrections, decisions, and evidence into their controlling project records before resuming affected work; do not rely on the conversation remaining in context.
+At the start of every user turn, and after context compaction/restart/handoff, re-read `AGENTS.md`, `PROJECT_STATE.md`, the Primary Outcome Lock/active path, active corrections, registry, and own checklist. Reconcile exact task read-backs and update the rehydration receipt before task creation, waiting, production edits, or external action. Classify new content as current requirement, correction, decision, acceptance evidence, exploratory brainstorming, or ordinary discussion and persist it in the proper record. Conversation memory, task titles, and intended launch settings are not durable truth.
 
 Follow task progress using compact task waits rather than repeatedly rereading full tasks. At meaningful updates and deadline checkpoints:
 
 - persist every new user correction as `CORR-###` in `DECISION_LOG.md`, broadcast it to affected top-level tasks, add it to their checklists, and collect acknowledgment receipts before affected work continues;
 - reconcile active corrections and recurrence counts; context compaction, task restart, later planning, or summary rewriting may not erase them;
+- reconcile the ready set, running-ready count, useful concurrency target, launch wave, and under-utilization reason before every wait;
+- reuse stable-lane tasks, verify actual startup metadata, and safely archive lifecycle debris with receipts;
 - reconcile the board and master status;
 - compare activity to primary-outcome movement;
 - check the last direct real-journey attempt;
@@ -173,6 +185,8 @@ Apply the two-candidate circuit breaker independently of whether the immediate d
 
 Scope every health claim. Report component and journey states separately; do not call a product, release, or candidate generally "healthy," "stable," "ready," or "complete" while a required Critical row is `NOT RUN`, `PARTIAL`, `FAIL`, or `BLOCKED`. Product/release health cannot exceed the weakest required Critical row. A build, connected preview, safe idle state, or focused test proves only that named scope.
 
+When the user asks for progress, lead with the whole product: what they can do now, which major promised outcomes are missing, the current user-directed priority, and the weakest required Critical row. Then report running/target lanes and next launch wave. Component or QA detail comes afterward and may not substitute for product status.
+
 Continue safe disjoint work while one lane is blocked. If no outcome-critical disjoint work remains, mark the task ready or narrowly blocked; do not manufacture tests or adjacent features. Default review/decision deadline is 10% of the lane timebox, minimum 3 minutes and maximum 10 minutes. On expiry, choose a reversible path, reassign, or record a genuine blocker rather than repeatedly polling. Do not ask the user to perform Project Director work.
 
 Treat the user's pause, stop, no-model, or equivalent instruction as an immediate global resource stop. Start no new work; reconcile task-owned processes and preserve dirty state before reporting. Usage and disk are generally acceptable, but work must not materially interfere with the user or another task. Count renamed retries, prompt variants, evaluator changes, and model swaps toward one whole-path focus budget. Keep visible UI background-only unless the user asked or a genuine login/CAPTCHA/human-acceptance boundary requires it.
@@ -185,9 +199,10 @@ Before the final response:
 
 1. Run `Test-ProjectControls.ps1 -Strict`.
 2. Reconcile every top-level task handoff and exact owned change.
-3. Re-run only checks affected by integration or changed assumptions.
-4. Record final candidate identity, failures, skips, `NOT RUN`, blockers, and remaining external/human gates.
-5. Report one consolidated outcome and the smallest next action if anything remains.
+3. Safely archive every terminal/duplicate/superseded/misconfigured task and verify receipts; keep reusable blocked/waiting tasks addressable.
+4. Re-run only checks affected by integration or changed assumptions.
+5. Record final candidate identity, failures, skips, `NOT RUN`, blockers, and remaining external/human gates.
+6. Report one consolidated whole-product outcome and the smallest next action if anything remains.
 
 Never claim the deadline or project succeeded when the Primary Outcome Lock did not pass at the required evidence level.
 
@@ -195,4 +210,5 @@ Never claim the deadline or project succeeded when the Primary Outcome Lock did 
 
 - `scripts/Initialize-ProjectStart.ps1` safely creates and activates the control files.
 - `scripts/Test-ProjectControls.ps1` audits required files, links, research/plan gates, outcome/deadline/drift/visual/team/runtime/integration/resource contracts, pre-mortem rows, and the active coordinator checklist.
+- `scripts/Test-ProjectStartRegression.ps1` builds a resolved fixture and proves the parallel-launch, verified-startup, lifecycle, brainstorm-link, and compaction-recovery controls fail closed.
 - `assets/project-kit/` contains the reusable Markdown templates copied into projects.

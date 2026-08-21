@@ -8,7 +8,7 @@ Create a separate top-level Codex task for every durable project domain that can
 
 For every planned lane, call the task-management `create_thread` tool or its host-namespaced equivalent. Do **not** call `spawn_agent`. Product/UX, research ownership, architecture, development, QA, visual audit, integration, release, packaging, installation, and runtime-operation lanes are top-level tasks, not subagents.
 
-Classify the work as a top-level task when it owns any master ID, production file/system, shared seam, runtime, checklist, deadline, model allocation, evidence gate, cross-task communication, implementation, independent review, or durable handoff. If uncertain, classify it as a top-level task.
+Classify the work as a top-level task when it owns any master ID, production file/system, shared seam, runtime, checklist, deadline, model allocation, evidence gate, cross-task communication, implementation, independent review, or durable handoff. If uncertain, classify it as a durable lane, then reuse that lane's valid existing top-level task or create one only when none exists; durability never means making a duplicate task.
 
 Use a subagent only for a one-shot temporary support call wholly inside one existing top-level task. It must own no master ID, production target, runtime, checklist, deadline, evidence gate, approval, or sibling communication, and must return only to its parent. A bounded read-only search can qualify; a planned developer, QA, visual auditor, researcher, integrator, or release role cannot.
 
@@ -17,6 +17,43 @@ If `create_thread` is unavailable or fails, mark that lane `BLOCKED`. Never fall
 Before creating sibling tasks, record the Director's exact task ID/deeplink in `AGENT_COMMUNICATION.md`. After each `create_thread` call, immediately record its creation mechanism, returned task ID/deeplink, and send that task the Director deeplink plus the registry path. Do not rely on task discovery by title alone. No sibling work begins before that receipt exists.
 
 The Project Director audits the registry for hidden subagent lanes at every checkpoint. Any subagent performing durable work is stopped and recreated as a top-level task before continuing.
+
+## Compact recovery is mandatory
+
+Trigger: the start of every user turn, any suspected/announced context compaction, task restart, handoff, Director replacement, or inconsistency between chat memory and project records.
+
+Required action: before scheduling, task creation, waiting, production edits, or external action, read and reconcile `PROJECT_STATE.md` against the Primary Outcome Lock, active critical path, active corrections, registry, board, and exact task read-backs. Update its timestamp, reason/receipt, current user priority, authority envelope, ready set, running count, lifecycle backlog, blockers, whole-product truth, and next Director action.
+
+Forbidden fallback: do not reconstruct the project from remembered chat, task titles, an old narrative summary, or whichever task happens to be visible.
+
+Receipt and failure state: the current `PROJECT_STATE.md` rehydration receipt is required. If sources genuinely conflict, record `BLOCKED` with the exact conflict and continue only safe disjoint work; never choose the more convenient memory.
+
+## Parallel launch barrier
+
+Trigger: the plan is accepted, a dependency clears, a task finishes/blocks, or the Director is about to call any wait operation.
+
+Required action:
+
+1. Compute the ready set from stable lanes whose hard prerequisites are satisfied and whose ownership, workspace, runtime, and seams can operate concurrently.
+2. Set useful concurrency target equal to the ready-set count. Do not impose an arbitrary cap; remove a lane from ready only for a recorded collision, resource, authority, or hard dependency.
+3. Reuse or create and send startup instructions to every lane in the ready set before the first wait. Record one launch/replenishment receipt naming every stable lane and exact create/send receipt. If two or more lanes are ready, two or more must be active simultaneously.
+4. Monitor all active lanes with one `wait_threads` call containing 2–8 current task IDs/cursors, and persist that exact target/cursor list in the wait receipt. For more than eight, use bounded batches. A single-target wait is permitted only when exactly one non-Director lane is legitimately ready and target `1` is recorded with no other disjoint lane. When any lane finishes or blocks, reconcile it, refill from the ready set, then wait again.
+
+Forbidden fallback: never launch one ready lane and wait for it while another independent ready lane remains uncreated, idle, or resumable. Never create filler work merely to raise concurrency, and never call conflicting/dependent work ready.
+
+Receipt and failure state: record ready lane IDs, running-ready count, target, launch wave, wait target IDs, and exact under-utilization reason. If running is below target without a concrete task-creation failure/dependency/collision, scheduling is `FAIL` and the Director must launch/reuse work before waiting.
+
+## Stable lane and task lifecycle
+
+Trigger: before any `create_thread`, after a task terminal event, and at every coordination checkpoint.
+
+Required action: assign a permanent stable lane ID and reconcile `AGENT_COMMUNICATION.md` plus exact task state. Reuse the existing task when its ownership, checklist, actual model, project/root/worktree, and authority still match—even for a new slice, candidate, repair, or review pass. Resume it by exact ID/deeplink.
+
+A replacement is permitted only when no registered task exists or the old task is verified misconfigured, irrecoverable, duplicate, superseded, or explicitly stopped. Record the old/new IDs and exact reason before replacement. After creation/resume, each task concurrently checks and returns its exact ID/deeplink, actual model/effort, actual project/root/worktree, checklist, and status; it proceeds without separate Director approval when these match. A mismatch makes the lane `MISCONFIGURED`; stop project work in that task, preserve its state, archive it safely, and create one corrected replacement.
+
+Archive a terminal, duplicate, superseded, stopped, or misconfigured task only after recording its handoff, unintegrated/dirty changes, task-owned processes, and replacement if any. Call the archive tool and verify the archived state; retain the historical registry row and receipt. Idle, sleeping, blocked on a real prerequisite, waiting for review, or likely to be reused is not terminal and must not be archived as “unused.” A retryable archive failure is `ARCHIVE PENDING` with exact ID/retry. If the host proves the task backing record is gone, record `UNARCHIVABLE` with the failed archive receipt and proof of no unintegrated changes/processes; keep it visible as debris, do not claim success, and continue safe product work.
+
+Forbidden fallback: do not create a fresh task because title lookup failed, because the lane finished one slice, or because a new candidate/review is starting. Do not abandon unintegrated work or hide dormant-task debris.
 
 ## Choose the smallest effective team
 
@@ -112,13 +149,15 @@ Do not create tasks merely to increase activity. Every task must own exact maste
 
 Director first creates only a tiny bootstrap checklist, then inspects the real project and references, records the outcome/acceptance journey/deadline, synthesizes explicit and implied user intent plus anti-intent, runs the pre-mortem, and establishes authority boundaries. A bounded research lane inspects the actual competing product, primary documentation, and credible source repositories; it records `REUSE`, `ADAPT`, `LEARN`, or `BUILD` decisions with license boundaries and a baseline capability matrix of ordinary category expectations. Research cannot replace the controlling intent. The Director then accepts `PROJECT_PLAN.md`, and only afterward derives the detailed master checklist and top-level task checklists.
 
+Exploratory user language such as “could we,” “maybe,” “what if,” or “should we” is captured immediately as `IDEA-###` in the master brainstorm backlog and linked from affected task checklists. It does not authorize research, implementation, testing, task creation, interruption, or completion credit until explicitly promoted. “Do this now,” direct feature instructions, and corrections are active requirements and may reprioritize immediately. Agent-generated enhancements follow the backlog path unless already required by accepted table stakes, safety, or the plan.
+
 ### Stage 2 — Product and skeleton
 
 When references control the result, Product/UX produces the measured contract and real-control skeleton. An independent Visual Auditor approves the measurable working skeleton; feature lanes stay blocked until that approval. User review is required before feature work only when a material visual/product ambiguity cannot be resolved from the references and intent synthesis.
 
 ### Stage 3 — Vertical development
 
-Director creates the smallest set of non-overlapping top-level feature tasks. Developers work against named master IDs and slots. Tech Lead owns shared seams through `INTEGRATION_CONTRACTS.md`; installed-candidate acceptance does not freeze isolated source development.
+Director creates or reuses the smallest set of non-overlapping top-level feature tasks, launches the full ready wave before waiting, and preserves stable lane IDs across slices. Developers work against named master IDs and slots. Tech Lead owns shared seams through `INTEGRATION_CONTRACTS.md`; installed-candidate acceptance does not freeze isolated source development.
 
 ### Stage 4 — Independent verification
 
@@ -132,14 +171,16 @@ Integrator combines accepted lanes in dependency order. QA reruns changed bounda
 
 At every meaningful update or timebox checkpoint:
 
-1. Reconcile task states into the board.
-2. Follow task progress by task ID/deeplink and send bounded direction to the owning task.
-3. Compare activity to movement on the primary outcome.
-4. Check ownership collisions and shared-seam changes.
-5. Check drift, pre-mortem, visual, and deadline triggers.
-6. Review evidence for `READY FOR REVIEW` work.
-7. Reassign or stop low-value lanes.
-8. Continue the highest-value safe work without waiting for routine user input.
+1. Rehydrate and reconcile `PROJECT_STATE.md`, exact task read-backs, and task lifecycle state.
+2. Build the ready set; launch/resume the full ready wave and record running versus target concurrency before waiting.
+3. Reconcile task states into the board and archive safely terminal lifecycle debris.
+4. Follow task progress by task ID/deeplink and send bounded direction to the owning task.
+5. Compare activity to movement on the primary outcome.
+6. Check ownership collisions and shared-seam changes.
+7. Check drift, pre-mortem, visual, and deadline triggers.
+8. Review evidence for `READY FOR REVIEW` work.
+9. Reassign or stop low-value lanes.
+10. Continue the highest-value safe work without waiting for routine user input.
 
 The Director also answers: What can the user do now? When did the current candidate last attempt the complete journey? What is its first failing transition? Did any fix change authority, persistence, recovery, fingerprint/identity validation, or external-effect ordering? Is another candidate supported by decisive new evidence? If the user returned now, would the promised product actually work? A negative final answer forbids general “healthy,” “stable,” “ready,” or “complete” language.
 
@@ -174,14 +215,16 @@ Model retries, downloads, background processes, and visible UI follow `RESOURCE_
 
 ## Anti-babysitting report
 
-The Director reports only meaningful checkpoints:
+The Director reports only meaningful checkpoints and leads with whole-product truth. Component or QA detail follows only after stating what the user can do now, which major promised outcomes are still missing, and the weakest required Critical row:
 
 ```text
-Outcome: <state and movement>
+Whole product: <what the user can do now; missing major outcomes; weakest Critical row>
+Current priority: <latest explicit user-directed outcome/milestone>
 Deadline: <stage and remaining/overrun>
-Team: <active/ready/blocked lanes>
+Team: <running/target; active/ready/blocked lanes; next launch wave>
 Accepted: <master IDs and evidence>
 Failed/at risk: <critical IDs>
+Lifecycle: <reused tasks; safely archived task IDs; archive backlog>
 Decisions needed from user: <none or exact bounded choice>
 Next autonomous action: <one action>
 ```

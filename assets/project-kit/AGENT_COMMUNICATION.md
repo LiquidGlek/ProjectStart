@@ -9,6 +9,10 @@ This is the durable address book for top-level Codex project tasks. The Project 
 - A role or lane is durable when it owns a master ID, production file/system, shared seam, runtime, checklist, deadline, acceptance gate, independent verification, or resumable cross-task communication.
 - A subagent is allowed only as one bounded, temporary support call inside an existing top-level task. It owns no project lane, master row, production change, runtime, checklist, deadline, or acceptance decision, and its result returns to the parent task.
 - If `create_thread` is unavailable or task creation fails, record the lane as `BLOCKED`. Do not start it through a subagent and do not silently absorb it into the Director.
+- A stable lane keeps one live task across slices, candidates, fixes, and review cycles. Before `create_thread`, reconcile this directory and exact task read-backs; resume the valid registered task by ID/deeplink when it still matches.
+- New task creation requires a recorded replacement reason: no task exists, or the previous task is confirmed misconfigured, irrecoverable, duplicate, superseded, or explicitly stopped. “Idle,” “finished one slice,” “needs another pass,” and “hard to find by title” are not replacement reasons.
+- Every created/resumed task must return a startup receipt with its exact ID/deeplink, actual model/effort, actual project/root/worktree, checklist, and status. The Director compares the receipt to the assignment before substantive work. Intended arguments are not proof.
+- Safely archive a terminal/duplicate/superseded/misconfigured task only after its unintegrated changes, dirty worktree, task-owned processes, and handoff evidence are reconciled. Verify the archive and retain its historical row. Do not archive a blocked, waiting, or idle task that remains reusable. If the host proves the backing task no longer exists, record `UNARCHIVABLE` with the failed archive receipt and proof of no unintegrated changes/processes; never report it as archived or let sidebar debris halt unrelated product work.
 
 ## Director address
 
@@ -22,12 +26,12 @@ Sibling tasks must receive this address at creation. If task discovery by title 
 
 ## Task directory
 
-Register the `create_thread` receipt and returned ID/deeplink immediately after each task is created. No durable task may read project files, edit, test, or begin cross-task work while its receipt is absent.
+Register the `create_thread` receipt and returned ID/deeplink immediately after each task is created. Then obtain and compare the actual startup read-back before substantive work. No durable task may read project files beyond startup verification, edit, test, or begin cross-task work while either receipt is absent or mismatched.
 
-| Role/domain | Exact task title | Creation mechanism/receipt | Task ID | Deeplink | Checklist | Owns | Send decisions/blockers to | Status | Last verified |
-|---|---|---|---|---|---|---|---|---|---|
-| Project Director | `<title>` | `current task` | `<ID>` | `<deeplink>` | `agent-checklists/coordinator.md` | Master, board, routing, integration decisions | User only at escalation boundary | ACTIVE | `<time>` |
-| `<domain>` | `<title>` | `create_thread / <returned receipt>` | `<ID>` | `<deeplink>` | `agent-checklists/<lane>.md` | `<master IDs and exact system>` | Project Director | PROPOSED | `<time>` |
+| Stable lane ID | Role/domain | Exact task title | Creation/reuse receipt | Task ID | Deeplink | Actual model/effort | Actual project/root/worktree | Checklist | Owns | Send decisions/blockers to | Lifecycle/replacement/archive receipt | Status | Last verified |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| DIRECTOR | Project Director | `<title>` | `current task` | `<ID>` | `<deeplink>` | `<actual read-back>` | `<actual project/root/worktree>` | `agent-checklists/coordinator.md` | Master, board, routing, integration decisions | User only at escalation boundary | CURRENT | ACTIVE | `<time>` |
+| `<LANE-ID>` | `<domain>` | `<title>` | `create_thread / <returned receipt>; <reuse/replacement receipt>` | `<ID>` | `<deeplink>` | `<actual read-back>` | `<actual project/root/worktree>` | `agent-checklists/<lane>.md` | `<master IDs and exact system>` | Project Director | `<LIVE / REPLACED BY ID / ARCHIVED receipt / ARCHIVE PENDING retry / UNARCHIVABLE failed-attempt receipt>` | PROPOSED | `<time>` |
 
 ## Routing rules
 
@@ -37,6 +41,7 @@ Register the `create_thread` receipt and returned ID/deeplink immediately after 
 - QA and Visual Audit send failures to the owning task and copy the Director with exact master/evidence IDs.
 - Tasks do not ask the user routine questions or create sibling tasks. The Director owns user escalation and task creation.
 - Use exact IDs/deeplinks; titles are labels, not identity.
+- When several ready tasks are useful, message/start the whole launch wave first and then monitor all active IDs in one multi-target wait. Do not serialize independent work through single-task waits.
 
 ## Communication receipts
 
@@ -53,8 +58,11 @@ Never automatically resend an externally consequential or ambiguous message. Rec
 - [ ] Director task ID and deeplink are exact and current.
 - [ ] Every planned durable role/domain was created with `create_thread`, not `spawn_agent`.
 - [ ] Every active top-level task has its creation receipt and exact returned ID/deeplink.
+- [ ] Every active task has a verified actual model/effort and actual project/root/worktree startup receipt matching the assignment.
 - [ ] Every task received the Director deeplink and registry path.
 - [ ] Every task maps to one checklist and exact owned domain.
-- [ ] Stopped/replaced tasks remain listed with status and replacement ID.
+- [ ] Every stable lane reuses its valid task; any replacement records the exact reason and old/new IDs.
+- [ ] Stopped/replaced/duplicate/superseded/misconfigured tasks remain listed with status, replacement ID where applicable, and verified archive or `UNARCHIVABLE` receipt.
+- [ ] No blocked, waiting, or merely idle reusable task was archived as unused.
 - [ ] No durable domain is hidden behind a subagent.
 - [ ] Any temporary subagent was one-shot support with no master, production, runtime, checklist, deadline, or gate ownership.

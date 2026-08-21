@@ -67,11 +67,13 @@ Each slice must end in an observable, testable product state. Do not list intern
 
 ## Top-level task design
 
-Create separate top-level Codex tasks for every durable, independently ownable domain. Each planned lane must use `create_thread`; `spawn_agent` is prohibited. The Project Director coordinates and reviews; it normally owns no production code.
+Create separate top-level Codex tasks for every durable, independently ownable domain. Each stable lane receives one permanent ID and reuses one valid top-level task across slices, candidates, fixes, and reviews. Each lane's original creation mechanism is `create_thread`; `spawn_agent` is prohibited. The Project Director coordinates and reviews; it normally owns no production code.
 
-| Proposed top-level task/lane | Durable-task reason | Creation mechanism | Owns | Excludes | Shared seam | Model/effort reason | Exit handoff |
-|---|---|---|---|---|---|---|---|
-| `<lane>` | `<master ID/production ownership/checklist/gate/handoff>` | `create_thread` | `<files/system/outcome>` | `<other ownership>` | `<contract or NONE>` | `<tier and reason>` | `<artifact/evidence>` |
+`Launch wave` groups lanes whose hard prerequisites can be satisfied together. After plan acceptance, the Director creates or resumes every lane in the earliest currently ready wave before waiting. A prerequisite must name an actual dependency, collision, resource, authority, or skeleton/integration gate; “wait for the other task” is not sufficient.
+
+| Stable lane ID | Proposed top-level task/lane | Durable-task reason | Creation mechanism | Launch wave | Hard prerequisite | Owns | Excludes | Shared seam | Intended model/effort reason | Intended project/root/worktree | Exit handoff |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| `<LANE-ID>` | `<lane>` | `<master ID/production ownership/checklist/gate/handoff>` | `create_thread` | `<WAVE-1>` | `<NONE or exact gate/dependency>` | `<files/system/outcome>` | `<other ownership>` | `<contract or NONE>` | `<tier and reason>` | `<project/root/worktree>` | `<artifact/evidence>` |
 
 ## Verification plan
 
@@ -99,6 +101,11 @@ Create separate top-level Codex tasks for every durable, independently ownable d
 - [ ] Architecture contains no speculative framework or unowned shared seam.
 - [ ] Proposed top-level tasks have non-overlapping durable ownership.
 - [ ] Every planned project lane uses `create_thread`; none uses `spawn_agent`, a nested agent, or an unregistered delegate.
+- [ ] Every durable lane has one stable lane ID, a launch wave, an exact hard prerequisite or `NONE`, and an intended project/root/worktree.
+- [ ] Every existing registered task was checked for reuse before any replacement task was planned.
+- [ ] The earliest ready launch wave contains every lane that can safely progress simultaneously; no artificial single-task sequence remains.
+- [ ] Task lifecycle and archive rules preserve dirty/unintegrated work and do not classify blocked/waiting/idle reusable tasks as terminal.
+- [ ] Exploratory brainstorm items remain in the `IDEA-###` backlog unless explicitly promoted; no backlog item silently entered plan scope.
 - [ ] Every planned promise now maps to a stable master checklist ID.
 - [ ] The active critical path contains only the next 3–10 outcome-critical rows.
 - [ ] Director records the plan decision in `DECISION_LOG.md` before creating implementation tasks.
