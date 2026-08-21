@@ -26,16 +26,16 @@ Correct ProjectStart so every invocation first asks for the user's exact simulta
 | [x] | SCALE-009 | Keep documentation and UI metadata truthful | README, skill description, and default prompt describe staffed build and integration waves without overpromising |
 | [x] | SCALE-010 | Synchronize and validate the installed skill | Package validation, PowerShell parse, regression suite, and source/installed hash comparison pass |
 | [x] | SCALE-011 | Correct the live Director behavior | It records the correction, publishes a 10–15-worker plan, reuses/creates the lanes, and returns exact launch receipts before waiting |
-| [~] | SCALE-012 | Publish and verify the public release | Clean commit on public `main`, remote read-back, and clean distributable ZIP with recorded SHA-256 |
+| [x] | SCALE-012 | Publish and verify the public release | Clean commit on public `main`, remote read-back, and clean distributable ZIP with recorded SHA-256 |
 | [x] | SCALE-013 | Ask the staffing question before project work | Every `$project-start` invocation without both answers asks one combined question for exact worker count and model/effort policy, then stops before initialization, research, planning, files, or tasks |
 | [x] | SCALE-014 | Treat the answers as an exact launch contract | Requested, planned, launched, and simultaneously active worker counts match; actual worker model/effort matches the user policy with no silent substitution |
 | [x] | SCALE-015 | Reject bypasses and mismatches mechanically | Regression coverage proves mandatory initializer parameters and strict validation rejects count, assignment, or actual-model mismatches |
 
 ## Status
 
-- **Checked/active/open/total:** 14 / 1 / 0 / 15
-- **Verified complete:** 93.3%
-- **Current slice:** build the clean release archive, publish the exact source commit, and verify public read-back.
-- **Critical failure:** NONE in the current source or installed package. Release proof remains open until public read-back.
-- **Evidence:** source and installed skill validators pass; the full regression suite passes its combined-question, mandatory-parameter, positive FULL TEAM, and adversarial failure cases; a fresh 10-worker initialization produced matching charter/state/plan/board receipts; the live Director activated 15 non-Director worker tasks concurrently.
-- **Next action:** create and validate the release ZIP, then commit, push, and compare public `main` with the local source package.
+- **Checked/active/open/total:** 15 / 0 / 0 / 15
+- **Verified complete:** 100%
+- **Current slice:** COMPLETE.
+- **Critical failure:** NONE in the verified source, installed package, extracted release archive, or public read-back.
+- **Evidence:** source and installed skill validators pass; the full regression suite passes its combined-question, mandatory-parameter, positive FULL TEAM, and adversarial failure cases; a fresh 10-worker initialization produced matching charter/state/plan/board receipts; the live Director activated 15 non-Director worker tasks concurrently; public `main`, GitHub API, and `git ls-remote` matched release commit `858c92b327dfb2078d886c72da235fdca72ba477`; the public README and skill contained the new intake contract; the 27-entry release ZIP matched all 26 source files and has SHA-256 `C15A19F4A01D6C11FBC0BED9A1D425DD4029885DF359949E7468043A1959C55F`.
+- **Next action:** invoke `$project-start`; when worker count or model policy is absent, answer the combined staffing question and let the Director derive and launch the exact team.
