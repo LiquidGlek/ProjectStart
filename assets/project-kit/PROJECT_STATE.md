@@ -28,6 +28,16 @@ Before substantive action at the start of every user turn, after any context com
 - **Current authority envelope:** `<safe actions already authorized>`
 - **Forbidden without new user authority:** `<external/destructive/public/account/financial actions>`
 - **Open brainstorm backlog:** `<number; newest IDEA-### IDs or NONE>`
+- **Team mode:** `<SOLO / SMALL TEAM / FULL TEAM>`
+- **Requested simultaneous workers:** `<exact integer 1-15; excludes Director>`
+- **Worker model/effort policy:** `<exact user answer copied from charter>`
+- **Staffing intake receipt:** `<ISO timestamp; answer and source reconciled>`
+- **Staffed wave phase:** `<PLANNING / BUILD / REGROUP / INTEGRATION / QA / RELEASE>`
+- **First staffed build wave:** `<wave ID or NONE before plan acceptance>`
+- **Staffed build-wave counts:** `<planned=N; launched=N; active=N; implementation=N; Director excluded>`
+- **Staffed build-wave lane IDs:** `<semicolon-separated 10-15 IDs for FULL TEAM, mode-proportionate IDs otherwise, or NONE before plan acceptance>`
+- **Staffed build-wave receipt:** `<timestamp; exact lane IDs and create/reuse/send receipts, or NOT APPLICABLE before plan acceptance>`
+- **Integration regroup state:** `<OPEN handoffs=N/N / SATISFIED handoffs=N/N at timestamp / NOT APPLICABLE before build>`
 - **Ready independent lanes:** `<semicolon-separated stable lane IDs or NONE>`
 - **Running ready lanes:** `<number; excludes Director>`
 - **Useful concurrency target:** `<number; equals ready independent lane count>`
@@ -42,7 +52,7 @@ Before substantive action at the start of every user turn, after any context com
 - **Whole-product status:** `<what the user can do now; missing major outcomes; weakest Critical row>`
 - **Next Director action:** `<one concrete scheduling/verification action>`
 
-`Ready independent lanes` means every listed lane can run now without colliding or waiting on a hard prerequisite. Therefore the useful concurrency target equals that count. If a resource, shared-seam, or authority constraint prevents simultaneous work, record it as a hard prerequisite and do not call that lane ready.
+`Ready independent lanes` means every listed lane can run now without colliding or waiting on a hard prerequisite. Therefore the useful concurrency target equals that count. Before accepting a hard prerequisite, attempt contract-first parallelization with frozen interfaces, fixtures/test doubles, owned-side adapters, and isolated worktrees. During `BUILD`, requested, planned, launched, and active worker counts must match exactly. In FULL TEAM, `IMPLEMENTATION` must be a strict majority. The Director is excluded. Every actual startup model must match its user-policy-backed lane assignment. The team may move to `REGROUP` only after every planned lane has a coherent handoff or an explicit accepted blocker disposition.
 
 ## Active task read-backs
 

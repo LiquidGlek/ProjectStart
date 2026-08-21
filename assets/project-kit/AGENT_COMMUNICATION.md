@@ -11,7 +11,7 @@ This is the durable address book for top-level Codex project tasks. The Project 
 - If `create_thread` is unavailable or task creation fails, record the lane as `BLOCKED`. Do not start it through a subagent and do not silently absorb it into the Director.
 - A stable lane keeps one live task across slices, candidates, fixes, and review cycles. Before `create_thread`, reconcile this directory and exact task read-backs; resume the valid registered task by ID/deeplink when it still matches.
 - New task creation requires a recorded replacement reason: no task exists, or the previous task is confirmed misconfigured, irrecoverable, duplicate, superseded, or explicitly stopped. “Idle,” “finished one slice,” “needs another pass,” and “hard to find by title” are not replacement reasons.
-- Every created/resumed task must return a startup receipt with its exact ID/deeplink, actual model/effort, actual project/root/worktree, checklist, and status. The Director compares the receipt to the assignment before substantive work. Intended arguments are not proof.
+- Every created/resumed task must return a startup receipt with its exact ID/deeplink, actual model/effort, actual project/root/worktree, checklist, and status. The Director compares the receipt to the assignment and user-selected model policy before substantive work. Intended arguments are not proof; a model mismatch stops the lane.
 - Safely archive a terminal/duplicate/superseded/misconfigured task only after its unintegrated changes, dirty worktree, task-owned processes, and handoff evidence are reconciled. Verify the archive and retain its historical row. Do not archive a blocked, waiting, or idle task that remains reusable. If the host proves the backing task no longer exists, record `UNARCHIVABLE` with the failed archive receipt and proof of no unintegrated changes/processes; never report it as archived or let sidebar debris halt unrelated product work.
 
 ## Director address
@@ -42,6 +42,8 @@ Register the `create_thread` receipt and returned ID/deeplink immediately after 
 - Tasks do not ask the user routine questions or create sibling tasks. The Director owns user escalation and task creation.
 - Use exact IDs/deeplinks; titles are labels, not identity.
 - When several ready tasks are useful, message/start the whole launch wave first and then monitor all active IDs in one multi-target wait. Do not serialize independent work through single-task waits.
+- In FULL TEAM, send all 10–15 staffed-wave assignments before waiting. Split monitoring into bounded 2–8-target batches without reducing actual concurrency; every worker continues independently while the Director monitors.
+- At regroup, send the feature-freeze/handoff request to every wave task, then route integration conflicts and QA failures back to the original stable lane IDs rather than creating replacement tasks.
 
 ## Communication receipts
 
@@ -59,10 +61,13 @@ Never automatically resend an externally consequential or ambiguous message. Rec
 - [ ] Every planned durable role/domain was created with `create_thread`, not `spawn_agent`.
 - [ ] Every active top-level task has its creation receipt and exact returned ID/deeplink.
 - [ ] Every active task has a verified actual model/effort and actual project/root/worktree startup receipt matching the assignment.
+- [ ] The user answered the exact worker count and model/effort policy before initialization; the live non-Director count and every actual model match those answers.
 - [ ] Every task received the Director deeplink and registry path.
 - [ ] Every task maps to one checklist and exact owned domain.
 - [ ] Every stable lane reuses its valid task; any replacement records the exact reason and old/new IDs.
 - [ ] Stopped/replaced/duplicate/superseded/misconfigured tasks remain listed with status, replacement ID where applicable, and verified archive or `UNARCHIVABLE` receipt.
 - [ ] No blocked, waiting, or merely idle reusable task was archived as unused.
 - [ ] No durable domain is hidden behind a subagent.
+- [ ] FULL TEAM has exact create/reuse/start receipts for 10–15 non-Director workers and an implementation majority.
+- [ ] Every staffed-wave task received the regroup/freeze and integration-result routing receipts.
 - [ ] Any temporary subagent was one-shot support with no master, production, runtime, checklist, deadline, or gate ownership.

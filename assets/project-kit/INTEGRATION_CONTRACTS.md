@@ -29,11 +29,15 @@ Create this before a domain task reaches the seam.
 
 Acceptance of the contract authorizes work inside its envelope. Do not require a second micro-approval for each one-line callback or adapter implementation.
 
+For a staffed wave, an accepted contract must be implementable from both sides before either sibling finishes. Provide the smallest fixture/test double, owned-side adapter, schema/vector, or compatibility harness needed for isolated progress. “Waiting for the other implementation” is not a hard prerequisite until these routes are inspected and rejected for a concrete reason.
+
 ## Integration queue
 
 | Order | Seam ID | Source task/candidate | Exact change/handoff | Preconditions | Integrator result | Evidence |
 |---|---|---|---|---|---|---|
 | 1 | `<SEAM-###>` | `<task/commit/hash>` | `<patch/files>` | `<tests/contracts>` | `<PENDING/PASS/FAIL>` | `<EV-###>` |
+
+The queue is consumed at a staffed-wave regroup barrier, not opportunistically as unrelated developers are still changing the wave. Every planned worker supplies a coherent handoff or explicit blocker disposition. New feature work freezes; the Integrator applies batches in the accepted order, routes conflicts to original owners, records one exact candidate, and only then dispatches independent QA.
 
 ## No-wait behavior
 
@@ -52,3 +56,5 @@ Acceptance of the contract authorizes work inside its envelope. Do not require a
 - [ ] No accepted narrow interface waited for redundant per-edit approval.
 - [ ] Tasks without remaining critical work went ready/blocked instead of expanding scope.
 - [ ] Integration evidence identifies exact source task, candidate, and affected master IDs.
+- [ ] Every claimed sibling dependency was challenged with a frozen contract and fixture/test-double/owned-side route.
+- [ ] Regroup records all planned handoffs, feature freeze, batch order, conflicts/owners, exact candidate, and QA dispatch.

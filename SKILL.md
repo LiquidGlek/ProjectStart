@@ -1,11 +1,22 @@
 ---
 name: project-start
-description: Initialize and launch a focused, autonomous software-project workflow with durable Markdown controls, a compaction-safe Project Director, separate reusable top-level Codex tasks created through create_thread for every durable product domain, parallel launch waves, per-task checklists, brainstorm backlog, outcome/deadline/drift gates, independent QA, lifecycle cleanup, and mockup-to-real-control skeleton validation. Never use spawn_agent as a substitute for a planned project task. Use when the user invokes $project-start or asks Codex to start, organize, or autonomously run a new or existing coding project without babysitting, especially when multiple project tasks, a visual reference, or a strict deadline are involved.
+description: Initialize and launch a focused autonomous software-project workflow with a mandatory worker-count and model-policy intake, durable Markdown controls, a compaction-safe Project Director, reusable top-level Codex tasks created through create_thread, staffed 10-15-worker FULL TEAM build waves, explicit integration regrouping, per-task checklists, brainstorm backlog, outcome/deadline/drift gates, independent QA, lifecycle cleanup, and mockup skeleton validation. Never use spawn_agent as a planned project lane. Use when the user invokes $project-start or wants Codex to organize and run a coding project without babysitting.
 ---
 
 # Project Start
 
-Create a tiny bootstrap control first, then inspect, research, plan, derive the detailed checklists, and run the work like a small evidence-driven software company. Keep the exact user outcome locked. Do not mistake agent activity, tests, builds, or visual resemblance for completion.
+Confirm the requested staffing first, create a tiny bootstrap control, then inspect, research, plan, derive the detailed checklists, and run the work like a small evidence-driven software company. Keep the exact user outcome locked. Do not mistake agent activity, tests, builds, or visual resemblance for completion.
+
+## 0. Ask for the worker count and model policy
+
+On every fresh `$project-start` invocation, inspect the user's same message for both staffing answers:
+
+1. the exact number of simultaneous non-Director workers, from 1 through 15; and
+2. the model and reasoning effort those workers should use, either one default for every worker or a role/class mapping such as `implementation=gpt-5.6-sol/medium; QA=gpt-5.6-sol/low`. `AUTO / HOST DEFAULT` is a valid explicit answer.
+
+If either answer is absent, ask one short combined question before initialization, research, planning, file creation, or task creation: **“How many simultaneous workers should this project use (1–15, excluding me as Director), and what model/effort should they use? You can give one default for everyone, a role-based mix, or say AUTO.”** Stop and wait for the answer. Do not infer the answer from project size, a previous project, available usage, or the default prompt. Do not ask again when both answers are already explicit in the invocation.
+
+Repeat the answers back once and persist the exact worker count, exact user model-policy wording, timestamp, and source message in `PROJECT_CHARTER.md`, `PROJECT_STATE.md`, `PROJECT_PLAN.md`, and `COORDINATION_BOARD.md`. Derive mode from the count: `1 = SOLO`, `2–9 = SMALL TEAM`, `10–15 = FULL TEAM`. The count is the first build-wave contract, not a suggestion or maximum. Translate named models to canonical host IDs/efforts in each lane assignment without changing the user's choice. If the user chooses `AUTO`, omit model overrides so the host default applies, then record the actual startup read-back.
 
 ## 1. Inspect before initialization
 
@@ -19,7 +30,7 @@ Extract or infer:
 - controlling mockups with viewport and semantic state;
 - authority boundaries for local edits, installs, destructive actions, accounts, publication, purchases, and credentials.
 
-If the outcome or acceptance journey truly cannot be inferred, ask one concise question. Do not ask about routine implementation or team choices.
+If the outcome or acceptance journey truly cannot be inferred, ask one concise question after the mandatory staffing answer. Do not ask about routine implementation choices.
 
 Maintain only a five-part bootstrap checklist - inspect, synthesize intent, research, plan, derive checklists - in the task plan until project control files exist. Do not invent detailed implementation gates before the plan.
 
@@ -39,7 +50,8 @@ If the project does not already contain this control system, run:
   -AcceptanceJourney "<starting state -> action -> authoritative result -> persistence/recovery>" `
   -ProjectDeadline "<ISO timestamp with timezone, or omit>" `
   -TimeboxMinutes <minutes> `
-  -TeamMode "<SOLO|SMALL TEAM|FULL TEAM>" `
+  -WorkerCount <1-15> `
+  -WorkerModelPolicy "<exact user-selected default, role mapping, or AUTO / HOST DEFAULT>" `
   -VisualReference "<path/version or omit>" `
   -VisualViewportState "<viewport/state or omit>"
 ```
@@ -89,7 +101,7 @@ Then convert every user promise and accepted plan outcome into one independently
 
 Classify user input precisely. A direct instruction such as “do this now,” “add this,” or a correction is active work and may reprioritize immediately. Explicit user steering is controlling direction, not agent scope drift or a milestone-lock violation; persist the replacement priority in `PROJECT_STATE.md`, the master, and affected checklists before resuming. Exploratory “could we,” “maybe,” “what if,” or “should we” language becomes `IDEA-###` in the master brainstorm backlog and every affected task checklist before the discussion ends. Agent-generated enhancements follow the same backlog path unless already required by accepted table stakes, safety, or the plan. An unpromoted idea authorizes capture and bounded clarification only: do not research it, implement it, test it, create a task for it, interrupt current work for it, or include it in completion math. Promotion requires the explicit user direction or `DEC-###`, a stable master row, owner, priority, exit proof, and active-path decision.
 
-Keep only 3-10 master rows in the active critical-path window. The exhaustive register may remain large, but active tasks must not use it as permission to pursue hundreds of small gates. Set a whole-path attempt limit before task creation; add resource caps only when the project actually needs them.
+Keep only 3-10 master rows in the active critical-path window. This limits competing outcomes, not the number of workers contributing to those outcomes. A FULL TEAM may assign many contract-isolated domain owners to the same bounded set of master rows. The exhaustive register may remain large, but active tasks must not use it as permission to pursue hundreds of small gates. Set a whole-path attempt limit before task creation; add resource caps only when the project actually needs them.
 
 For a controlling mockup, decompose the reference into measurable layout/state rows. Feature UI work stays blocked until a real-control skeleton is rendered at the exact viewport/state and approved. The mockup is a binding contract, not inspiration.
 
@@ -113,25 +125,29 @@ In `SOLO` mode, the Director may implement, package, and operate the narrow lane
 
 Record the current Director task's exact ID/deeplink in `AGENT_COMMUNICATION.md` before creating siblings. Do not rely on title discovery. If the ID/deeplink cannot be discovered from available task tools or current context, ask the user for the copied Director deeplink once; this is required durable routing information.
 
-Use `create_thread` to create tasks such as Core Engine, User Interface, Data/Persistence, Visual Skeleton, QA, or Integration only when they own genuinely independent work. Derive the actual lanes from the accepted plan; do not copy these names mechanically. Prefer the smallest effective team. Give each durable lane one permanent stable lane ID. Before any creation call, reconcile `AGENT_COMMUNICATION.md`, the board, and exact task state. Reuse the existing task by exact ID/deeplink when its ownership, checklist, actual model, project/root/worktree, and authority still match. A new slice, candidate, fix, or review pass is not a new lane.
+Use `create_thread` to create tasks such as Core Engine, User Interface, Data/Persistence, Visual Skeleton, QA, or Integration only when they own genuinely independent work. Derive the actual lanes from the accepted plan; do not copy these names mechanically. The answered worker count is binding: SOLO uses exactly 1 non-Director worker; SMALL TEAM uses the answered 2–9; FULL TEAM uses the answered 10–15 simultaneously launched non-Director workers, with implementation/product-domain owners forming a strict majority. The Director is never counted as a worker. Give each durable lane one permanent stable lane ID. Before any creation call, reconcile `AGENT_COMMUNICATION.md`, the board, and exact task state. Reuse the existing task by exact ID/deeplink when its ownership, checklist, actual model, project/root/worktree, and authority still match. A new slice, candidate, fix, or review pass is not a new lane.
+
+For FULL TEAM, planning must create concurrency rather than merely observe it. Freeze narrow shared interfaces, assign isolated worktrees and owned-side adapters, and let lanes build against accepted contracts, fixtures, or test doubles. “Another task has not implemented its side yet” is not a hard prerequisite when the lane can produce a coherent owned-side handoff without touching the sibling's files or runtime. Before accepting a first build wave below 10 workers, challenge every claimed dependency this way. Do not satisfy staffing with duplicate audits, tiny tests, status tasks, or split fragments that lack durable product ownership.
 
 A replacement task is permitted only when no registered task exists or the prior task is verified misconfigured, irrecoverable, duplicate, superseded, or explicitly stopped. Record the old/new IDs and exact reason. “Idle,” “finished one slice,” “needs another pass,” and “not found by title” are forbidden replacement reasons.
 
-Use Luna Max only for high-volume read-only groundwork with rigid outputs; never let it implement, choose architecture/product direction, judge visual quality, own integration, or approve completion. A Sol task verifies Luna output, and the Director stops filler or invented scope. Use Sol Low (the "Sol Light" tier) for small, sharply bounded QA/evidence tasks with exact pass/fail criteria. Use Sol Medium for the Director, normal development, integration, visual work, and QA requiring diagnosis. Reserve Sol Max for one inspected, genuinely complex, outcome-critical development task such as a concurrency-heavy core engine or cross-cutting recovery boundary. Do not use higher effort. Choose Max upfront when the complexity is already clear; provide it a complete plan and record the usage reason in the charter, board, and checklist. Escalate Low QA to Medium only when the inspected reasoning scope expands, not merely because a check fails. Max work still requires independent verification.
+The user's answered model/effort policy controls every worker assignment. Do not silently substitute a cheaper, stronger, preferred, or currently available model. When the user explicitly chooses `AUTO / HOST DEFAULT`, use this routing guidance: Luna Max only for high-volume read-only groundwork with rigid outputs; never let it implement, choose architecture/product direction, judge visual quality, own integration, or approve completion. A Sol task verifies Luna output, and the Director stops filler or invented scope. Use Sol Low (the "Sol Light" tier) for small, sharply bounded QA/evidence tasks with exact pass/fail criteria. Use Sol Medium for normal development, integration, visual work, and QA requiring diagnosis. Reserve Sol Max for one inspected, genuinely complex, outcome-critical development task such as a concurrency-heavy core engine or cross-cutting recovery boundary. Do not use higher effort. If the requested model/effort is unavailable, record the exact failed startup/mismatch and ask the user for a replacement policy; do not choose one silently.
 
 Before creating or resuming each task, confirm that `PROJECT_PLAN.md` is accepted. Then:
 
 1. If the stable lane has no checklist, copy `AGENT_CHECKLIST_TEMPLATE.md` once to `agent-checklists/<lane>.md`; otherwise update and reuse the existing checklist without resetting its history.
-2. Fill exact task/deeplink placeholder, master IDs, outcome, acceptance journey, Git identity, file/system ownership, excluded/shared regions, deadline, exit proof, and pre-mortem risks.
+2. Fill exact task/deeplink placeholder, master IDs, outcome, acceptance journey, Git identity, file/system ownership, excluded/shared regions, deadline, exit proof, pre-mortem risks, assigned canonical model/effort, and its link to the user's policy.
 3. Add the proposed lane to `COORDINATION_BOARD.md` and resolve collisions.
 4. Select and record a safe workspace mode from `INTEGRATION_CONTRACTS.md`; never discard or silently copy dirty user work.
 5. Create a pre-authorized shared-seam contract before the task reaches an overlapping source boundary.
 6. Give the task the authoritative root, controlling document order, checklist path, exact allowed and prohibited scope, required evidence, and handoff contract.
 7. Reuse the valid registered task, or call `create_thread` only with the recorded new/replacement reason; do not call `spawn_agent`.
 
-After task creation/resume, record the original `create_thread` receipt or reuse receipt in `AGENT_COMMUNICATION.md`, its checklist, and the board. Send the task the Director deeplink and communication-registry path. Its first action is a startup read-back: exact ID/deeplink, actual model/effort, actual project/root/worktree, checklist path, and current status. Each launched task performs this check concurrently and may proceed without waiting for a separate Director approval when every value matches its assignment. Intended launch arguments are not proof. On mismatch, stop substantive work, mark `MISCONFIGURED`, preserve/hand off any state, safely archive it, and create one corrected replacement. Tasks do not create competing master plans or sibling tasks.
+After task creation/resume, record the original `create_thread` receipt or reuse receipt in `AGENT_COMMUNICATION.md`, its checklist, and the board. Send the task the Director deeplink and communication-registry path. Its first action is a startup read-back: exact ID/deeplink, actual model/effort, actual project/root/worktree, checklist path, and current status. Each launched task performs this check concurrently and may proceed without waiting for a separate Director approval only when every value—including the user-selected model/effort—matches its assignment. Intended launch arguments are not proof. On mismatch, stop substantive work, mark `MISCONFIGURED`, preserve/hand off any state, safely archive it, and create one corrected replacement using the same user policy. Tasks do not create competing master plans or sibling tasks.
 
 Before the first wait, and again whenever a dependency clears or a lane finishes/blocks, compute the ready set: every stable lane whose hard prerequisites are satisfied and whose ownership, workspace, runtime, and seams can operate concurrently. Set useful concurrency target equal to this count. Launch or resume the entire ready set before waiting and record one launch/replenishment receipt containing every stable lane plus exact create/send receipts. If two or more lanes are ready, two or more must be active simultaneously. Never single-target-wait while another ready independent lane remains uncreated, idle, or resumable. Monitor 2–8 active task IDs/cursors with one `wait_threads` call and persist that exact target/cursor list; use bounded groups if more than eight. A single-target wait is allowed only when exactly one non-Director lane is legitimately ready and the state records target `1` with no other disjoint lane. Reconcile the first terminal/blocking event, replenish from the ready set, then wait again. A real collision, resource, authority, or dependency constraint removes a lane from ready and must be recorded exactly. Do not invent filler tasks.
+
+FULL TEAM adds a staffed-wave barrier on top of the ready-set rule. The accepted plan must name a first build wave containing exactly the answered count of 10–15 stable non-Director lanes, a strict majority classified `IMPLEMENTATION`, and one integration batch/order. Every lane is created or reused and receives startup instructions before the Director waits. Record `requested`, `planned`, `launched`, `active`, and `implementation` counts plus all lane IDs and assigned/actual models. Launching fewer or more workers than requested is scheduling `FAIL` unless the user explicitly changes the answer or the task service itself prevents creation; an ordinary code dependency is not an exception until contract-first parallelization has been attempted and recorded.
 
 At each checkpoint, reconcile task lifecycle. Reuse active/assigned/blocked/ready-for-review/changes-requested tasks when valid. Safely archive only terminal, duplicate, superseded, explicitly stopped, or misconfigured tasks after recording handoff evidence, unintegrated/dirty work, task-owned processes, and replacement if any. Call the archive tool, verify archived state, and retain the history row. Idle, sleeping, blocked on a real prerequisite, awaiting review, or likely to be reused is not terminal. A retryable failure is `ARCHIVE PENDING` with exact ID/retry. If the host proves the backing task is missing, record `UNARCHIVABLE` with the failed archive receipt and proof of no unintegrated changes/processes; do not claim it was archived and do not halt safe product work for impossible sidebar cleanup.
 
@@ -143,9 +159,9 @@ Use these stage gates:
 2. **Research:** bounded prior-art work produces explicit reuse/build decisions, baseline capabilities, and license boundaries without overriding intent.
 3. **Plan:** Director accepts the product/technical plan, then derives the master and task checklists.
 4. **Product/skeleton:** Product/UX task measures mockups; an independent Visual Auditor approves the real-control skeleton before dependent UI features. Ask the user before feature work only for a material interpretation the references and intent synthesis cannot resolve.
-5. **Development:** separate top-level developer tasks deliver narrow vertical slices in non-overlapping ownership.
+5. **Development:** exactly the user-requested staffed build wave works concurrently in isolated ownership. In FULL TEAM, the answered 10–15 non-Director workers—mostly implementation/domain owners—produce coherent handoffs against frozen seams.
 6. **Independent verification:** QA and Visual Auditor tasks review exact candidate evidence and cannot self-approve implementation.
-7. **Integration/release:** Integration task owns shared seams and candidate identity; external/installed/human gates stay open until actually performed.
+7. **Integration/release:** when every build-wave lane has a coherent handoff or an explicitly dispositioned blocker, freeze new feature work for that wave and regroup. The Integration task combines handoffs in the declared batch/order, routes conflicts back to original stable lane owners, creates one exact candidate, and then launches independent QA. External/installed/human gates stay open until actually performed.
 
 Backend or infrastructure tasks that do not depend on the visual skeleton progress in the same launch wave. Do not let "parallel" mean two tasks editing the same shared seam, and do not use a visual dependency to serialize unrelated work.
 
@@ -162,12 +178,14 @@ Follow task progress using compact task waits rather than repeatedly rereading f
 - persist every new user correction as `CORR-###` in `DECISION_LOG.md`, broadcast it to affected top-level tasks, add it to their checklists, and collect acknowledgment receipts before affected work continues;
 - reconcile active corrections and recurrence counts; context compaction, task restart, later planning, or summary rewriting may not erase them;
 - reconcile the ready set, running-ready count, useful concurrency target, launch wave, and under-utilization reason before every wait;
+- in FULL TEAM, reconcile the staffed-wave phase, planned/launched/active/implementation counts, all 10-15 worker receipts, and integration-handoff count; fewer than 10 active workers during BUILD is `FAIL`;
 - reuse stable-lane tasks, verify actual startup metadata, and safely archive lifecycle debris with receipts;
 - reconcile the board and master status;
 - compare activity to primary-outcome movement;
 - check the last direct real-journey attempt;
 - classify the current artifact as `DEVELOPMENT`, `DIAGNOSTIC`, `INTEGRATION`, `RELEASE CANDIDATE`, or `RELEASED` and require a promotion justification before packaging, installing, or versioning another candidate;
 - enforce ownership and integration order;
+- at the regroup barrier, stop new feature work, collect every lane's coherent commit/receipt, integrate in the accepted order, and return defects to the original stable lane instead of spawning replacements;
 - trigger the drift alarm after two failed approaches or three no-movement checkpoints;
 - at midpoint require movement or a narrow blocker;
 - at 75% freeze optional scope;

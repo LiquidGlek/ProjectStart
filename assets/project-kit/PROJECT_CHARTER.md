@@ -16,6 +16,10 @@ Fill this once at project start. Change it only through an explicit user decisio
 - **Shared seam/integration registry:** `INTEGRATION_CONTRACTS.md`
 - **Resource/process registry:** `RESOURCE_BUDGET.md`
 - **Team mode:** `<SOLO / SMALL TEAM / FULL TEAM>`
+- **Requested simultaneous workers:** `<exact integer 1-15; excludes Director>`
+- **Worker model/effort policy:** `<exact user answer: one default, role mapping, or AUTO / HOST DEFAULT>`
+- **Staffing intake receipt:** `<ISO timestamp; exact worker-count and model-policy answer plus source message/turn>`
+- **Team staffing contract:** `<SOLO: exactly 1 / SMALL TEAM: exact requested 2-9 / FULL TEAM: exact requested 10-15 with IMPLEMENTATION strict majority>`
 - **Autonomy boundary:** `<safe local decisions the Director may make without user input>`
 - **Escalation boundary:** `<product choices, authority, destructive/external actions, acceptance>`
 - **Target release or milestone:** `<identity>`
@@ -27,7 +31,7 @@ Fill this once at project start. Change it only through an explicit user decisio
 - **Current first-slice deadline:** `<ISO timestamp and timezone>`
 - **Deadline owner:** `<user/role>`
 - **Overrun rule:** `<report project-deadline truth honestly; Director may replan slices but only the user may reduce the promised outcome>`
-- **Model/usage budget:** `Luna Max only for rigid read-only high-volume groundwork; Sol Low/Light for bounded focused QA; Sol Medium default; Sol Max only for a planned complex critical lane; no higher effort`
+- **Model/usage budget:** `<the user's answered worker model/effort policy controls; AUTO may use documented proportionate routing>`
 - **Sol Max allocation owner:** `<Project Director>`
 - **Sol Max lane and reason:** `<task/IDs/complexity reason or NONE>`
 - **Project Director production write scope:** `NONE unless an explicit emergency role transfer is recorded`
@@ -116,7 +120,7 @@ The project does **not** succeed merely because:
 - Deferral requires explicit user approval and a decision-log entry.
 - New requirements, defects, risks, and external obligations are registered before implementation continues.
 - Evidence must match the strength of the claim.
-- Team size is proportional to genuinely independent work; more agents are not progress.
+- The selected team mode is binding. FULL TEAM is not silently downgraded to one or two ready lanes; the plan creates 10–15 contract-isolated worker domains and an integration regroup barrier. Every worker still needs durable ownership—filler tasks are not progress.
 - Implementers cannot independently approve their own behavior, visual, installed, external, security, or human-acceptance gates.
 
 ## Pre-mortem — prevent failure before implementation

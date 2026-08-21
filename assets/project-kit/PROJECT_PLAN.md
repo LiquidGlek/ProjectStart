@@ -11,6 +11,12 @@ Create this plan after inspecting the user's instructions, references, real proj
 - **Existing project/code inspected:** `<root, relevant architecture, constraints>`
 - **Prior-art decision:** `<summary and link to exact research rows>`
 - **Deadline/timebox:** `<timestamp and timezone>`
+- **Team mode:** `<SOLO / SMALL TEAM / FULL TEAM>`
+- **Requested simultaneous workers:** `<exact integer 1-15; excludes Director>`
+- **Worker model/effort policy:** `<exact charter policy wording>`
+- **First staffed build wave:** `<wave ID>`
+- **Staffed-wave target:** `<exact requested count; SOLO 1 / SMALL TEAM 2-9 / FULL TEAM 10-15 non-Director workers>`
+- **Integration regroup rule:** `<handoff barrier, feature freeze, integration batches/order, conflict routing, exact candidate, QA dispatch>`
 
 ## Product definition
 
@@ -69,11 +75,11 @@ Each slice must end in an observable, testable product state. Do not list intern
 
 Create separate top-level Codex tasks for every durable, independently ownable domain. Each stable lane receives one permanent ID and reuses one valid top-level task across slices, candidates, fixes, and reviews. Each lane's original creation mechanism is `create_thread`; `spawn_agent` is prohibited. The Project Director coordinates and reviews; it normally owns no production code.
 
-`Launch wave` groups lanes whose hard prerequisites can be satisfied together. After plan acceptance, the Director creates or resumes every lane in the earliest currently ready wave before waiting. A prerequisite must name an actual dependency, collision, resource, authority, or skeleton/integration gate; “wait for the other task” is not sufficient.
+`Launch wave` groups lanes whose hard prerequisites can be satisfied together. After plan acceptance, the Director creates or resumes every lane in the earliest currently ready wave before waiting. A prerequisite must name an actual dependency, collision, resource, authority, or skeleton/integration gate; “wait for the other task” is not sufficient. First challenge it with a frozen interface, fixture/test double, owned-side adapter, or isolated workspace. In FULL TEAM, the first staffed build wave contains 10–15 non-Director workers and `IMPLEMENTATION` is a strict majority.
 
-| Stable lane ID | Proposed top-level task/lane | Durable-task reason | Creation mechanism | Launch wave | Hard prerequisite | Owns | Excludes | Shared seam | Intended model/effort reason | Intended project/root/worktree | Exit handoff |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| `<LANE-ID>` | `<lane>` | `<master ID/production ownership/checklist/gate/handoff>` | `create_thread` | `<WAVE-1>` | `<NONE or exact gate/dependency>` | `<files/system/outcome>` | `<other ownership>` | `<contract or NONE>` | `<tier and reason>` | `<project/root/worktree>` | `<artifact/evidence>` |
+| Stable lane ID | Worker class | Proposed top-level task/lane | Durable-task reason | Creation mechanism | Launch wave | Hard prerequisite | Owns | Excludes | Shared seam | Assigned canonical model/effort; user-policy basis | Intended project/root/worktree | Exit handoff | Integration batch/order |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| `<LANE-ID>` | `<IMPLEMENTATION / PRODUCT / ARCHITECTURE / QA / VISUAL / INTEGRATION / RELEASE / RESEARCH>` | `<lane>` | `<master ID/production ownership/checklist/gate/handoff>` | `create_thread` | `<WAVE-1>` | `<NONE or exact gate/dependency after contract-first challenge>` | `<files/system/outcome>` | `<other ownership>` | `<contract or NONE>` | `<canonical model / effort; exact policy clause or AUTO / HOST DEFAULT>` | `<project/root/worktree>` | `<artifact/evidence>` | `<BATCH-N and order>` |
 
 ## Verification plan
 
@@ -102,6 +108,11 @@ Create separate top-level Codex tasks for every durable, independently ownable d
 - [ ] Proposed top-level tasks have non-overlapping durable ownership.
 - [ ] Every planned project lane uses `create_thread`; none uses `spawn_agent`, a nested agent, or an unregistered delegate.
 - [ ] Every durable lane has one stable lane ID, a launch wave, an exact hard prerequisite or `NONE`, and an intended project/root/worktree.
+- [ ] Every lane has a worker class and integration batch/order; the selected team mode's worker range is satisfied.
+- [ ] The first staffed wave contains exactly the user's requested worker count, and each lane's canonical model/effort is traceable to the answered policy.
+- [ ] In FULL TEAM, the first staffed build wave contains 10–15 non-Director lanes and `IMPLEMENTATION` is a strict majority.
+- [ ] Every claimed hard prerequisite was challenged with contract-first parallelization; sibling implementation alone is not treated as a blocker.
+- [ ] The regroup rule freezes new feature work, collects every handoff, integrates in declared order, routes conflicts/fixes to original stable lanes, and dispatches independent QA on one exact candidate.
 - [ ] Every existing registered task was checked for reuse before any replacement task was planned.
 - [ ] The earliest ready launch wave contains every lane that can safely progress simultaneously; no artificial single-task sequence remains.
 - [ ] Task lifecycle and archive rules preserve dirty/unintegrated work and do not classify blocked/waiting/idle reusable tasks as terminal.
@@ -122,6 +133,7 @@ Run this after the first complete draft and again against actual execution befor
 | Is document or checklist work delaying the first useful product slice? | `<finding>` | `<simplification>` | `<result>` |
 | Does any rule require the user for a decision the Director or independent reviewer can safely own? | `<finding>` | `<autonomous route>` | `<result>` |
 | Are team size, task boundaries, and model tiers proportionate? | `<finding>` | `<merge/split/reroute>` | `<result>` |
+| Does the selected team mode actually staff its promised build wave, or did dependencies collapse it to one or two workers? | `<finding>` | `<contract-first split/staffing repair>` | `<result>` |
 | Did research inflate vague scope or shrink explicit parity? | `<finding>` | `<scope correction>` | `<result>` |
 | Are intent, distribution, emotional, release, and technical assumptions labeled? | `<finding>` | `<evidence or correction>` | `<result>` |
 | Can every active gate be proven at its promised evidence level? | `<finding>` | `<proof plan or honest blocker>` | `<result>` |

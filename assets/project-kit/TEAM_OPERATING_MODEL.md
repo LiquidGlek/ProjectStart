@@ -2,6 +2,18 @@
 
 The team operates autonomously inside the charter's safe local authority. The user supplies the desired outcome, references, constraints, and required approvals; the Project Director handles routine planning, task creation, assignments, monitoring, corrections, integration, and honest status.
 
+## Staffing intake is mandatory
+
+Trigger: a fresh `$project-start` invocation.
+
+Required action: before initialization or project work, obtain one exact simultaneous non-Director worker count from 1 through 15 and one worker model/effort policy. The policy may name one default, map roles/classes to different canonical models and efforts, or explicitly choose `AUTO / HOST DEFAULT`. Ask both in one concise question when either is missing from the invocation. Persist the exact answer and timestamp in the charter, state, plan, and board.
+
+Derive the mode from the answered count: `1 = SOLO`, `2–9 = SMALL TEAM`, `10–15 = FULL TEAM`. Plan the first build wave at exactly that count. Translate friendly names such as “Sol Medium” to the matching canonical host model/effort without changing the choice. At startup, compare each task's actual read-back to its assignment.
+
+Forbidden fallback: do not infer staffing from project size, prior projects, token budget, defaults, or currently visible tasks. Do not launch a different count, replace the requested model because another model seems better, or proceed past a mismatch. If a requested model is unavailable, ask the user for a replacement policy.
+
+Receipt and failure state: missing intake is `BLOCKED BEFORE INITIALIZATION`; a count mismatch is staffing `FAIL`; a model mismatch is lane `MISCONFIGURED` and stops substantive work.
+
 ## Durable work uses top-level Codex tasks
 
 Create a separate top-level Codex task for every durable project domain that can progress independently - for example Core Engine, User Interface, Data/Persistence, Visual Skeleton, or Integration and QA. Derive actual lanes from the accepted project plan rather than copying these examples. These tasks must be visible, independently resumable, and addressable by task ID/deeplink.
@@ -43,6 +55,39 @@ Forbidden fallback: never launch one ready lane and wait for it while another in
 
 Receipt and failure state: record ready lane IDs, running-ready count, target, launch wave, wait target IDs, and exact under-utilization reason. If running is below target without a concrete task-creation failure/dependency/collision, scheduling is `FAIL` and the Director must launch/reuse work before waiting.
 
+## Staffed FULL TEAM build wave
+
+Trigger: the charter selects `FULL TEAM`, or the user asks for a developer-company/fleet workflow with roughly 10–15 workers.
+
+Required action:
+
+1. Plan a first build wave containing exactly the user's answered 10–15 simultaneous non-Director top-level worker tasks. The Director is excluded from the count.
+2. Classify every lane as `IMPLEMENTATION`, `PRODUCT`, `ARCHITECTURE`, `QA`, `VISUAL`, `INTEGRATION`, `RELEASE`, or `RESEARCH`. `IMPLEMENTATION` must be a strict majority of the staffed wave; a fleet of auditors, researchers, test writers, or coordinators is not a development team.
+3. Give every worker durable product ownership: exact master IDs, files/systems, a contract-isolated outcome, model/effort, worktree, exit proof, integration batch, and one coherent handoff. A tiny test, status report, duplicate audit, or fragment with no durable product boundary does not count.
+4. Challenge proposed hard dependencies before accepting them. Freeze the minimum seam, provide fixtures/test doubles or owned-side adapters, and let each side progress in its isolated worktree. “The other task is not finished” is not a blocker when a coherent owned-side handoff can be built against the accepted contract.
+5. Reuse valid stable-lane tasks first, create only missing lanes with `create_thread`, send exactly the requested number of assignments, collect concurrent startup read-backs including actual models, and record one staffed-wave receipt before the Director waits.
+6. During `BUILD`, keep the exact requested count active. When one finishes early, it remains part of the wave with a coherent handoff and may receive the next owned slice in the same stable lane; the Director does not let the team collapse to one or two workers while disjoint accepted-plan work remains.
+
+Forbidden fallback: do not reinterpret FULL TEAM as “launch whichever one or two lanes are already ready.” Do not manufacture microtasks or duplicate reviews to hit the number. Do not turn ordinary sibling implementation into a hard dependency before attempting contract-first parallelization.
+
+Receipt and failure state: `PROJECT_STATE.md` and `COORDINATION_BOARD.md` record the requested count and model policy, team mode, wave phase, first build-wave ID, planned/launched/active/implementation counts, all worker lane IDs, actual model read-backs, and the staffed-wave receipt. During FULL TEAM `BUILD`, requested, planned, launched, and active must be the same number from 10 through 15, and implementation must be a strict majority. Otherwise staffing is `FAIL` unless the user explicitly changes the answer or the task service returns a concrete creation outage.
+
+## Regroup and integration barrier
+
+Trigger: every staffed build-wave lane has returned a coherent handoff, or the Director has explicitly dispositioned a genuine blocked lane without hiding lost work.
+
+Required action:
+
+1. Mark the wave `REGROUP`; freeze new feature work for that wave.
+2. Collect one handoff from every planned lane: exact commit/artifact or evidence-only result, changed/preserved scope, checks, unresolved risks, and integration instructions. A blocked lane needs a recorded disposition and must not be silently omitted.
+3. The dedicated Integrator combines handoffs in the accepted integration batches/order. Shared-file conflicts route to the original owners; the Integrator does not guess away behavior or ask the user to resolve routine code conflicts.
+4. Produce one exact integrated candidate and rerun only changed-boundary checks.
+5. Launch independent QA/Visual/Security lanes together on that candidate. Failures become `CHANGES REQUESTED` for the original stable lane tasks, which are reused for repairs. Do not create random replacement tasks.
+
+Forbidden fallback: do not integrate each worker opportunistically while the rest are still changing the same wave, do not continue feature expansion during regroup, and do not call a pile of isolated commits a product candidate.
+
+Receipt and failure state: record handoffs as `<received>/<planned>`, the freeze timestamp, integration batch/order, candidate identity, conflicts and owning lanes, and QA dispatch. `INTEGRATION` may begin only when handoffs equal planned workers or every missing lane has an explicit accepted blocker disposition.
+
 ## Stable lane and task lifecycle
 
 Trigger: before any `create_thread`, after a task terminal event, and at every coordination checkpoint.
@@ -55,17 +100,19 @@ Archive a terminal, duplicate, superseded, stopped, or misconfigured task only a
 
 Forbidden fallback: do not create a fresh task because title lookup failed, because the lane finished one slice, or because a new candidate/review is starting. Do not abandon unintegrated work or hide dormant-task debris.
 
-## Choose the smallest effective team
+## Choose and obey the team mode
 
-| Mode | Use when | Default shape |
+| Mode | Non-Director worker contract | Default shape |
 |---|---|---|
-| Solo | One narrow, low-risk slice with no meaningful parallel work | Director task/implementer plus separate review task when required |
-| Small team | Two or three independent lanes or a mockup plus implementation | Director task, Product/UX task if visual, 1–2 developer tasks, QA task |
-| Full team | Several genuinely independent subsystems and integration risk | Director task, Product/UX, Tech Lead, bounded developer tasks, QA, Visual Auditor, Release task |
+| Solo | 1 implementation owner; independent review is added when required | Director may implement the narrow lane; reviewer remains separate |
+| Small team | Exact user-requested 2–9 concurrent workers | Product/UX when needed, implementation owners, independent QA/Integration as proportionate |
+| Full team | 10–15 concurrent workers during BUILD; `IMPLEMENTATION` is a strict majority | Contract-isolated domain developers plus Product/Architecture, Integration, QA/Visual/Security, and Release within the staffed wave |
 
-Do not create tasks merely to increase activity. Every task must own exact master IDs, files/systems, an exit proof, and a time budget.
+The user-selected count is a requirement, not a suggestion. Do not silently downgrade FULL TEAM because the first draft has only two “ready” lanes; repair the architecture and task boundaries so owned-side work can proceed concurrently. Do not create tasks merely to increase activity. Every worker must own exact master IDs, files/systems, an exit proof, integration batch, and a time budget.
 
 ## Model and usage routing
+
+The user's recorded policy controls. The routing below applies only when the user explicitly selects `AUTO / HOST DEFAULT`; otherwise use the requested canonical model/effort for each lane and stop on an unavailable or mismatched startup rather than substituting.
 
 - Use **Luna Max** only for high-volume read-only groundwork with rigid outputs: repository maps, bounded searches, log/evidence extraction, requirement inventories, and repetitive fact reconciliation. Do not let it implement, choose architecture/product direction, interpret visual quality, own integration, or approve completion. A Sol task verifies its output before acting; stop it if it invents scope or filler.
 - Use **Sol Low** (the “Sol Light” tier) for small, sharply bounded QA checks, focused regressions, evidence reconciliation, and control-file audits with exact pass/fail criteria.
@@ -157,7 +204,7 @@ When references control the result, Product/UX produces the measured contract an
 
 ### Stage 3 — Vertical development
 
-Director creates or reuses the smallest set of non-overlapping top-level feature tasks, launches the full ready wave before waiting, and preserves stable lane IDs across slices. Developers work against named master IDs and slots. Tech Lead owns shared seams through `INTEGRATION_CONTRACTS.md`; installed-candidate acceptance does not freeze isolated source development.
+Director creates or reuses the mode-required non-overlapping top-level feature tasks, launches the complete staffed wave before waiting, and preserves stable lane IDs across slices. In FULL TEAM, 10–15 non-Director workers run concurrently and implementation owners are the majority. Developers work against named master IDs, frozen seams, fixtures/test doubles, and integration slots instead of waiting for sibling implementations. Tech Lead owns shared seams through `INTEGRATION_CONTRACTS.md`; installed-candidate acceptance does not freeze isolated source development.
 
 ### Stage 4 — Independent verification
 
@@ -165,18 +212,18 @@ QA and Visual Audit review exact candidate evidence. Failed rows return to the o
 
 ### Stage 5 — Integration and acceptance
 
-Integrator combines accepted lanes in dependency order. QA reruns changed boundaries. Release owner verifies the promised environment. User handles only required product decisions and final acceptance.
+After every staffed-wave lane returns a coherent handoff or an explicit blocker disposition, Director freezes feature work and marks the wave `REGROUP`. Integrator combines handoffs in the accepted batches/order, routes conflicts back to original stable owners, and produces one exact candidate. Independent QA lanes then run concurrently and return failures to those same tasks. Release owner verifies the promised environment. User handles only required product decisions and final acceptance.
 
 ## Director monitoring loop
 
 At every meaningful update or timebox checkpoint:
 
 1. Rehydrate and reconcile `PROJECT_STATE.md`, exact task read-backs, and task lifecycle state.
-2. Build the ready set; launch/resume the full ready wave and record running versus target concurrency before waiting.
+2. Build the ready set; in FULL TEAM verify the staffed-wave 10–15-worker floor and implementation majority, then launch/resume the complete wave and record planned/launched/active counts before waiting.
 3. Reconcile task states into the board and archive safely terminal lifecycle debris.
 4. Follow task progress by task ID/deeplink and send bounded direction to the owning task.
 5. Compare activity to movement on the primary outcome.
-6. Check ownership collisions and shared-seam changes.
+6. Check ownership collisions, frozen contracts, contract-first parallelization, shared-seam changes, and regroup readiness.
 7. Check drift, pre-mortem, visual, and deadline triggers.
 8. Review evidence for `READY FOR REVIEW` work.
 9. Reassign or stop low-value lanes.

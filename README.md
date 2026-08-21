@@ -19,7 +19,7 @@ I built this after asking agents to fix one button and coming back twelve hours 
 
 A checklist helped immediately. This skill is the larger version of that idea.
 
-ProjectStart gives a Codex project a Director, one master checklist, separate task checklists, deadlines, ownership boundaries, correction records, prior-art research, visual gates, and evidence rules. It now also keeps a compact resume packet, launches independent lanes together, reuses stable task lanes, archives terminal task debris when the host permits, records truthful unarchivable leftovers when it does not, and parks brainstorms without losing them. The point is not to create more paperwork. The point is to let the agents work without constant babysitting while making it difficult for them to quietly drift away from the actual product.
+ProjectStart first asks how many simultaneous workers you want and what model/effort they should use. It then gives the project a Director, one master checklist, separate task checklists, deadlines, ownership boundaries, correction records, prior-art research, visual gates, and evidence rules. In FULL TEAM mode it deliberately staffs the answered 10–15 non-Director workers at once, gives most of them real implementation domains, freezes the interfaces that let them build independently, and then regroups their handoffs through one integration wave. It also keeps a compact resume packet, reuses stable task lanes, archives terminal debris when the host permits, records truthful unarchivable leftovers when it does not, and parks brainstorms without losing them. The point is not more paperwork. It is leaving a developer team to work without babysitting and returning to one integrated product instead of scattered agent activity.
 
 > [!IMPORTANT]
 > Every lasting role or product domain must be a separate, sidebar-visible Codex task created with `create_thread`. `spawn_agent` is not a substitute for a developer, QA task, visual auditor, integrator, release owner, researcher, or any other durable project lane. If task creation fails, that lane stays blocked.
@@ -36,6 +36,9 @@ ProjectStart gives a Codex project a Director, one master checklist, separate ta
 | Agents could not find or communicate with one another | Registers every task by exact ID and deeplink |
 | A hidden subagent ended up owning half the product | Requires every durable lane to be a real top-level task |
 | The Director launched one task, waited, and left every other lane asleep | Computes a ready set, starts the whole launch wave, and waits on active tasks together |
+| The skill guessed an expensive team size or launched the wrong model | Asks for an exact 1–15 worker count and model/effort policy first, then validates the plan and actual startup receipts against those answers |
+| “Full team” quietly became one or two workers because everything else supposedly depended on them | Requires a 10–15-worker first build wave, challenges artificial dependencies with frozen contracts and test doubles, and fails strict validation when the team is understaffed |
+| Agents finished isolated branches but never became one product | Freezes the wave at a handoff barrier, integrates in declared batches, routes conflicts back to original owners, and tests one exact candidate |
 | Long context compaction erased the operating rules | Rehydrates a compact `PROJECT_STATE.md` packet every turn, restart, and handoff |
 | New random tasks replaced usable old tasks | Gives each lane a stable ID, verifies actual startup metadata, and requires reuse or a recorded replacement reason |
 | Finished and duplicate tasks piled up forever | Reconciles dirty work/processes, archives safely terminal tasks, and keeps archive receipts |
@@ -46,13 +49,15 @@ ProjectStart gives a Codex project a Director, one master checklist, separate ta
 
 ```mermaid
 flowchart LR
-    A["Instructions<br/>and mockups"] --> B["Inspect the real project"]
+    A["Instructions<br/>and mockups"] --> S["Ask worker count<br/>and model policy"]
+    S --> B["Inspect the real project"]
     B --> C["Research existing work<br/>and expected features"]
     C --> D["Write and audit the plan"]
-    D --> E["Reuse or create verified<br/>top-level task lanes"]
-    E --> F["Launch every ready lane<br/>in parallel waves"]
-    F --> G["Independent QA<br/>and visual review"]
-    G --> H["Try the exact<br/>user journey"]
+    D --> E["Staff 10–15 verified workers<br/>for FULL TEAM"]
+    E --> F["Concurrent contract-isolated<br/>build wave"]
+    F --> G["Regroup and integrate<br/>coherent handoffs"]
+    G --> J["Independent QA<br/>and visual review"]
+    J --> H["Try the exact<br/>user journey"]
     H -->|Fail| F
     H -->|Pass| I["Evidence-backed<br/>handoff"]
 ```
@@ -118,7 +123,7 @@ Open a Codex task inside the project you want to build. Give it your instruction
 $project-start
 ```
 
-The Director will inspect the project and references, write down the user intent, research what already exists, create an audited project plan, and split the work into a small number of independently owned lanes. Each durable lane gets one stable ID and one reusable top-level Codex task with an exact checklist, verified model/project/workspace, deadline, and handoff. Every currently ready independent lane is started before the Director waits.
+The Director's first response asks for the exact simultaneous worker count (1–15, excluding the Director) and worker model/effort policy unless you already included both in the invocation. You may give one model for everyone, a role-based mix, or `AUTO`. It then inspects the project and references, writes down the user intent, researches what already exists, creates an audited plan, and launches exactly the answered count. A 10–15-worker answer becomes FULL TEAM, with implementation-domain owners as the majority. Every lane gets a stable ID, reusable top-level Codex task, exact checklist, verified model/project/workspace, deadline, frozen seam, and coherent handoff. After the build wave, feature work freezes while the Integrator combines every handoff into one candidate and independent QA runs against it.
 
 The Director coordinates and checks evidence. It does not quietly become the main developer when another task is blocked.
 
@@ -144,7 +149,9 @@ The initializer copies the control kit into a project without overwriting files 
 .\scripts\Initialize-ProjectStart.ps1 `
   -TargetPath C:\Projects\MyApp `
   -Outcome "The requested user journey works in the real application." `
-  -AcceptanceJourney "Fresh launch -> user action -> authoritative result -> restart persistence"
+  -AcceptanceJourney "Fresh launch -> user action -> authoritative result -> restart persistence" `
+  -WorkerCount 10 `
+  -WorkerModelPolicy "default=gpt-5.6-sol / medium"
 ```
 
 The validator has two modes:
@@ -157,14 +164,16 @@ The validator has two modes:
 .\scripts\Test-ProjectControls.ps1 -TargetPath C:\Projects\MyApp -Strict
 ```
 
-Strict mode rejects unresolved plans, malformed task registries, missing `create_thread` receipts, unverified model/project/workspace startup, serialized ready lanes, unresolved archive debris, stale resume state, and durable lanes assigned to `spawn_agent`.
+Strict mode rejects unresolved or mismatched staffing intake, a first wave that differs from the requested count, actual models that differ from policy-backed assignments, malformed task registries, missing `create_thread` receipts, unverified project/workspace startup, serialized ready lanes, an understaffed or QA-heavy FULL TEAM wave, premature integration, unresolved archive debris, stale resume state, and durable lanes assigned to `spawn_agent`.
 
 ## A few rules I care about
 
 - The user's latest explicit direction wins. Write it down instead of trusting chat history.
 - Casual brainstorming is saved in both the backlog and affected checklist, but it stays out of active work and completion math until promoted.
 - Reuse the valid task for a stable lane; a new slice or review pass is not a reason to make another task.
-- Start all ready independent lanes before waiting, then monitor them together.
+- FULL TEAM means 10–15 non-Director workers during the build wave, not one or two convenient lanes.
+- Build against frozen contracts and fixtures instead of waiting for sibling implementations.
+- Regroup every coherent handoff, freeze feature work, integrate in order, and test one exact candidate.
 - Research before rebuilding something that already exists.
 - Build the real mockup skeleton before filling it with features.
 - Do not ask the user for approval on ordinary, reversible work inside an assigned lane.

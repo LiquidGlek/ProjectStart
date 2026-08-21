@@ -5,6 +5,9 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+$skillRoot = Split-Path -Parent $scriptRoot
+$skillPath = Join-Path $skillRoot 'SKILL.md'
+$openAiMetadataPath = Join-Path $skillRoot 'agents\openai.yaml'
 $initializer = Join-Path $scriptRoot 'Initialize-ProjectStart.ps1'
 $validator = Join-Path $scriptRoot 'Test-ProjectControls.ps1'
 $pwsh = Join-Path $PSHOME 'pwsh.exe'
@@ -26,6 +29,8 @@ $directorLink = "codex://threads/$directorId"
 $coreLink = "codex://threads/$coreId"
 $uiLink = "codex://threads/$uiId"
 $actualModel = 'gpt-5.6-sol / medium; verified from host read-back'
+$assignedModel = 'gpt-5.6-sol / medium; user policy default'
+$workerPolicy = 'default=gpt-5.6-sol / medium for every worker'
 $timestamp = '2026-08-21T12:00:00-05:00'
 
 function Get-Raw {
@@ -157,14 +162,24 @@ function New-StrictFixture {
     $plan = Get-Raw $planPath
     $plan = $plan.Replace('**Plan state:** `RESOLVED`', '**Plan state:** ACCEPTED')
     $plan = $plan.Replace('**Decision ID:** `RESOLVED`', '**Decision ID:** DEC-001')
-    $corePlanRow = "| CORE | Core Engine | REQ-001 and production ownership | ``create_thread`` | WAVE-1 | NONE | src/core | src/ui | SEAM-001 | Sol Medium for normal implementation | $coreProject | commit and EV-CORE |"
-    $uiPlanRow = "| UI | User Interface | REQ-001 and production ownership | ``create_thread`` | WAVE-1 | NONE | src/ui | src/core | SEAM-001 | Sol Medium for normal implementation | $uiProject | commit and EV-UI |"
+    Set-Raw $planPath $plan
+    Set-Field $planPath 'First staffed build wave' 'WAVE-1'
+    Set-Field $planPath 'Integration regroup rule' 'Collect every handoff, freeze new feature work, integrate BATCH-1 in order, route conflicts and QA failures to the original stable lane, produce one exact candidate, then dispatch independent QA.'
+    $plan = Get-Raw $planPath
+    $corePlanRow = "| CORE | IMPLEMENTATION | Core Engine | REQ-001 and production ownership | ``create_thread`` | WAVE-1 | NONE | src/core | src/ui | SEAM-001 | $assignedModel | $coreProject | commit and EV-CORE | BATCH-1 / 1 |"
+    $uiPlanRow = "| UI | IMPLEMENTATION | User Interface | REQ-001 and production ownership | ``create_thread`` | WAVE-1 | NONE | src/ui | src/core | SEAM-001 | $assignedModel | $uiProject | commit and EV-UI | BATCH-1 / 2 |"
     $plan = Replace-SectionSampleRow $plan 'Top-level task design' '^\| (?:`RESOLVED`|RESOLVED) \| (?:`RESOLVED`|RESOLVED) \|.*$' @($corePlanRow, $uiPlanRow)
     Set-Raw $planPath $plan
 
     $statePath = Join-Path $Root 'PROJECT_STATE.md'
     Set-Field $statePath 'Plan state/decision' 'ACCEPTED DEC-001'
     Set-Field $statePath 'Current phase' 'DEVELOPMENT'
+    Set-Field $statePath 'Staffed wave phase' 'BUILD'
+    Set-Field $statePath 'First staffed build wave' 'WAVE-1'
+    Set-Field $statePath 'Staffed build-wave counts' 'planned=2; launched=2; active=2; implementation=2; Director excluded'
+    Set-Field $statePath 'Staffed build-wave lane IDs' 'CORE; UI'
+    Set-Field $statePath 'Staffed build-wave receipt' "$timestamp; CORE and UI create/reuse/send receipts verified."
+    Set-Field $statePath 'Integration regroup state' 'OPEN handoffs=0/2; BUILD remains active.'
     Set-Field $statePath 'Ready independent lanes' 'CORE; UI'
     Set-Field $statePath 'Running ready lanes' '2'
     Set-Field $statePath 'Useful concurrency target' '2'
@@ -184,6 +199,12 @@ function New-StrictFixture {
 
     $boardPath = Join-Path $Root 'COORDINATION_BOARD.md'
     Set-Field $boardPath 'Last state rehydration' "$timestamp; USER TURN; controls and task read-backs reconciled."
+    Set-Field $boardPath 'Staffed wave phase' 'BUILD'
+    Set-Field $boardPath 'First staffed build wave' 'WAVE-1'
+    Set-Field $boardPath 'Staffed build-wave counts' 'planned=2; launched=2; active=2; implementation=2; Director excluded'
+    Set-Field $boardPath 'Staffed build-wave lane IDs' 'CORE; UI'
+    Set-Field $boardPath 'Staffed build-wave receipt' "$timestamp; CORE and UI create/reuse/send receipts verified."
+    Set-Field $boardPath 'Integration regroup state' 'OPEN handoffs=0/2; BUILD remains active.'
     Set-Field $boardPath 'Ready independent lanes' 'CORE; UI'
     Set-Field $boardPath 'Running ready lanes' '2'
     Set-Field $boardPath 'Useful concurrency target' '2'
@@ -193,9 +214,9 @@ function New-StrictFixture {
     Set-Field $boardPath 'Director wait state/receipt' "WAITING; $timestamp; wait_threads targets CORE=$coreId cursor=core-1 and UI=$uiId cursor=ui-1."
     Set-Field $boardPath 'Active tasks' '3'
     $board = Get-Raw $boardPath
-    $directorBoardRow = "| DIRECTOR | Project Director | current task | $directorId / $directorLink | $actualModel | $Root; NOT A REPOSITORY | ``agent-checklists/coordinator.md`` | GATE-001 through GATE-030 | Project controls | NONE | current timebox | production files | LIVE | ``ACTIVE`` | $timestamp | Coordinate |"
-    $coreBoardRow = "| CORE | Core Engine | create_thread / receipt; NEW because no task existed | $coreId / $coreLink | $actualModel | $coreProject | ``agent-checklists/core.md`` | REQ-001 | src/core | NONE | current timebox | src/ui | LIVE | ``ACTIVE`` | $timestamp | Implement |"
-    $uiBoardRow = "| UI | User Interface | create_thread / receipt; NEW because no task existed | $uiId / $uiLink | $actualModel | $uiProject | ``agent-checklists/ui.md`` | REQ-001 | src/ui | NONE | current timebox | src/core | LIVE | ``ACTIVE`` | $timestamp | Implement |"
+    $directorBoardRow = "| DIRECTOR | DIRECTOR | Project Director | current task | $directorId / $directorLink | $actualModel | $Root; NOT A REPOSITORY | ``agent-checklists/coordinator.md`` | GATE-001 through GATE-032 | Project controls | NONE | COORDINATION | current timebox | production files | LIVE | ``ACTIVE`` | $timestamp | Coordinate |"
+    $coreBoardRow = "| CORE | IMPLEMENTATION | Core Engine | create_thread / receipt; NEW because no task existed | $coreId / $coreLink | $actualModel | $coreProject | ``agent-checklists/core.md`` | REQ-001 | src/core | NONE | BATCH-1 / 1 | current timebox | src/ui | LIVE | ``ACTIVE`` | $timestamp | Implement |"
+    $uiBoardRow = "| UI | IMPLEMENTATION | User Interface | create_thread / receipt; NEW because no task existed | $uiId / $uiLink | $actualModel | $uiProject | ``agent-checklists/ui.md`` | REQ-001 | src/ui | NONE | BATCH-1 / 2 | current timebox | src/core | LIVE | ``ACTIVE`` | $timestamp | Implement |"
     $board = Replace-SectionSampleRow $board 'Agent registry' '^\| (?:`RESOLVED`|RESOLVED) \| (?:`RESOLVED`|RESOLVED) \|.*$' @($directorBoardRow, $coreBoardRow, $uiBoardRow)
     Set-Raw $boardPath $board
 
@@ -215,16 +236,164 @@ function New-StrictFixture {
         Copy-Item -LiteralPath $coordinatorPath -Destination $destination
         Set-Field $destination 'Agent/task/deeplink' "$($lane.Outcome); $($lane.TaskId); $($lane.Link)"
         Set-Field $destination 'Stable lane ID' $lane.Id
+        Set-Field $destination 'Worker class' 'IMPLEMENTATION'
         Set-Field $destination 'Task type' 'TOP-LEVEL CODEX TASK'
         Set-Field $destination 'Creation mechanism/receipt' 'create_thread / receipt'
         Set-Field $destination 'Actual task startup read-back' "$timestamp; $($lane.TaskId); $($lane.Link); model/effort=$actualModel; actual project/root/worktree=$($lane.Project); checklist=$($lane.Path.Replace('\','/')); status=ACTIVE"
         Set-Field $destination 'Replacement/reuse receipt' 'NEW because no registered task existed'
         Set-Field $destination 'Subagent status' 'NOT A SUBAGENT'
+        Set-Field $destination 'Integration batch/order' "BATCH-1 / $(if ($lane.Id -eq 'CORE') { 1 } else { 2 })"
+        Set-Field $destination 'Staffed-wave handoff state' 'OPEN'
+        Set-Field $destination 'Model/effort' $assignedModel
+        Set-Field $destination 'User-selected worker model policy' $workerPolicy
+        Set-Field $destination 'Model policy match receipt' "MATCH at $timestamp; assigned gpt-5.6-sol / medium equals actual startup read-back."
+    }
+}
+
+function Convert-ToFullTeamFixture {
+    param([Parameter(Mandatory = $true)][string]$Root)
+
+    $extraLanes = @(
+        @{ Id = 'DEV3'; Guid = '66666666-6666-4666-8666-666666666666'; Order = 3 },
+        @{ Id = 'DEV4'; Guid = '77777777-7777-4777-8777-777777777777'; Order = 4 },
+        @{ Id = 'DEV5'; Guid = '88888888-8888-4888-8888-888888888888'; Order = 5 },
+        @{ Id = 'DEV6'; Guid = '99999999-9999-4999-8999-999999999999'; Order = 6 },
+        @{ Id = 'DEV7'; Guid = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'; Order = 7 },
+        @{ Id = 'DEV8'; Guid = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb'; Order = 8 },
+        @{ Id = 'DEV9'; Guid = 'cccccccc-cccc-4ccc-8ccc-cccccccccccc'; Order = 9 },
+        @{ Id = 'DEV10'; Guid = 'dddddddd-dddd-4ddd-8ddd-dddddddddddd'; Order = 10 }
+    )
+    $allLaneIds = @('CORE', 'UI') + @($extraLanes | ForEach-Object { $_.Id })
+    $laneList = $allLaneIds -join '; '
+    $fullTeamIntakeReceipt = "$timestamp; current project-start invocation supplied workers=10; model policy=$workerPolicy."
+
+    Set-Field (Join-Path $Root 'PROJECT_CHARTER.md') 'Team mode' 'FULL TEAM'
+    Set-Field (Join-Path $Root 'PROJECT_CHARTER.md') 'Requested simultaneous workers' '10'
+    Set-Field (Join-Path $Root 'PROJECT_CHARTER.md') 'Staffing intake receipt' $fullTeamIntakeReceipt
+    Set-Field (Join-Path $Root 'PROJECT_CHARTER.md') 'Team staffing contract' 'FULL TEAM; exactly 10 simultaneous non-Director workers requested during BUILD; IMPLEMENTATION is a strict majority; Director excluded'
+    Set-Field (Join-Path $Root 'PROJECT_PLAN.md') 'Team mode' 'FULL TEAM'
+    Set-Field (Join-Path $Root 'PROJECT_PLAN.md') 'Requested simultaneous workers' '10'
+    Set-Field (Join-Path $Root 'PROJECT_PLAN.md') 'Staffed-wave target' 'exactly 10 non-Director workers; FULL TEAM; exactly 10 simultaneous non-Director workers requested during BUILD; IMPLEMENTATION is a strict majority; Director excluded'
+    Set-Field (Join-Path $Root 'PROJECT_STATE.md') 'Team mode' 'FULL TEAM'
+    Set-Field (Join-Path $Root 'PROJECT_STATE.md') 'Requested simultaneous workers' '10'
+    Set-Field (Join-Path $Root 'PROJECT_STATE.md') 'Staffing intake receipt' $fullTeamIntakeReceipt
+
+    $planPath = Join-Path $Root 'PROJECT_PLAN.md'
+    $plan = Get-Raw $planPath
+    $uiPlanMatch = [regex]::Match($plan, '(?m)^\| UI \| IMPLEMENTATION \| User Interface \|.*$')
+    if (-not $uiPlanMatch.Success) { throw 'Full-team fixture could not find UI plan row.' }
+    $extraPlanRows = foreach ($lane in $extraLanes) {
+        $project = "$Root; worktree=$($lane.Id.ToLowerInvariant())"
+        "| $($lane.Id) | IMPLEMENTATION | Domain $($lane.Order) | REQ-001 and production ownership | ``create_thread`` | WAVE-1 | NONE | src/$($lane.Id.ToLowerInvariant()) | other owned domains | SEAM-$('{0:D3}' -f $lane.Order) | $assignedModel | $project | commit and EV-$($lane.Id) | BATCH-1 / $($lane.Order) |"
+    }
+    $plan = $plan.Replace($uiPlanMatch.Value, $uiPlanMatch.Value + [Environment]::NewLine + ($extraPlanRows -join [Environment]::NewLine))
+    Set-Raw $planPath $plan
+
+    $statePath = Join-Path $Root 'PROJECT_STATE.md'
+    Set-Field $statePath 'Staffed build-wave counts' 'planned=10; launched=10; active=10; implementation=10; Director excluded'
+    Set-Field $statePath 'Staffed build-wave lane IDs' $laneList
+    Set-Field $statePath 'Staffed build-wave receipt' "$timestamp; $laneList create/reuse/send receipts verified."
+    Set-Field $statePath 'Integration regroup state' 'OPEN handoffs=0/10; BUILD remains active.'
+    Set-Field $statePath 'Ready independent lanes' $laneList
+    Set-Field $statePath 'Running ready lanes' '10'
+    Set-Field $statePath 'Useful concurrency target' '10'
+    Set-Field $statePath 'Next launch wave' "WAVE-1 running: $laneList"
+    Set-Field $statePath 'Last launch/replenishment receipt' "$timestamp; launched/resumed $laneList; create/send receipts verified."
+    $waitTargets = @("CORE=$coreId cursor=core-1", "UI=$uiId cursor=ui-1") + @($extraLanes | ForEach-Object { "$($_.Id)=$($_.Guid) cursor=$($_.Id.ToLowerInvariant())-1" })
+    Set-Field $statePath 'Director wait state/receipt' "WAITING; $timestamp; wait_threads batch-1 CORE/UI/DEV3-DEV8 and batch-2 DEV9/DEV10; targets $($waitTargets -join ', ')."
+    $state = Get-Raw $statePath
+    $uiStateMatch = [regex]::Match($state, '(?m)^\| UI \|.*$')
+    if (-not $uiStateMatch.Success) { throw 'Full-team fixture could not find UI state row.' }
+    $extraStateRows = foreach ($lane in $extraLanes) {
+        $link = "codex://threads/$($lane.Guid)"
+        $project = "$Root; worktree=$($lane.Id.ToLowerInvariant())"
+        "| $($lane.Id) | $($lane.Guid) and $link | $actualModel | $project | ACTIVE | Domain $($lane.Order) vertical slice | NONE | Implement assigned row | $timestamp |"
+    }
+    $state = $state.Replace($uiStateMatch.Value, $uiStateMatch.Value + [Environment]::NewLine + ($extraStateRows -join [Environment]::NewLine))
+    Set-Raw $statePath $state
+
+    $boardPath = Join-Path $Root 'COORDINATION_BOARD.md'
+    Set-Field $boardPath 'Team mode and active roles' 'FULL TEAM; Project Director plus 10 concurrent implementation workers'
+    Set-Field $boardPath 'Requested simultaneous workers' '10'
+    Set-Field $boardPath 'Staffing intake receipt' $fullTeamIntakeReceipt
+    Set-Field $boardPath 'Staffed build-wave counts' 'planned=10; launched=10; active=10; implementation=10; Director excluded'
+    Set-Field $boardPath 'Staffed build-wave lane IDs' $laneList
+    Set-Field $boardPath 'Staffed build-wave receipt' "$timestamp; $laneList create/reuse/send receipts verified."
+    Set-Field $boardPath 'Integration regroup state' 'OPEN handoffs=0/10; BUILD remains active.'
+    Set-Field $boardPath 'Ready independent lanes' $laneList
+    Set-Field $boardPath 'Running ready lanes' '10'
+    Set-Field $boardPath 'Useful concurrency target' '10'
+    Set-Field $boardPath 'Next launch wave' "WAVE-1 running: $laneList"
+    Set-Field $boardPath 'Last launch/replenishment receipt' "$timestamp; launched/resumed $laneList; create/send receipts verified."
+    Set-Field $boardPath 'Director wait state/receipt' "WAITING; $timestamp; wait_threads batch-1 CORE/UI/DEV3-DEV8 and batch-2 DEV9/DEV10; targets $($waitTargets -join ', ')."
+    Set-Field $boardPath 'Active tasks' '11'
+    $board = Get-Raw $boardPath
+    $uiBoardMatch = [regex]::Match($board, '(?m)^\| UI \| IMPLEMENTATION \| User Interface \|.*$')
+    if (-not $uiBoardMatch.Success) { throw 'Full-team fixture could not find UI board row.' }
+    $extraBoardRows = foreach ($lane in $extraLanes) {
+        $link = "codex://threads/$($lane.Guid)"
+        $project = "$Root; worktree=$($lane.Id.ToLowerInvariant())"
+        "| $($lane.Id) | IMPLEMENTATION | Domain $($lane.Order) | create_thread / receipt; NEW because no task existed | $($lane.Guid) / $link | $actualModel | $project | ``agent-checklists/$($lane.Id.ToLowerInvariant()).md`` | REQ-001 | src/$($lane.Id.ToLowerInvariant()) | NONE | BATCH-1 / $($lane.Order) | current timebox | other domains | LIVE | ``ACTIVE`` | $timestamp | Implement |"
+    }
+    $board = $board.Replace($uiBoardMatch.Value, $uiBoardMatch.Value + [Environment]::NewLine + ($extraBoardRows -join [Environment]::NewLine))
+    Set-Raw $boardPath $board
+
+    $communicationPath = Join-Path $Root 'AGENT_COMMUNICATION.md'
+    $communication = Get-Raw $communicationPath
+    $uiCommunicationMatch = [regex]::Match($communication, '(?m)^\| UI \| User Interface \|.*$')
+    if (-not $uiCommunicationMatch.Success) { throw 'Full-team fixture could not find UI communication row.' }
+    $extraCommunicationRows = foreach ($lane in $extraLanes) {
+        $link = "codex://threads/$($lane.Guid)"
+        $project = "$Root; worktree=$($lane.Id.ToLowerInvariant())"
+        "| $($lane.Id) | Domain $($lane.Order) | Domain $($lane.Order) Task | ``create_thread / receipt; NEW because no task existed`` | $($lane.Guid) | $link | $actualModel | $project | ``agent-checklists/$($lane.Id.ToLowerInvariant()).md`` | REQ-001 and src/$($lane.Id.ToLowerInvariant()) | Project Director | LIVE | ACTIVE | $timestamp |"
+    }
+    $communication = $communication.Replace($uiCommunicationMatch.Value, $uiCommunicationMatch.Value + [Environment]::NewLine + ($extraCommunicationRows -join [Environment]::NewLine))
+    Set-Raw $communicationPath $communication
+
+    foreach ($lane in $extraLanes) {
+        $link = "codex://threads/$($lane.Guid)"
+        $project = "$Root; worktree=$($lane.Id.ToLowerInvariant())"
+        $relativeChecklist = "agent-checklists/$($lane.Id.ToLowerInvariant()).md"
+        $destination = Join-Path $Root $relativeChecklist
+        Copy-Item -LiteralPath (Join-Path $Root 'agent-checklists\core.md') -Destination $destination
+        Set-Field $destination 'Agent/task/deeplink' "Domain $($lane.Order) Task; $($lane.Guid); $link"
+        Set-Field $destination 'Stable lane ID' $lane.Id
+        Set-Field $destination 'Worker class' 'IMPLEMENTATION'
+        Set-Field $destination 'Creation mechanism/receipt' 'create_thread / receipt'
+        Set-Field $destination 'Actual task startup read-back' "$timestamp; $($lane.Guid); $link; model/effort=$actualModel; actual project/root/worktree=$project; checklist=$relativeChecklist; status=ACTIVE"
+        Set-Field $destination 'Replacement/reuse receipt' 'NEW because no registered task existed'
+        Set-Field $destination 'Integration batch/order' "BATCH-1 / $($lane.Order)"
+        Set-Field $destination 'Staffed-wave handoff state' 'OPEN'
+        Set-Field $destination 'Model/effort' $assignedModel
+        Set-Field $destination 'User-selected worker model policy' $workerPolicy
+        Set-Field $destination 'Model policy match receipt' "MATCH at $timestamp; assigned gpt-5.6-sol / medium equals actual startup read-back."
     }
 }
 
 $passed = $false
 try {
+    $mandatoryQuestion = 'How many simultaneous workers should this project use (1–15, excluding me as Director), and what model/effort should they use?'
+    $skillText = Get-Raw $skillPath
+    $openAiMetadata = Get-Raw $openAiMetadataPath
+    if (-not $skillText.Contains($mandatoryQuestion) -or
+        $skillText -notmatch '(?s)If either answer is absent, ask one short combined question before initialization, research, planning, file creation, or task creation:.*Stop and wait for the answer\.' -or
+        $openAiMetadata -notmatch 'Before any project work, ask me in one message how many simultaneous non-Director workers I want \(1-15\) and what model/effort they should use') {
+        throw 'Skill entrypoint must ask one worker-count/model-policy question and stop before project work when either answer is absent.'
+    }
+    Write-Output 'PASS: skill invocation requires the combined staffing question before project work'
+
+    $initializerCommand = Get-Command -Name $initializer -CommandType ExternalScript
+    foreach ($requiredIntakeParameter in @('WorkerCount', 'WorkerModelPolicy')) {
+        if (-not $initializerCommand.Parameters.ContainsKey($requiredIntakeParameter) -or
+            @($initializerCommand.Parameters[$requiredIntakeParameter].Attributes | Where-Object { $_ -is [System.Management.Automation.ParameterAttribute] -and $_.Mandatory }).Count -eq 0) {
+            throw "Initializer staffing intake parameter is not mandatory: $requiredIntakeParameter"
+        }
+    }
+    if ($initializerCommand.Parameters.ContainsKey('TeamMode')) {
+        throw 'Initializer must derive TeamMode from WorkerCount instead of accepting a separately inferred mode.'
+    }
+    Write-Output 'PASS: worker-count and model-policy intake parameters are mandatory'
+
     $base = Join-Path $suiteRoot 'base'
     New-Item -ItemType Directory -Path $base | Out-Null
     $initOutput = @(& $pwsh -NoProfile -File $initializer `
@@ -236,7 +405,8 @@ try {
         -DirectorModelEffort $actualModel `
         -Outcome 'The exact user journey works.' `
         -AcceptanceJourney 'Launch -> action -> result -> restart persistence' `
-        -TeamMode 'SMALL TEAM' 2>&1)
+        -WorkerCount 2 `
+        -WorkerModelPolicy $workerPolicy 2>&1)
     if ($LASTEXITCODE -ne 0) {
         throw "Initializer failed.$([Environment]::NewLine)$($initOutput -join [Environment]::NewLine)"
     }
@@ -246,6 +416,65 @@ try {
 
     New-StrictFixture $base
     Assert-Audit 'fully resolved strict fixture' (Invoke-Audit $base -Strict) 0 'PASS:'
+
+    $fullTeam = Copy-Fixture $base 'positive-full-team'
+    Convert-ToFullTeamFixture $fullTeam
+    Assert-Audit 'staffed ten-worker FULL TEAM is accepted' (Invoke-Audit $fullTeam -Strict) 0 'PASS:'
+
+    $understaffedFullTeam = Copy-Fixture $base 'negative-understaffed-full-team'
+    $understaffedReceipt = "$timestamp; current project-start invocation supplied workers=10; model policy=$workerPolicy."
+    Set-Field (Join-Path $understaffedFullTeam 'PROJECT_CHARTER.md') 'Team mode' 'FULL TEAM'
+    Set-Field (Join-Path $understaffedFullTeam 'PROJECT_CHARTER.md') 'Requested simultaneous workers' '10'
+    Set-Field (Join-Path $understaffedFullTeam 'PROJECT_CHARTER.md') 'Staffing intake receipt' $understaffedReceipt
+    Set-Field (Join-Path $understaffedFullTeam 'PROJECT_CHARTER.md') 'Team staffing contract' 'FULL TEAM; exactly 10 simultaneous non-Director workers requested during BUILD; IMPLEMENTATION is a strict majority; Director excluded'
+    Set-Field (Join-Path $understaffedFullTeam 'PROJECT_PLAN.md') 'Team mode' 'FULL TEAM'
+    Set-Field (Join-Path $understaffedFullTeam 'PROJECT_PLAN.md') 'Requested simultaneous workers' '10'
+    Set-Field (Join-Path $understaffedFullTeam 'PROJECT_PLAN.md') 'Staffed-wave target' 'exactly 10 non-Director workers; FULL TEAM requested'
+    Set-Field (Join-Path $understaffedFullTeam 'PROJECT_STATE.md') 'Team mode' 'FULL TEAM'
+    Set-Field (Join-Path $understaffedFullTeam 'PROJECT_STATE.md') 'Requested simultaneous workers' '10'
+    Set-Field (Join-Path $understaffedFullTeam 'PROJECT_STATE.md') 'Staffing intake receipt' $understaffedReceipt
+    Set-Field (Join-Path $understaffedFullTeam 'COORDINATION_BOARD.md') 'Team mode and active roles' 'FULL TEAM; Project Director plus only two workers'
+    Set-Field (Join-Path $understaffedFullTeam 'COORDINATION_BOARD.md') 'Requested simultaneous workers' '10'
+    Set-Field (Join-Path $understaffedFullTeam 'COORDINATION_BOARD.md') 'Staffing intake receipt' $understaffedReceipt
+    Assert-Audit 'two-worker FULL TEAM is rejected' (Invoke-Audit $understaffedFullTeam -Strict) 1 'FULL TEAM first staffed build wave must contain exactly the requested 10-15 non-Director workers'
+
+    $oversizedFullTeam = Copy-Fixture $fullTeam 'negative-oversized-full-team'
+    $oversizedPlanPath = Join-Path $oversizedFullTeam 'PROJECT_PLAN.md'
+    $oversizedPlan = Get-Raw $oversizedPlanPath
+    $dev10PlanMatch = [regex]::Match($oversizedPlan, '(?m)^\| DEV10 \| IMPLEMENTATION \|.*$')
+    if (-not $dev10PlanMatch.Success) { throw 'Oversized fixture could not find DEV10 plan row.' }
+    $oversizedRows = foreach ($number in 11..16) {
+        "| DEV$number | IMPLEMENTATION | Domain $number | REQ-001 and production ownership | ``create_thread`` | WAVE-1 | NONE | src/dev$number | other owned domains | SEAM-$('{0:D3}' -f $number) | $assignedModel | $oversizedFullTeam; worktree=dev$number | commit and EV-DEV$number | BATCH-1 / $number |"
+    }
+    $oversizedPlan = $oversizedPlan.Replace($dev10PlanMatch.Value, $dev10PlanMatch.Value + [Environment]::NewLine + ($oversizedRows -join [Environment]::NewLine))
+    Set-Raw $oversizedPlanPath $oversizedPlan
+    Assert-Audit 'sixteen-worker FULL TEAM is rejected' (Invoke-Audit $oversizedFullTeam -Strict) 1 'FULL TEAM first staffed build wave must contain exactly the requested 10-15 non-Director workers'
+
+    $qaHeavyFullTeam = Copy-Fixture $fullTeam 'negative-qa-heavy-full-team'
+    $qaPlanPath = Join-Path $qaHeavyFullTeam 'PROJECT_PLAN.md'
+    $qaPlan = Get-Raw $qaPlanPath
+    foreach ($laneId in @('DEV5', 'DEV6', 'DEV7', 'DEV8', 'DEV9', 'DEV10')) {
+        $qaPlan = $qaPlan.Replace("| $laneId | IMPLEMENTATION |", "| $laneId | QA |")
+        Set-Field (Join-Path $qaHeavyFullTeam "agent-checklists\$($laneId.ToLowerInvariant()).md") 'Worker class' 'QA'
+    }
+    Set-Raw $qaPlanPath $qaPlan
+    $qaCounts = 'planned=10; launched=10; active=10; implementation=4; Director excluded'
+    Set-Field (Join-Path $qaHeavyFullTeam 'PROJECT_STATE.md') 'Staffed build-wave counts' $qaCounts
+    Set-Field (Join-Path $qaHeavyFullTeam 'COORDINATION_BOARD.md') 'Staffed build-wave counts' $qaCounts
+    Assert-Audit 'QA-heavy fake FULL TEAM is rejected' (Invoke-Audit $qaHeavyFullTeam -Strict) 1 'FULL TEAM first staffed build wave must have IMPLEMENTATION as a strict majority'
+
+    $partialLaunch = Copy-Fixture $fullTeam 'negative-partial-full-team-launch'
+    $partialCounts = 'planned=10; launched=9; active=9; implementation=10; Director excluded'
+    Set-Field (Join-Path $partialLaunch 'PROJECT_STATE.md') 'Staffed build-wave counts' $partialCounts
+    Set-Field (Join-Path $partialLaunch 'COORDINATION_BOARD.md') 'Staffed build-wave counts' $partialCounts
+    Assert-Audit 'partially launched FULL TEAM is rejected' (Invoke-Audit $partialLaunch -Strict) 1 'staffed build wave must launch every planned worker'
+
+    $prematureRegroup = Copy-Fixture $fullTeam 'negative-premature-regroup'
+    Set-Field (Join-Path $prematureRegroup 'PROJECT_STATE.md') 'Staffed wave phase' 'INTEGRATION'
+    Set-Field (Join-Path $prematureRegroup 'COORDINATION_BOARD.md') 'Staffed wave phase' 'INTEGRATION'
+    Set-Field (Join-Path $prematureRegroup 'PROJECT_STATE.md') 'Integration regroup state' 'OPEN handoffs=9/10; one developer has not returned a coherent handoff.'
+    Set-Field (Join-Path $prematureRegroup 'COORDINATION_BOARD.md') 'Integration regroup state' 'OPEN handoffs=9/10; one developer has not returned a coherent handoff.'
+    Assert-Audit 'integration before complete regroup is rejected' (Invoke-Audit $prematureRegroup -Strict) 1 'cannot enter REGROUP/INTEGRATION/QA/RELEASE before every staffed-wave handoff is satisfied'
 
     $serialized = Copy-Fixture $base 'negative-serialized'
     Set-Field (Join-Path $serialized 'PROJECT_STATE.md') 'Running ready lanes' '1'
@@ -267,6 +496,14 @@ try {
     $unverifiedCommunication = Join-Path $unverified 'AGENT_COMMUNICATION.md'
     Set-Raw $unverifiedCommunication ((Get-Raw $unverifiedCommunication).Replace("| UI | User Interface | User Interface Task | ``create_thread / receipt; NEW because no task existed`` | $uiId | $uiLink | $actualModel |", "| UI | User Interface | User Interface Task | ``create_thread / receipt; NEW because no task existed`` | $uiId | $uiLink | NOT VERIFIED |"))
     Assert-Audit 'unverified actual model is rejected' (Invoke-Audit $unverified -Strict) 1 'lacks verified actual model'
+
+    $wrongWorkerModel = Copy-Fixture $base 'negative-worker-model-mismatch'
+    $wrongActualModel = 'gpt-5.6-luna / max; verified from host read-back'
+    $wrongModelCommunication = Join-Path $wrongWorkerModel 'AGENT_COMMUNICATION.md'
+    Set-Raw $wrongModelCommunication ((Get-Raw $wrongModelCommunication).Replace("| UI | User Interface | User Interface Task | ``create_thread / receipt; NEW because no task existed`` | $uiId | $uiLink | $actualModel |", "| UI | User Interface | User Interface Task | ``create_thread / receipt; NEW because no task existed`` | $uiId | $uiLink | $wrongActualModel |"))
+    $wrongModelChecklist = Join-Path $wrongWorkerModel 'agent-checklists\ui.md'
+    Set-Raw $wrongModelChecklist ((Get-Raw $wrongModelChecklist).Replace("model/effort=$actualModel", "model/effort=$wrongActualModel"))
+    Assert-Audit 'actual worker model differing from user policy is rejected' (Invoke-Audit $wrongWorkerModel -Strict) 1 'actual model/effort does not match its user-policy-backed PROJECT_PLAN.md assignment'
 
     $subagentLane = Copy-Fixture $base 'negative-subagent-lane'
     Set-Field (Join-Path $subagentLane 'agent-checklists\core.md') 'Creation mechanism/receipt' 'spawn_agent / hidden nested worker'

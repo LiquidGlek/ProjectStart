@@ -6,6 +6,7 @@ Copy this file once for each stable durable lane, then reuse the same checklist 
 
 - **Agent/task/deeplink:** `<identity>`
 - **Stable lane ID:** `<permanent lane ID reused across slices/candidates/reviews>`
+- **Worker class:** `<IMPLEMENTATION / PRODUCT / ARCHITECTURE / QA / VISUAL / INTEGRATION / RELEASE / RESEARCH>`
 - **Task type:** `<TOP-LEVEL CODEX TASK / CURRENT DIRECTOR TASK>`
 - **Creation mechanism/receipt:** `<create_thread plus returned receipt / current Director task>`
 - **Actual task startup read-back:** `<timestamp; exact ID/deeplink; actual model/effort; actual project/root/worktree; checklist; status>`
@@ -28,6 +29,8 @@ Copy this file once for each stable durable lane, then reuse the same checklist 
 - **Start/deadline:** `<ISO timestamps and timezone>`
 - **Lane time budget:** `<duration>`
 - **Model/effort:** `<Luna Max read-only; Sol Low/Light for bounded QA; Sol Medium default; or Sol Max>`
+- **User-selected worker model policy:** `<exact charter policy clause governing this lane>`
+- **Model policy match receipt:** `<MATCH at timestamp: assigned canonical model/effort equals actual startup read-back / MISMATCH and stop receipt>`
 - **Why this effort level is proportionate:** `<normal lane or exact complex critical reason>`
 - **Timebox stage:** `<EARLY/MIDPOINT/SCOPE FREEZE/STABILIZE/OVERRUN>`
 - **Assigned pre-mortem risks:** `<PM IDs and warning triggers>`
@@ -38,6 +41,8 @@ Copy this file once for each stable durable lane, then reuse the same checklist 
 - **Decision/review deadline:** `<exact timestamp and fallback owner>`
 - **Workspace isolation:** `<same-tree exact paths / worktree / isolated copy; root and base identity>`
 - **Shared seam contracts:** `<SEAM-### IDs or none>`
+- **Integration batch/order:** `<BATCH-N and position>`
+- **Staffed-wave handoff state:** `<OPEN / READY with commit-artifact-evidence / INTEGRATED / CHANGES REQUESTED>`
 - **Resource budget/attempt limit:** `<model/usage/disk/RAM/GPU/processes/whole-path attempts>`
 - **Task-owned background processes:** `<PIDs/components/purpose/stop condition or none>`
 - **Visible UI authority:** `<background-only or exact allowed interaction>`
@@ -84,6 +89,7 @@ Status: `[ ]` open, `[~]` active/partial, `[R]` ready for review, `[x]` coordina
 - [ ] Read and reconcile `../PROJECT_STATE.md`; record a current rehydration receipt after any user turn, compaction, restart, or handoff.
 - [ ] Inspect root, branch, HEAD, dirty state, relevant source, tests, and existing behavior.
 - [ ] Verify the actual task startup read-back matches the assigned model, project/root/worktree, checklist, and stable lane before substantive work.
+- [ ] Verify the assigned canonical model/effort is permitted by the user's recorded worker-model policy; stop on mismatch rather than substituting.
 - [ ] Record exact ownership and confirm no collision on the coordination board.
 - [ ] Preserve unrelated dirty work and list protected regions.
 - [ ] Translate every assigned promise into a lane gate with exact exit proof.
@@ -94,6 +100,8 @@ Status: `[ ]` open, `[~]` active/partial, `[R]` ready for review, `[x]` coordina
 - [ ] If a visual reference controls the lane, complete `../VISUAL_PROTOCOL.md` through skeleton approval before feature work.
 - [ ] Verify `../RUNTIME_OWNERSHIP.md` before touching shared installed/runtime state; route out-of-lane mismatches instead of fixing them.
 - [ ] Verify `../INTEGRATION_CONTRACTS.md`; prepare owned-side changes and queue shared integration instead of waiting for per-edit permission.
+- [ ] If a sibling implementation is unfinished, attempt the accepted seam with fixtures/test doubles or an owned-side adapter before claiming a hard dependency.
+- [ ] Record the exact integration batch/order and return one coherent handoff for the staffed-wave regroup barrier.
 
 ## Work slices
 

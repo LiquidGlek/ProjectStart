@@ -1,4 +1,4 @@
 interface:
   display_name: "Project Start"
-  short_description: "Launch focused reusable tasks in parallel waves"
-  default_prompt: "Use $project-start to initialize this project and launch a focused software-team workflow around its exact outcome. Create every durable lane as a separate reusable top-level Codex task with create_thread, launch every ready independent lane before waiting, rehydrate state after context loss, and safely archive terminal task debris; never substitute a subagent."
+  short_description: "Choose and launch a staffed developer team"
+  default_prompt: "Use $project-start to initialize this project around its exact outcome. Before any project work, ask me in one message how many simultaneous non-Director workers I want (1-15) and what model/effort they should use, unless I already supplied both answers. Then launch exactly that staffed top-level Codex task wave, preserve stable tasks, regroup coherent handoffs through integration and independent QA, rehydrate after context loss, and never substitute durable work with subagents."

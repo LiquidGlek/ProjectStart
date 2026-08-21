@@ -124,12 +124,24 @@ Require-Text 'MASTER_CHECKLIST.md' '| [ ] | GATE-027 |'
 Require-Text 'MASTER_CHECKLIST.md' '| [ ] | GATE-028 |'
 Require-Text 'MASTER_CHECKLIST.md' '| [ ] | GATE-029 |'
 Require-Text 'MASTER_CHECKLIST.md' '| [ ] | GATE-030 |'
+Require-Text 'MASTER_CHECKLIST.md' '| [ ] | GATE-031 |'
+Require-Text 'MASTER_CHECKLIST.md' '| [ ] | GATE-032 |'
 Require-Text 'MASTER_CHECKLIST.md' '## Claim-scoped health'
 Require-Text 'MASTER_CHECKLIST.md' '## Candidate promotion gate'
 Require-Text 'MASTER_CHECKLIST.md' '## Brainstorm and future backlog'
 Require-Text 'MASTER_CHECKLIST.md' '**Open brainstorm items:**'
 Require-Text 'PROJECT_STATE.md' '## Mandatory rehydration'
 Require-Text 'PROJECT_STATE.md' '**Skill contract:** `$project-start`'
+Require-Text 'PROJECT_STATE.md' '**Team mode:**'
+Require-Text 'PROJECT_STATE.md' '**Requested simultaneous workers:**'
+Require-Text 'PROJECT_STATE.md' '**Worker model/effort policy:**'
+Require-Text 'PROJECT_STATE.md' '**Staffing intake receipt:**'
+Require-Text 'PROJECT_STATE.md' '**Staffed wave phase:**'
+Require-Text 'PROJECT_STATE.md' '**First staffed build wave:**'
+Require-Text 'PROJECT_STATE.md' '**Staffed build-wave counts:**'
+Require-Text 'PROJECT_STATE.md' '**Staffed build-wave lane IDs:**'
+Require-Text 'PROJECT_STATE.md' '**Staffed build-wave receipt:**'
+Require-Text 'PROJECT_STATE.md' '**Integration regroup state:**'
 Require-Text 'PROJECT_STATE.md' '**Ready independent lanes:**'
 Require-Text 'PROJECT_STATE.md' '**Useful concurrency target:**'
 Require-Text 'PROJECT_STATE.md' '**Last launch/replenishment receipt:**'
@@ -140,14 +152,23 @@ Require-Text 'DECISION_LOG.md' '## Correction and regression ledger'
 Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '**Active correction IDs:**'
 Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '**Critical journey transaction contract:**'
 Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '**Stable lane ID:**'
+Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '**Worker class:**'
 Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '**Actual task startup read-back:**'
 Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '**Replacement/reuse receipt:**'
 Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '**Linked open idea IDs:**'
+Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '**Integration batch/order:**'
+Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '**Staffed-wave handoff state:**'
+Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '**User-selected worker model policy:**'
+Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '**Model policy match receipt:**'
 Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '## Linked brainstorm/backlog'
 Require-Text 'PROJECT_CHARTER.md' '## User intent synthesis'
 Require-Text 'PROJECT_CHARTER.md' '**Anti-intent:**'
 Require-Text 'PROJECT_CHARTER.md' '**Emotional promise:**'
 Require-Text 'PROJECT_CHARTER.md' '**Distribution context:**'
+Require-Text 'PROJECT_CHARTER.md' '**Team staffing contract:**'
+Require-Text 'PROJECT_CHARTER.md' '**Requested simultaneous workers:**'
+Require-Text 'PROJECT_CHARTER.md' '**Worker model/effort policy:**'
+Require-Text 'PROJECT_CHARTER.md' '**Staffing intake receipt:**'
 Require-Text 'PRIOR_ART_RESEARCH.md' '**Parity interpretation:**'
 Require-Text 'PROJECT_PLAN.md' '## Adversarial self-audit'
 Require-Text 'PROJECT_PLAN.md' '## Critical journey transaction contract'
@@ -162,6 +183,14 @@ Require-Text 'PROJECT_PLAN.md' 'Creation mechanism'
 Require-Text 'PROJECT_PLAN.md' 'Each lane''s original creation mechanism is `create_thread`; `spawn_agent` is prohibited.'
 Require-Text 'PROJECT_PLAN.md' 'Launch wave'
 Require-Text 'PROJECT_PLAN.md' 'Hard prerequisite'
+Require-Text 'PROJECT_PLAN.md' '**Team mode:**'
+Require-Text 'PROJECT_PLAN.md' '**Requested simultaneous workers:**'
+Require-Text 'PROJECT_PLAN.md' '**Worker model/effort policy:**'
+Require-Text 'PROJECT_PLAN.md' '**First staffed build wave:**'
+Require-Text 'PROJECT_PLAN.md' '**Staffed-wave target:**'
+Require-Text 'PROJECT_PLAN.md' '**Integration regroup rule:**'
+Require-Text 'PROJECT_PLAN.md' 'Worker class'
+Require-Text 'PROJECT_PLAN.md' 'Integration batch/order'
 Require-Text 'COORDINATION_BOARD.md' 'Lanes showing test churn/no outcome movement'
 Require-Text 'COORDINATION_BOARD.md' 'Primary outcome state'
 Require-Text 'COORDINATION_BOARD.md' 'Current timebox stage'
@@ -174,6 +203,15 @@ Require-Text 'COORDINATION_BOARD.md' 'Last launch/replenishment receipt'
 Require-Text 'COORDINATION_BOARD.md' 'Director wait state/receipt'
 Require-Text 'COORDINATION_BOARD.md' 'Task lifecycle backlog'
 Require-Text 'COORDINATION_BOARD.md' 'Duplicate live stable lanes'
+Require-Text 'COORDINATION_BOARD.md' 'Staffed wave phase'
+Require-Text 'COORDINATION_BOARD.md' 'Requested simultaneous workers'
+Require-Text 'COORDINATION_BOARD.md' 'Worker model/effort policy'
+Require-Text 'COORDINATION_BOARD.md' 'Staffing intake receipt'
+Require-Text 'COORDINATION_BOARD.md' 'First staffed build wave'
+Require-Text 'COORDINATION_BOARD.md' 'Staffed build-wave counts'
+Require-Text 'COORDINATION_BOARD.md' 'Staffed build-wave lane IDs'
+Require-Text 'COORDINATION_BOARD.md' 'Staffed build-wave receipt'
+Require-Text 'COORDINATION_BOARD.md' 'Integration regroup state'
 Require-Text 'AGENT_COMMUNICATION.md' '## Director address'
 Require-Text 'AGENT_COMMUNICATION.md' '## Task directory'
 Require-Text 'AGENT_COMMUNICATION.md' '## Task creation contract'
@@ -212,7 +250,10 @@ Require-Text 'TEAM_OPERATING_MODEL.md' 'Use **Luna Max**'
 Require-Text 'TEAM_OPERATING_MODEL.md' 'top-level Codex task'
 Require-Text 'TEAM_OPERATING_MODEL.md' 'If `create_thread` is unavailable or fails'
 Require-Text 'TEAM_OPERATING_MODEL.md' '## Compact recovery is mandatory'
+Require-Text 'TEAM_OPERATING_MODEL.md' '## Staffing intake is mandatory'
 Require-Text 'TEAM_OPERATING_MODEL.md' '## Parallel launch barrier'
+Require-Text 'TEAM_OPERATING_MODEL.md' '## Staffed FULL TEAM build wave'
+Require-Text 'TEAM_OPERATING_MODEL.md' '## Regroup and integration barrier'
 Require-Text 'TEAM_OPERATING_MODEL.md' '## Stable lane and task lifecycle'
 Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '**Task type:**'
 Require-Text 'AGENT_CHECKLIST_TEMPLATE.md' '**Creation mechanism/receipt:**'
@@ -356,6 +397,9 @@ if (Test-Path -LiteralPath $checklistDirectory -PathType Container) {
         if (-not $agent.Contains('**Stable lane ID:**')) {
             $errors.Add("$($agentFile.Name) has no stable lane ID field.")
         }
+        if (-not $agent.Contains('**Worker class:**')) {
+            $errors.Add("$($agentFile.Name) has no worker class field.")
+        }
         if (-not $agent.Contains('**Actual task startup read-back:**')) {
             $errors.Add("$($agentFile.Name) has no actual task startup read-back field.")
         }
@@ -365,6 +409,18 @@ if (Test-Path -LiteralPath $checklistDirectory -PathType Container) {
         if (-not $agent.Contains('**Linked open idea IDs:**')) {
             $errors.Add("$($agentFile.Name) has no linked open idea IDs field.")
         }
+        if (-not $agent.Contains('**Integration batch/order:**')) {
+            $errors.Add("$($agentFile.Name) has no integration batch/order field.")
+        }
+        if (-not $agent.Contains('**Staffed-wave handoff state:**')) {
+            $errors.Add("$($agentFile.Name) has no staffed-wave handoff state field.")
+        }
+        if (-not $agent.Contains('**User-selected worker model policy:**')) {
+            $errors.Add("$($agentFile.Name) has no user-selected worker model policy field.")
+        }
+        if (-not $agent.Contains('**Model policy match receipt:**')) {
+            $errors.Add("$($agentFile.Name) has no model policy match receipt field.")
+        }
 
         if ($Strict) {
             $relativeAgentPath = [System.IO.Path]::GetRelativePath($root, $agentFile.FullName)
@@ -372,14 +428,22 @@ if (Test-Path -LiteralPath $checklistDirectory -PathType Container) {
             Require-ResolvedField $relativeAgentPath 'Creation mechanism/receipt'
             Require-ResolvedField $relativeAgentPath 'Subagent status'
             Require-ResolvedField $relativeAgentPath 'Stable lane ID'
+            Require-ResolvedField $relativeAgentPath 'Worker class'
             Require-ResolvedField $relativeAgentPath 'Actual task startup read-back'
             Require-ResolvedField $relativeAgentPath 'Replacement/reuse receipt'
             Require-ResolvedField $relativeAgentPath 'Linked open idea IDs'
+            Require-ResolvedField $relativeAgentPath 'Integration batch/order'
+            Require-ResolvedField $relativeAgentPath 'Staffed-wave handoff state'
+            Require-ResolvedField $relativeAgentPath 'Model/effort'
+            Require-ResolvedField $relativeAgentPath 'User-selected worker model policy'
+            Require-ResolvedField $relativeAgentPath 'Model policy match receipt'
 
             $taskType = [regex]::Match($agent, '(?m)^- \*\*Task type:\*\* (.+)$').Groups[1].Value.Trim()
             $creationMechanism = [regex]::Match($agent, '(?m)^- \*\*Creation mechanism/receipt:\*\* (.+)$').Groups[1].Value.Trim()
             $subagentStatus = [regex]::Match($agent, '(?m)^- \*\*Subagent status:\*\* (.+)$').Groups[1].Value.Trim()
             $startupReadback = [regex]::Match($agent, '(?m)^- \*\*Actual task startup read-back:\*\* (.+)$').Groups[1].Value.Trim()
+            $workerClass = [regex]::Match($agent, '(?m)^- \*\*Worker class:\*\* (.+)$').Groups[1].Value.Trim()
+            $modelPolicyReceipt = [regex]::Match($agent, '(?m)^- \*\*Model policy match receipt:\*\* (.+)$').Groups[1].Value.Trim()
 
             if ($taskType -notin @('TOP-LEVEL CODEX TASK', 'CURRENT DIRECTOR TASK')) {
                 $errors.Add("$($agentFile.Name) task type must be TOP-LEVEL CODEX TASK or CURRENT DIRECTOR TASK.")
@@ -387,11 +451,18 @@ if (Test-Path -LiteralPath $checklistDirectory -PathType Container) {
             if ($taskType -eq 'TOP-LEVEL CODEX TASK' -and $creationMechanism -notmatch '^create_thread\b') {
                 $errors.Add("$($agentFile.Name) owns a durable lane but has no create_thread receipt.")
             }
+            $allowedWorkerClasses = @('DIRECTOR', 'IMPLEMENTATION', 'PRODUCT', 'ARCHITECTURE', 'QA', 'VISUAL', 'INTEGRATION', 'RELEASE', 'RESEARCH')
+            if ($workerClass -notin $allowedWorkerClasses -or ($taskType -eq 'CURRENT DIRECTOR TASK' -and $workerClass -ne 'DIRECTOR') -or ($taskType -eq 'TOP-LEVEL CODEX TASK' -and $workerClass -eq 'DIRECTOR')) {
+                $errors.Add("$($agentFile.Name) worker class does not match its task type.")
+            }
             if ($creationMechanism -match 'spawn_agent' -or $subagentStatus -ne 'NOT A SUBAGENT') {
                 $errors.Add("$($agentFile.Name) is a durable project checklist assigned to a subagent; create a top-level Codex task instead.")
             }
             if ($startupReadback -match '(?i)NOT VERIFIED|PENDING|UNKNOWN|<[^>]+>') {
                 $errors.Add("$($agentFile.Name) has no verified actual task startup read-back.")
+            }
+            if ($taskType -eq 'TOP-LEVEL CODEX TASK' -and $modelPolicyReceipt -notmatch '(?i)^MATCH\b') {
+                $errors.Add("$($agentFile.Name) has no MATCH receipt for the user-selected worker model policy.")
             }
             if ($agent -match 'IDEA-001 \| `<exact wording and speaker/time>`') {
                 $errors.Add("$($agentFile.Name) linked brainstorm table still contains the unresolved sample row.")
@@ -416,6 +487,52 @@ foreach ($relativePath in $activeFiles) {
 }
 
 if ($Strict) {
+    $teamMode = ''
+    $requestedWorkerCount = 0
+    $workerModelPolicy = ''
+    $staffingIntakeReceipt = ''
+    $charterTeamPath = Join-Path $root 'PROJECT_CHARTER.md'
+    if (Test-Path -LiteralPath $charterTeamPath -PathType Leaf) {
+        $charterTeam = Get-Content -LiteralPath $charterTeamPath -Raw
+        $charterTeamMatch = [regex]::Match($charterTeam, '(?m)^- \*\*Team mode:\*\* (SOLO|SMALL TEAM|FULL TEAM)\s*$')
+        if (-not $charterTeamMatch.Success) {
+            $errors.Add('PROJECT_CHARTER.md team mode must be SOLO, SMALL TEAM, or FULL TEAM.')
+        }
+        else {
+            $teamMode = $charterTeamMatch.Groups[1].Value
+        }
+        $requestedWorkersMatch = [regex]::Match($charterTeam, '(?m)^- \*\*Requested simultaneous workers:\*\* ([0-9]+)\s*$')
+        if (-not $requestedWorkersMatch.Success) {
+            $errors.Add('PROJECT_CHARTER.md requested simultaneous workers must be one exact integer from 1 through 15.')
+        }
+        else {
+            $requestedWorkerCount = [int]$requestedWorkersMatch.Groups[1].Value
+            if ($requestedWorkerCount -lt 1 -or $requestedWorkerCount -gt 15) {
+                $errors.Add('PROJECT_CHARTER.md requested simultaneous workers must be between 1 and 15.')
+            }
+            $expectedTeamMode = if ($requestedWorkerCount -eq 1) { 'SOLO' } elseif ($requestedWorkerCount -le 9) { 'SMALL TEAM' } else { 'FULL TEAM' }
+            if ($teamMode -ne $expectedTeamMode) {
+                $errors.Add('PROJECT_CHARTER.md team mode does not match the requested worker count (1 SOLO, 2-9 SMALL TEAM, 10-15 FULL TEAM).')
+            }
+        }
+        $workerPolicyMatch = [regex]::Match($charterTeam, '(?m)^- \*\*Worker model/effort policy:\*\* (.+)$')
+        $workerModelPolicy = if ($workerPolicyMatch.Success) { $workerPolicyMatch.Groups[1].Value.Trim() } else { '' }
+        if ([string]::IsNullOrWhiteSpace($workerModelPolicy) -or $workerModelPolicy -match '<[^>]+>|(?i)NOT VERIFIED|PENDING|UNKNOWN') {
+            $errors.Add('PROJECT_CHARTER.md must contain the exact answered worker model/effort policy.')
+        }
+        $intakeReceiptMatch = [regex]::Match($charterTeam, '(?m)^- \*\*Staffing intake receipt:\*\* (.+)$')
+        $staffingIntakeReceipt = if ($intakeReceiptMatch.Success) { $intakeReceiptMatch.Groups[1].Value.Trim() } else { '' }
+        if ($staffingIntakeReceipt -notmatch '[0-9]{4}-[0-9]{2}-[0-9]{2}T' -or $staffingIntakeReceipt -notmatch "(?i)workers=$requestedWorkerCount" -or
+            ([string]::IsNullOrWhiteSpace($workerModelPolicy) -eq $false -and -not $staffingIntakeReceipt.Contains($workerModelPolicy))) {
+            $errors.Add('PROJECT_CHARTER.md staffing intake receipt must timestamp and repeat the exact worker count and model policy.')
+        }
+        $staffingContractMatch = [regex]::Match($charterTeam, '(?m)^- \*\*Team staffing contract:\*\* (.+)$')
+        if (-not $staffingContractMatch.Success -or $staffingContractMatch.Groups[1].Value -notmatch [regex]::Escape($teamMode) -or
+            ($requestedWorkerCount -gt 0 -and $staffingContractMatch.Groups[1].Value -notmatch "(?<![0-9])$requestedWorkerCount(?![0-9])")) {
+            $errors.Add('PROJECT_CHARTER.md team staffing contract must name the selected mode and exact requested worker count.')
+        }
+    }
+
     $strictFields = @{
         'PROJECT_STATE.md' = @(
             'Last updated',
@@ -432,6 +549,16 @@ if ($Strict) {
             'Current authority envelope',
             'Forbidden without new user authority',
             'Open brainstorm backlog',
+            'Team mode',
+            'Requested simultaneous workers',
+            'Worker model/effort policy',
+            'Staffing intake receipt',
+            'Staffed wave phase',
+            'First staffed build wave',
+            'Staffed build-wave counts',
+            'Staffed build-wave lane IDs',
+            'Staffed build-wave receipt',
+            'Integration regroup state',
             'Ready independent lanes',
             'Running ready lanes',
             'Useful concurrency target',
@@ -456,6 +583,11 @@ if ($Strict) {
             'Controlling instructions',
             'Human owner/approver',
             'Target release or milestone',
+            'Team mode',
+            'Requested simultaneous workers',
+            'Worker model/effort policy',
+            'Staffing intake receipt',
+            'Team staffing contract',
             "User's explicit request",
             'Intended recipient/audience',
             'Occasion/relationship context',
@@ -483,6 +615,12 @@ if ($Strict) {
         'PROJECT_PLAN.md' = @(
             'Controlling intent synthesis',
             'Prior-art decision',
+            'Team mode',
+            'Requested simultaneous workers',
+            'Worker model/effort policy',
+            'First staffed build wave',
+            'Staffed-wave target',
+            'Integration regroup rule',
             'Target user and problem',
             'Recipient/occasion and emotional promise',
             'Private/internal/public delivery',
@@ -531,30 +669,102 @@ if ($Strict) {
             $errors.Add('PROJECT_PLAN.md adversarial self-audit still contains unresolved sample findings or repairs.')
         }
 
+        $planTeamMatch = [regex]::Match($plan, '(?m)^- \*\*Team mode:\*\* (SOLO|SMALL TEAM|FULL TEAM)\s*$')
+        if (-not $planTeamMatch.Success -or $planTeamMatch.Groups[1].Value -ne $teamMode) {
+            $errors.Add('PROJECT_PLAN.md team mode must match PROJECT_CHARTER.md.')
+        }
+        $planRequestedWorkersMatch = [regex]::Match($plan, '(?m)^- \*\*Requested simultaneous workers:\*\* ([0-9]+)\s*$')
+        if (-not $planRequestedWorkersMatch.Success -or [int]$planRequestedWorkersMatch.Groups[1].Value -ne $requestedWorkerCount) {
+            $errors.Add('PROJECT_PLAN.md requested simultaneous workers must match PROJECT_CHARTER.md exactly.')
+        }
+        $planWorkerPolicyMatch = [regex]::Match($plan, '(?m)^- \*\*Worker model/effort policy:\*\* (.+)$')
+        if (-not $planWorkerPolicyMatch.Success -or $planWorkerPolicyMatch.Groups[1].Value.Trim() -ne $workerModelPolicy) {
+            $errors.Add('PROJECT_PLAN.md worker model/effort policy must match PROJECT_CHARTER.md exactly.')
+        }
+        $firstWaveMatch = [regex]::Match($plan, '(?m)^- \*\*First staffed build wave:\*\* ([A-Z][A-Z0-9_-]*)\s*$')
+        $firstStaffedWaveId = if ($firstWaveMatch.Success) { $firstWaveMatch.Groups[1].Value } else { '' }
+        if (-not $firstWaveMatch.Success) {
+            $errors.Add('PROJECT_PLAN.md must name one exact first staffed build wave ID.')
+        }
+        $regroupRuleMatch = [regex]::Match($plan, '(?m)^- \*\*Integration regroup rule:\*\* (.+)$')
+        $regroupRule = if ($regroupRuleMatch.Success) { $regroupRuleMatch.Groups[1].Value.Trim() } else { '' }
+        foreach ($requiredRegroupTerm in @('handoff', 'freeze', 'candidate', 'QA', 'original stable')) {
+            if ($regroupRule -notmatch ('(?i)' + [regex]::Escape($requiredRegroupTerm))) {
+                $errors.Add("PROJECT_PLAN.md integration regroup rule must state $requiredRegroupTerm behavior.")
+            }
+        }
+
         $planTaskSection = [regex]::Match($plan, '(?ms)^## Top-level task design\s*(.*?)(?=^## |\z)').Groups[1].Value
         $planTaskRows = @($planTaskSection -split "`r?`n" | Where-Object { $_ -match '^\|' -and $_ -notmatch '^\|---' -and $_ -notmatch '^\| Stable lane ID ' })
         $planLaneIds = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::OrdinalIgnoreCase)
+        $planWorkerClasses = @{}
+        $planAssignedModels = @{}
+        $firstWaveLaneIds = [System.Collections.Generic.List[string]]::new()
+        $firstWaveImplementationCount = 0
+        $allowedPlanWorkerClasses = @('IMPLEMENTATION', 'PRODUCT', 'ARCHITECTURE', 'QA', 'VISUAL', 'INTEGRATION', 'RELEASE', 'RESEARCH')
         foreach ($row in $planTaskRows) {
             $columns = @($row.Trim('|') -split '\|' | ForEach-Object { $_.Trim() })
             if ($row -match '<[^>]+>') {
                 $errors.Add('PROJECT_PLAN.md top-level task design still contains an unresolved sample or placeholder row.')
                 continue
             }
-            if ($columns.Count -lt 12 -or $columns[3].Trim('`') -ne 'create_thread') {
+            if ($columns.Count -lt 14 -or $columns[4].Trim('`') -ne 'create_thread') {
                 $errors.Add('Every PROJECT_PLAN.md durable lane must name create_thread as its creation mechanism.')
             }
-            if ($columns.Count -ge 12) {
+            if ($columns.Count -ge 14) {
+                $assignedModel = @($columns[10] -split ';', 2)[0].Trim()
                 if ($columns[0] -notmatch '^[A-Z][A-Z0-9_-]*$') {
                     $errors.Add('Every PROJECT_PLAN.md durable lane must have a stable lane ID.')
                 }
                 elseif (-not $planLaneIds.Add($columns[0])) {
                     $errors.Add("PROJECT_PLAN.md contains duplicate stable lane ID '$($columns[0])'.")
                 }
-                if ([string]::IsNullOrWhiteSpace($columns[4]) -or [string]::IsNullOrWhiteSpace($columns[5]) -or [string]::IsNullOrWhiteSpace($columns[10])) {
-                    $errors.Add("PROJECT_PLAN.md lane '$($columns[0])' must resolve launch wave, hard prerequisite, and intended project/root/worktree.")
+                else {
+                    $planWorkerClasses[$columns[0]] = $columns[1]
+                    $planAssignedModels[$columns[0]] = $assignedModel
                 }
-                elseif (-not $columns[10].Contains($root)) {
+                if ($columns[1] -notin $allowedPlanWorkerClasses) {
+                    $errors.Add("PROJECT_PLAN.md lane '$($columns[0])' has an invalid worker class.")
+                }
+                if ([string]::IsNullOrWhiteSpace($columns[5]) -or [string]::IsNullOrWhiteSpace($columns[6]) -or [string]::IsNullOrWhiteSpace($columns[11]) -or [string]::IsNullOrWhiteSpace($columns[13])) {
+                    $errors.Add("PROJECT_PLAN.md lane '$($columns[0])' must resolve launch wave, hard prerequisite, intended project/root/worktree, and integration batch/order.")
+                }
+                elseif (-not $columns[11].Contains($root)) {
                     $errors.Add("PROJECT_PLAN.md lane '$($columns[0])' intended project/root/worktree does not name the authoritative project root.")
+                }
+                if ($assignedModel -notmatch '^(?i:AUTO / HOST DEFAULT|gpt-[a-z0-9.-]+ / (none|minimal|low|medium|high|xhigh|max|ultra))$') {
+                    $errors.Add("PROJECT_PLAN.md lane '$($columns[0])' must begin its assigned-model field with a canonical model / effort or AUTO / HOST DEFAULT.")
+                }
+                if ($columns[10] -notmatch ';' -or ([string]::IsNullOrWhiteSpace($workerModelPolicy) -eq $false -and $columns[10] -notmatch '(?i)user policy|AUTO / HOST DEFAULT')) {
+                    $errors.Add("PROJECT_PLAN.md lane '$($columns[0])' must trace its canonical model/effort to the user policy.")
+                }
+                if ($columns[5] -eq $firstStaffedWaveId) {
+                    $firstWaveLaneIds.Add($columns[0])
+                    if ($columns[1] -eq 'IMPLEMENTATION') {
+                        $firstWaveImplementationCount++
+                    }
+                }
+            }
+        }
+
+        $firstWaveCount = $firstWaveLaneIds.Count
+        switch ($teamMode) {
+            'SOLO' {
+                if ($requestedWorkerCount -ne 1 -or $firstWaveCount -ne $requestedWorkerCount) {
+                    $errors.Add('SOLO first staffed build wave must contain exactly the requested 1 non-Director worker.')
+                }
+            }
+            'SMALL TEAM' {
+                if ($requestedWorkerCount -lt 2 -or $requestedWorkerCount -gt 9 -or $firstWaveCount -ne $requestedWorkerCount) {
+                    $errors.Add('SMALL TEAM first staffed build wave must contain exactly the requested 2-9 non-Director workers.')
+                }
+            }
+            'FULL TEAM' {
+                if ($requestedWorkerCount -lt 10 -or $requestedWorkerCount -gt 15 -or $firstWaveCount -ne $requestedWorkerCount) {
+                    $errors.Add('FULL TEAM first staffed build wave must contain exactly the requested 10-15 non-Director workers.')
+                }
+                if (($firstWaveImplementationCount * 2) -le $firstWaveCount) {
+                    $errors.Add('FULL TEAM first staffed build wave must have IMPLEMENTATION as a strict majority.')
                 }
             }
         }
@@ -647,6 +857,97 @@ if ($Strict) {
         }
         if ($strictState -notmatch '(?m)^- \*\*Current candidate classification:\*\* (DEVELOPMENT|DIAGNOSTIC|INTEGRATION|RELEASE CANDIDATE|RELEASED)\s*$') {
             $errors.Add('PROJECT_STATE.md candidate classification is invalid.')
+        }
+        $stateTeamMatch = [regex]::Match($strictState, '(?m)^- \*\*Team mode:\*\* (SOLO|SMALL TEAM|FULL TEAM)\s*$')
+        if (-not $stateTeamMatch.Success -or $stateTeamMatch.Groups[1].Value -ne $teamMode) {
+            $errors.Add('PROJECT_STATE.md team mode must match PROJECT_CHARTER.md.')
+        }
+        $stateRequestedWorkersMatch = [regex]::Match($strictState, '(?m)^- \*\*Requested simultaneous workers:\*\* ([0-9]+)\s*$')
+        if (-not $stateRequestedWorkersMatch.Success -or [int]$stateRequestedWorkersMatch.Groups[1].Value -ne $requestedWorkerCount) {
+            $errors.Add('PROJECT_STATE.md requested simultaneous workers must match PROJECT_CHARTER.md exactly.')
+        }
+        $stateWorkerPolicyMatch = [regex]::Match($strictState, '(?m)^- \*\*Worker model/effort policy:\*\* (.+)$')
+        if (-not $stateWorkerPolicyMatch.Success -or $stateWorkerPolicyMatch.Groups[1].Value.Trim() -ne $workerModelPolicy) {
+            $errors.Add('PROJECT_STATE.md worker model/effort policy must match PROJECT_CHARTER.md exactly.')
+        }
+        $stateIntakeReceiptMatch = [regex]::Match($strictState, '(?m)^- \*\*Staffing intake receipt:\*\* (.+)$')
+        if (-not $stateIntakeReceiptMatch.Success -or $stateIntakeReceiptMatch.Groups[1].Value.Trim() -ne $staffingIntakeReceipt) {
+            $errors.Add('PROJECT_STATE.md staffing intake receipt must match PROJECT_CHARTER.md exactly.')
+        }
+        $staffedPhaseMatch = [regex]::Match($strictState, '(?m)^- \*\*Staffed wave phase:\*\* (PLANNING|BUILD|REGROUP|INTEGRATION|QA|RELEASE)\s*$')
+        if (-not $staffedPhaseMatch.Success) {
+            $errors.Add('PROJECT_STATE.md staffed wave phase is invalid.')
+        }
+        $stateFirstWaveMatch = [regex]::Match($strictState, '(?m)^- \*\*First staffed build wave:\*\* ([A-Z][A-Z0-9_-]*)\s*$')
+        if (-not $stateFirstWaveMatch.Success -or $stateFirstWaveMatch.Groups[1].Value -ne $firstStaffedWaveId) {
+            $errors.Add('PROJECT_STATE.md first staffed build wave must match PROJECT_PLAN.md.')
+        }
+        $staffedCountsMatch = [regex]::Match($strictState, '(?m)^- \*\*Staffed build-wave counts:\*\* planned=([0-9]+); launched=([0-9]+); active=([0-9]+); implementation=([0-9]+); Director excluded\s*$')
+        $staffedIdsMatch = [regex]::Match($strictState, '(?m)^- \*\*Staffed build-wave lane IDs:\*\* (.+)$')
+        $staffedReceiptMatch = [regex]::Match($strictState, '(?m)^- \*\*Staffed build-wave receipt:\*\* (.+)$')
+        $regroupMatch = [regex]::Match($strictState, '(?m)^- \*\*Integration regroup state:\*\* (.+)$')
+        $staffedLaneIds = @()
+        if ($staffedIdsMatch.Success -and $staffedIdsMatch.Groups[1].Value.Trim() -ne 'NONE') {
+            $staffedLaneIds = @($staffedIdsMatch.Groups[1].Value -split ';' | ForEach-Object { $_.Trim() } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
+        }
+        if (-not $staffedCountsMatch.Success) {
+            $errors.Add('PROJECT_STATE.md staffed build-wave counts must use planned=N; launched=N; active=N; implementation=N; Director excluded.')
+        }
+        else {
+            $staffedPlanned = [int]$staffedCountsMatch.Groups[1].Value
+            $staffedLaunched = [int]$staffedCountsMatch.Groups[2].Value
+            $staffedActive = [int]$staffedCountsMatch.Groups[3].Value
+            $staffedImplementation = [int]$staffedCountsMatch.Groups[4].Value
+            if ($staffedPlanned -ne $firstWaveCount -or $staffedLaneIds.Count -ne $firstWaveCount) {
+                $errors.Add('PROJECT_STATE.md staffed planned count/lane IDs must match the first build wave in PROJECT_PLAN.md.')
+            }
+            if ($staffedPlanned -ne $requestedWorkerCount) {
+                $errors.Add('PROJECT_STATE.md staffed planned count must equal the user-requested worker count.')
+            }
+            if ($staffedLaunched -ne $staffedPlanned) {
+                $errors.Add('PROJECT_STATE.md staffed build wave must launch every planned worker before strict validation or waiting.')
+            }
+            if ($staffedImplementation -ne $firstWaveImplementationCount) {
+                $errors.Add('PROJECT_STATE.md implementation-worker count must match PROJECT_PLAN.md worker classes.')
+            }
+            if ($staffedPhaseMatch.Success -and $staffedPhaseMatch.Groups[1].Value -eq 'BUILD' -and $staffedActive -ne $staffedPlanned) {
+                $errors.Add('PROJECT_STATE.md BUILD phase must keep every staffed-wave worker active.')
+            }
+            if ($teamMode -eq 'FULL TEAM') {
+                if ($staffedPlanned -lt 10 -or $staffedPlanned -gt 15 -or $staffedLaunched -lt 10 -or $staffedLaunched -gt 15) {
+                    $errors.Add('PROJECT_STATE.md FULL TEAM must plan and launch 10-15 non-Director workers.')
+                }
+                if (($staffedImplementation * 2) -le $staffedPlanned) {
+                    $errors.Add('PROJECT_STATE.md FULL TEAM must record an IMPLEMENTATION strict majority.')
+                }
+                if ($staffedPhaseMatch.Success -and $staffedPhaseMatch.Groups[1].Value -eq 'BUILD' -and ($staffedActive -lt 10 -or $staffedActive -gt 15)) {
+                    $errors.Add('PROJECT_STATE.md FULL TEAM BUILD must keep 10-15 workers active.')
+                }
+            }
+        }
+        foreach ($planFirstWaveLaneId in @($firstWaveLaneIds)) {
+            if ($planFirstWaveLaneId -notin $staffedLaneIds) {
+                $errors.Add("PROJECT_STATE.md staffed build-wave lane IDs omit '$planFirstWaveLaneId'.")
+            }
+        }
+        $staffedReceipt = if ($staffedReceiptMatch.Success) { $staffedReceiptMatch.Groups[1].Value.Trim() } else { '' }
+        if ($staffedReceipt -notmatch '[0-9]{4}-[0-9]{2}-[0-9]{2}T') {
+            $errors.Add('PROJECT_STATE.md staffed build-wave receipt requires a timestamp.')
+        }
+        foreach ($staffedLaneId in $staffedLaneIds) {
+            $staffedIdPattern = '(?<![A-Z0-9_-])' + [regex]::Escape($staffedLaneId) + '(?![A-Z0-9_-])'
+            if ($staffedReceipt -notmatch $staffedIdPattern) {
+                $errors.Add("PROJECT_STATE.md staffed build-wave receipt omits lane '$staffedLaneId'.")
+            }
+        }
+        $regroupState = if ($regroupMatch.Success) { $regroupMatch.Groups[1].Value.Trim() } else { '' }
+        $handoffMatch = [regex]::Match($regroupState, '(?i)handoffs=([0-9]+)/([0-9]+)')
+        if (-not $handoffMatch.Success -or [int]$handoffMatch.Groups[2].Value -ne $firstWaveCount) {
+            $errors.Add('PROJECT_STATE.md integration regroup state must record handoffs=received/planned for the staffed wave.')
+        }
+        elseif ($staffedPhaseMatch.Success -and $staffedPhaseMatch.Groups[1].Value -in @('REGROUP', 'INTEGRATION', 'QA', 'RELEASE') -and
+            ($regroupState -notmatch '(?i)^SATISFIED\b' -or [int]$handoffMatch.Groups[1].Value -ne $firstWaveCount)) {
+            $errors.Add('PROJECT_STATE.md cannot enter REGROUP/INTEGRATION/QA/RELEASE before every staffed-wave handoff is satisfied.')
         }
         $readyMatch = [regex]::Match($strictState, '(?m)^- \*\*Ready independent lanes:\*\*\s*(.+)$')
         $runningMatch = [regex]::Match($strictState, '(?m)^- \*\*Running ready lanes:\*\*\s*([0-9]+)\s*$')
@@ -764,6 +1065,18 @@ if ($Strict) {
                 $errors.Add("PROJECT_STATE.md lane '$($columns[0])' actual project/workspace does not name the authoritative project root.")
             }
         }
+        $activeStaffedStateCount = 0
+        foreach ($staffedLaneId in $staffedLaneIds) {
+            if (-not $stateLaneIds.Contains($staffedLaneId)) {
+                $errors.Add("PROJECT_STATE.md staffed wave lane '$staffedLaneId' has no current task read-back.")
+            }
+            elseif ($stateLaneStatuses[$staffedLaneId] -eq 'ACTIVE') {
+                $activeStaffedStateCount++
+            }
+        }
+        if ($staffedPhaseMatch.Success -and $staffedPhaseMatch.Groups[1].Value -eq 'BUILD' -and $null -ne $staffedActive -and $activeStaffedStateCount -ne $staffedActive) {
+            $errors.Add('PROJECT_STATE.md staffed active count does not match ACTIVE first-wave task read-backs.')
+        }
         foreach ($readyId in $readyIds) {
             if (-not $stateLaneIds.Contains($readyId) -or $stateLaneStatuses[$readyId] -ne 'ACTIVE') {
                 $errors.Add("PROJECT_STATE.md ready lane '$readyId' must have a current ACTIVE task read-back.")
@@ -823,6 +1136,15 @@ if ($Strict) {
             $errors.Add('COORDINATION_BOARD.md still has a task awaiting archive reconciliation.')
         }
         $boardReadyMatch = [regex]::Match($strictBoard, '(?m)^- \*\*Ready independent lanes:\*\*\s*(.+)$')
+        $boardRequestedWorkersMatch = [regex]::Match($strictBoard, '(?m)^- \*\*Requested simultaneous workers:\*\*\s*([0-9]+)\s*$')
+        $boardWorkerPolicyMatch = [regex]::Match($strictBoard, '(?m)^- \*\*Worker model/effort policy:\*\*\s*(.+)$')
+        $boardIntakeReceiptMatch = [regex]::Match($strictBoard, '(?m)^- \*\*Staffing intake receipt:\*\*\s*(.+)$')
+        $boardStaffedPhaseMatch = [regex]::Match($strictBoard, '(?m)^- \*\*Staffed wave phase:\*\*\s*(.+)$')
+        $boardFirstWaveMatch = [regex]::Match($strictBoard, '(?m)^- \*\*First staffed build wave:\*\*\s*(.+)$')
+        $boardStaffedCountsMatch = [regex]::Match($strictBoard, '(?m)^- \*\*Staffed build-wave counts:\*\*\s*(.+)$')
+        $boardStaffedIdsMatch = [regex]::Match($strictBoard, '(?m)^- \*\*Staffed build-wave lane IDs:\*\*\s*(.+)$')
+        $boardStaffedReceiptMatch = [regex]::Match($strictBoard, '(?m)^- \*\*Staffed build-wave receipt:\*\*\s*(.+)$')
+        $boardRegroupMatch = [regex]::Match($strictBoard, '(?m)^- \*\*Integration regroup state:\*\*\s*(.+)$')
         $boardRunningMatch = [regex]::Match($strictBoard, '(?m)^- \*\*Running ready lanes:\*\*\s*([0-9]+)\s*$')
         $boardTargetMatch = [regex]::Match($strictBoard, '(?m)^- \*\*Useful concurrency target:\*\*\s*([0-9]+)\s*$')
         $boardUnderMatch = [regex]::Match($strictBoard, '(?m)^- \*\*Under-utilization reason:\*\*\s*(.+)$')
@@ -837,6 +1159,32 @@ if ($Strict) {
         }
         if ($readyMatch.Success -and (-not $boardReadyMatch.Success -or $boardReadyMatch.Groups[1].Value.Trim() -ne $readyMatch.Groups[1].Value.Trim())) {
             $errors.Add('COORDINATION_BOARD.md ready independent lanes do not match PROJECT_STATE.md.')
+        }
+        if (-not $boardRequestedWorkersMatch.Success -or [int]$boardRequestedWorkersMatch.Groups[1].Value -ne $requestedWorkerCount) {
+            $errors.Add('COORDINATION_BOARD.md requested simultaneous workers does not match PROJECT_CHARTER.md.')
+        }
+        if (-not $boardWorkerPolicyMatch.Success -or $boardWorkerPolicyMatch.Groups[1].Value.Trim() -ne $workerModelPolicy) {
+            $errors.Add('COORDINATION_BOARD.md worker model/effort policy does not match PROJECT_CHARTER.md.')
+        }
+        if (-not $boardIntakeReceiptMatch.Success -or $boardIntakeReceiptMatch.Groups[1].Value.Trim() -ne $staffingIntakeReceipt) {
+            $errors.Add('COORDINATION_BOARD.md staffing intake receipt does not match PROJECT_CHARTER.md.')
+        }
+        foreach ($stateBoardPair in @(
+            @{ State = $staffedPhaseMatch; Board = $boardStaffedPhaseMatch; Name = 'staffed wave phase' },
+            @{ State = $stateFirstWaveMatch; Board = $boardFirstWaveMatch; Name = 'first staffed build wave' },
+            @{ State = $staffedIdsMatch; Board = $boardStaffedIdsMatch; Name = 'staffed build-wave lane IDs' },
+            @{ State = $staffedReceiptMatch; Board = $boardStaffedReceiptMatch; Name = 'staffed build-wave receipt' },
+            @{ State = $regroupMatch; Board = $boardRegroupMatch; Name = 'integration regroup state' }
+        )) {
+            if ($stateBoardPair.State.Success -and (-not $stateBoardPair.Board.Success -or $stateBoardPair.Board.Groups[1].Value.Trim() -ne $stateBoardPair.State.Groups[1].Value.Trim())) {
+                $errors.Add("COORDINATION_BOARD.md $($stateBoardPair.Name) does not match PROJECT_STATE.md.")
+            }
+        }
+        if ($staffedCountsMatch.Success) {
+            $expectedStaffedCounts = "planned=$($staffedCountsMatch.Groups[1].Value); launched=$($staffedCountsMatch.Groups[2].Value); active=$($staffedCountsMatch.Groups[3].Value); implementation=$($staffedCountsMatch.Groups[4].Value); Director excluded"
+            if (-not $boardStaffedCountsMatch.Success -or $boardStaffedCountsMatch.Groups[1].Value.Trim() -ne $expectedStaffedCounts) {
+                $errors.Add('COORDINATION_BOARD.md staffed build-wave counts does not match PROJECT_STATE.md.')
+            }
         }
         if ($runningMatch.Success -and (-not $boardRunningMatch.Success -or $boardRunningMatch.Groups[1].Value -ne $runningMatch.Groups[1].Value)) {
             $errors.Add('COORDINATION_BOARD.md running ready lane count does not match PROJECT_STATE.md.')
@@ -915,6 +1263,12 @@ if ($Strict) {
             elseif (-not $actualProject.Contains($root)) {
                 $errors.Add("Task directory row '$role' actual project/root/worktree does not name the authoritative project root.")
             }
+            if (-not $isRetired -and $stableLaneId -ne 'DIRECTOR' -and $null -ne $planAssignedModels -and $planAssignedModels.ContainsKey($stableLaneId)) {
+                $assignedModel = $planAssignedModels[$stableLaneId]
+                if ($assignedModel -ne 'AUTO / HOST DEFAULT' -and -not $actualModel.StartsWith($assignedModel, [System.StringComparison]::OrdinalIgnoreCase)) {
+                    $errors.Add("Task directory row '$role' actual model/effort does not match its user-policy-backed PROJECT_PLAN.md assignment.")
+                }
+            }
             $checklistPath = Join-Path $root $checklist
             if (-not (Test-Path -LiteralPath $checklistPath -PathType Leaf)) {
                 $errors.Add("Task directory row '$role' points to a missing checklist: $checklist")
@@ -922,9 +1276,29 @@ if ($Strict) {
             else {
                 $checklistContent = Get-Content -LiteralPath $checklistPath -Raw
                 $checklistLaneMatch = [regex]::Match($checklistContent, '(?m)^- \*\*Stable lane ID:\*\*\s*(.+)$')
+                $checklistWorkerMatch = [regex]::Match($checklistContent, '(?m)^- \*\*Worker class:\*\*\s*(.+)$')
                 $checklistStartupMatch = [regex]::Match($checklistContent, '(?m)^- \*\*Actual task startup read-back:\*\*\s*(.+)$')
+                $checklistModelMatch = [regex]::Match($checklistContent, '(?m)^- \*\*Model/effort:\*\*\s*(.+)$')
+                $checklistPolicyMatch = [regex]::Match($checklistContent, '(?m)^- \*\*User-selected worker model policy:\*\*\s*(.+)$')
+                $checklistPolicyReceiptMatch = [regex]::Match($checklistContent, '(?m)^- \*\*Model policy match receipt:\*\*\s*(.+)$')
                 if (-not $checklistLaneMatch.Success -or $checklistLaneMatch.Groups[1].Value.Trim() -ne $stableLaneId) {
                     $errors.Add("Checklist '$checklist' stable lane ID does not match registry row '$stableLaneId'.")
+                }
+                if (-not $isRetired -and $stableLaneId -ne 'DIRECTOR' -and $null -ne $planWorkerClasses -and $planWorkerClasses.ContainsKey($stableLaneId) -and
+                    (-not $checklistWorkerMatch.Success -or $checklistWorkerMatch.Groups[1].Value.Trim() -ne $planWorkerClasses[$stableLaneId])) {
+                    $errors.Add("Checklist '$checklist' worker class does not match PROJECT_PLAN.md lane '$stableLaneId'.")
+                }
+                if (-not $isRetired -and $stableLaneId -ne 'DIRECTOR' -and $null -ne $planAssignedModels -and $planAssignedModels.ContainsKey($stableLaneId)) {
+                    $assignedModel = $planAssignedModels[$stableLaneId]
+                    if (-not $checklistModelMatch.Success -or -not $checklistModelMatch.Groups[1].Value.Trim().StartsWith($assignedModel, [System.StringComparison]::OrdinalIgnoreCase)) {
+                        $errors.Add("Checklist '$checklist' model/effort does not match PROJECT_PLAN.md lane '$stableLaneId'.")
+                    }
+                    if (-not $checklistPolicyMatch.Success -or -not $checklistPolicyMatch.Groups[1].Value.Contains($workerModelPolicy)) {
+                        $errors.Add("Checklist '$checklist' does not cite the exact user-selected worker model policy.")
+                    }
+                    if (-not $checklistPolicyReceiptMatch.Success -or $checklistPolicyReceiptMatch.Groups[1].Value.Trim() -notmatch '(?i)^MATCH\b') {
+                        $errors.Add("Checklist '$checklist' lacks a MATCH receipt for its actual model/effort.")
+                    }
                 }
                 if (-not $isRetired -and (-not $checklistStartupMatch.Success -or
                     -not $checklistStartupMatch.Groups[1].Value.Contains($taskId) -or
@@ -1003,7 +1377,7 @@ if ($errors.Count -gt 0) {
     exit 1
 }
 
-Write-Output 'PASS: required controls, outcome lock, resume packet, brainstorm linkage, parallel-launch state, verified task lifecycle, timebox, drift, visual, links, and active checklists are coherent.'
+Write-Output 'PASS: required controls, outcome lock, resume packet, brainstorm linkage, staffed-wave and integration state, verified task lifecycle, timebox, drift, visual, links, and active checklists are coherent.'
 if (-not $Strict -and $warnings.Count -gt 0) {
     Write-Output 'Activation passed with placeholders. Complete them and run again with -Strict before substantive implementation.'
 }

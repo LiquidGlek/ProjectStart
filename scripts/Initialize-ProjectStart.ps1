@@ -26,8 +26,13 @@ param(
     [ValidateRange(5, 10080)]
     [int]$TimeboxMinutes = 60,
 
-    [ValidateSet('SOLO', 'SMALL TEAM', 'FULL TEAM')]
-    [string]$TeamMode = 'SMALL TEAM',
+    [Parameter(Mandatory = $true)]
+    [ValidateRange(1, 15)]
+    [int]$WorkerCount,
+
+    [Parameter(Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
+    [string]$WorkerModelPolicy,
 
     [string]$VisualReference,
 
@@ -35,6 +40,27 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+
+$workerModelPolicyText = ($WorkerModelPolicy -replace '\s+', ' ').Trim()
+if ([string]::IsNullOrWhiteSpace($workerModelPolicyText)) {
+    throw 'WorkerModelPolicy must contain the user-selected model/effort policy or AUTO / HOST DEFAULT.'
+}
+
+$TeamMode = if ($WorkerCount -eq 1) {
+    'SOLO'
+}
+elseif ($WorkerCount -le 9) {
+    'SMALL TEAM'
+}
+else {
+    'FULL TEAM'
+}
+
+$teamStaffingContract = switch ($TeamMode) {
+    'SOLO' { 'SOLO; exactly 1 simultaneous non-Director worker requested; Director excluded' }
+    'SMALL TEAM' { "SMALL TEAM; exactly $WorkerCount simultaneous non-Director workers requested; Director excluded" }
+    'FULL TEAM' { "FULL TEAM; exactly $WorkerCount simultaneous non-Director workers requested during BUILD; IMPLEMENTATION is a strict majority; Director excluded" }
+}
 
 function Set-TextFile {
     param(
@@ -140,6 +166,7 @@ $deadline = $started.AddMinutes($TimeboxMinutes)
 $startedText = $started.ToString('yyyy-MM-ddTHH:mm:sszzz')
 $deadlineText = $deadline.ToString('yyyy-MM-ddTHH:mm:sszzz')
 $snapshotText = $startedText
+$staffingIntakeReceipt = "$snapshotText; current project-start invocation supplied workers=$WorkerCount; model policy=$workerModelPolicyText."
 $projectDeadlineText = 'NONE supplied'
 if (-not [string]::IsNullOrWhiteSpace($ProjectDeadline)) {
     $parsedProjectDeadline = [DateTimeOffset]::MinValue
@@ -199,6 +226,10 @@ $charter = Replace-Text $charter '- **Authoritative root:** `<absolute path>`' "
 $charter = Replace-Text $charter '- **Repository/branch/HEAD:** `<repo, branch, commit or NOT A REPOSITORY>`' "- **Repository/branch/HEAD:** $repoState"
 $charter = Replace-Text $charter '- **Coordinator:** `<agent/task/deeplink>`' '- **Coordinator:** Primary coordinator (current Codex task)'
 $charter = Replace-Text $charter '- **Team mode:** `<SOLO / SMALL TEAM / FULL TEAM>`' "- **Team mode:** $TeamMode"
+$charter = Replace-Text $charter '- **Requested simultaneous workers:** `<exact integer 1-15; excludes Director>`' "- **Requested simultaneous workers:** $WorkerCount"
+$charter = Replace-Text $charter '- **Worker model/effort policy:** `<exact user answer: one default, role mapping, or AUTO / HOST DEFAULT>`' "- **Worker model/effort policy:** $workerModelPolicyText"
+$charter = Replace-Text $charter '- **Staffing intake receipt:** `<ISO timestamp; exact worker-count and model-policy answer plus source message/turn>`' "- **Staffing intake receipt:** $staffingIntakeReceipt"
+$charter = Replace-Text $charter '- **Team staffing contract:** `<SOLO: exactly 1 / SMALL TEAM: exact requested 2-9 / FULL TEAM: exact requested 10-15 with IMPLEMENTATION strict majority>`' "- **Team staffing contract:** $teamStaffingContract"
 $charter = Replace-Text $charter '- **Autonomy boundary:** `<safe local decisions the Director may make without user input>`' '- **Autonomy boundary:** Safe, reversible local inspection, implementation, tests, renders, coordination, and recovery within assigned scope.'
 $charter = Replace-Text $charter '- **Escalation boundary:** `<product choices, authority, destructive/external actions, acceptance>`' '- **Escalation boundary:** Material product ambiguity; destructive, difficult-to-reverse, external, public, financial, credential, or account actions; unavailable required inputs; final human acceptance.'
 $visualReferenceText = if ([string]::IsNullOrWhiteSpace($VisualReference)) { 'NONE supplied at initialization' } else { $VisualReference }
@@ -212,6 +243,7 @@ $charter = Replace-Text $charter '- **Exact deadline:** `<ISO timestamp and time
 $charter = Replace-Text $charter '- **Current first-slice deadline:** `<ISO timestamp and timezone>`' "- **Current first-slice deadline:** $deadlineText"
 $charter = Replace-Text $charter '- **Deadline owner:** `<user/role>`' '- **Deadline owner:** User'
 $charter = Replace-Text $charter '- **Overrun rule:** `<report project-deadline truth honestly; Director may replan slices but only the user may reduce the promised outcome>`' '- **Overrun rule:** Report project-deadline truth honestly. The Director may replan internal slices but only the user may reduce the promised outcome.'
+$charter = Replace-Text $charter '- **Model/usage budget:** `<the user''s answered worker model/effort policy controls; AUTO may use documented proportionate routing>`' "- **Model/usage budget:** $workerModelPolicyText; user-selected for workers at project-start intake."
 $charter = Replace-Text $charter '- **Sol Max allocation owner:** `<Project Director>`' '- **Sol Max allocation owner:** Project Director'
 $charter = Replace-Text $charter '- **Sol Max lane and reason:** `<task/IDs/complexity reason or NONE>`' '- **Sol Max lane and reason:** NONE at initialization; inspect complexity before allocating.'
 $preMortemSample = '| PM-001 | `<for example: tests grow while real journey remains unattempted>` | `<measurable signal>` | `<rule/check/ownership>` | `<role>` | `<immediate action>` |'
@@ -270,6 +302,16 @@ $state = Replace-Text $state '- **Active correction IDs:** `<CORR-### IDs or NON
 $state = Replace-Text $state '- **Current authority envelope:** `<safe actions already authorized>`' '- **Current authority envelope:** Safe, reversible local inspection, control-file setup, planning, implementation, tests, renders, coordination, and recovery within assigned scope.'
 $state = Replace-Text $state '- **Forbidden without new user authority:** `<external/destructive/public/account/financial actions>`' '- **Forbidden without new user authority:** Destructive, difficult-to-reverse, external, public, financial, credential, account, purchase, install, deploy, and final human-acceptance actions unless already explicitly authorized in the charter.'
 $state = Replace-Text $state '- **Open brainstorm backlog:** `<number; newest IDEA-### IDs or NONE>`' '- **Open brainstorm backlog:** 0; newest NONE'
+$state = Replace-Text $state '- **Team mode:** `<SOLO / SMALL TEAM / FULL TEAM>`' "- **Team mode:** $TeamMode"
+$state = Replace-Text $state '- **Requested simultaneous workers:** `<exact integer 1-15; excludes Director>`' "- **Requested simultaneous workers:** $WorkerCount"
+$state = Replace-Text $state '- **Worker model/effort policy:** `<exact user answer copied from charter>`' "- **Worker model/effort policy:** $workerModelPolicyText"
+$state = Replace-Text $state '- **Staffing intake receipt:** `<ISO timestamp; answer and source reconciled>`' "- **Staffing intake receipt:** $staffingIntakeReceipt"
+$state = Replace-Text $state '- **Staffed wave phase:** `<PLANNING / BUILD / REGROUP / INTEGRATION / QA / RELEASE>`' '- **Staffed wave phase:** PLANNING'
+$state = Replace-Text $state '- **First staffed build wave:** `<wave ID or NONE before plan acceptance>`' '- **First staffed build wave:** NONE before plan acceptance'
+$state = Replace-Text $state '- **Staffed build-wave counts:** `<planned=N; launched=N; active=N; implementation=N; Director excluded>`' '- **Staffed build-wave counts:** planned=0; launched=0; active=0; implementation=0; Director excluded'
+$state = Replace-Text $state '- **Staffed build-wave lane IDs:** `<semicolon-separated 10-15 IDs for FULL TEAM, mode-proportionate IDs otherwise, or NONE before plan acceptance>`' '- **Staffed build-wave lane IDs:** NONE before plan acceptance'
+$state = Replace-Text $state '- **Staffed build-wave receipt:** `<timestamp; exact lane IDs and create/reuse/send receipts, or NOT APPLICABLE before plan acceptance>`' '- **Staffed build-wave receipt:** NOT APPLICABLE before plan acceptance'
+$state = Replace-Text $state '- **Integration regroup state:** `<OPEN handoffs=N/N / SATISFIED handoffs=N/N at timestamp / NOT APPLICABLE before build>`' '- **Integration regroup state:** NOT APPLICABLE before build'
 $state = Replace-Text $state '- **Ready independent lanes:** `<semicolon-separated stable lane IDs or NONE>`' '- **Ready independent lanes:** NONE'
 $state = Replace-Text $state '- **Running ready lanes:** `<number; excludes Director>`' '- **Running ready lanes:** 0'
 $state = Replace-Text $state '- **Useful concurrency target:** `<number; equals ready independent lane count>`' '- **Useful concurrency target:** 0'
@@ -300,12 +342,25 @@ $plan = Replace-Text $plan '- **Acceptance journey:** `<starting state -> user a
 $plan = Replace-Text $plan '- **Instructions and mockups inspected:** `<paths/links/versions>`' "- **Instructions and mockups inspected:** $visualReferenceText"
 $plan = Replace-Text $plan '- **Existing project/code inspected:** `<root, relevant architecture, constraints>`' "- **Existing project/code inspected:** $resolvedTarget; $repoState"
 $plan = Replace-Text $plan '- **Deadline/timebox:** `<timestamp and timezone>`' "- **Deadline/timebox:** $deadlineText"
+$plan = Replace-Text $plan '- **Team mode:** `<SOLO / SMALL TEAM / FULL TEAM>`' "- **Team mode:** $TeamMode"
+$plan = Replace-Text $plan '- **Requested simultaneous workers:** `<exact integer 1-15; excludes Director>`' "- **Requested simultaneous workers:** $WorkerCount"
+$plan = Replace-Text $plan '- **Worker model/effort policy:** `<exact charter policy wording>`' "- **Worker model/effort policy:** $workerModelPolicyText"
+$plan = Replace-Text $plan '- **Staffed-wave target:** `<exact requested count; SOLO 1 / SMALL TEAM 2-9 / FULL TEAM 10-15 non-Director workers>`' "- **Staffed-wave target:** exactly $WorkerCount non-Director workers; $teamStaffingContract"
 Set-TextFile -Path $planPath -Content $plan
 
 $boardPath = Join-Path $resolvedTarget 'COORDINATION_BOARD.md'
 $board = Get-Content -LiteralPath $boardPath -Raw
 $board = Replace-Text $board '- **Coordinator:** `<name/task/deeplink>`' '- **Coordinator:** Primary coordinator (current Codex task)'
 $board = Replace-Text $board '- **Team mode and active roles:** `<SOLO/SMALL/FULL; roles>`' "- **Team mode and active roles:** $TeamMode; Project Director active, other top-level tasks pending inspected lane design"
+$board = Replace-Text $board '- **Requested simultaneous workers:** `<exact integer 1-15; excludes Director>`' "- **Requested simultaneous workers:** $WorkerCount"
+$board = Replace-Text $board '- **Worker model/effort policy:** `<exact user answer copied from charter>`' "- **Worker model/effort policy:** $workerModelPolicyText"
+$board = Replace-Text $board '- **Staffing intake receipt:** `<ISO timestamp; answer/source verified>`' "- **Staffing intake receipt:** $staffingIntakeReceipt"
+$board = Replace-Text $board '- **Staffed wave phase:** `<PLANNING/BUILD/REGROUP/INTEGRATION/QA/RELEASE>`' '- **Staffed wave phase:** PLANNING'
+$board = Replace-Text $board '- **First staffed build wave:** `<wave ID or NONE before plan acceptance>`' '- **First staffed build wave:** NONE before plan acceptance'
+$board = Replace-Text $board '- **Staffed build-wave counts:** `<planned=N; launched=N; active=N; implementation=N; Director excluded>`' '- **Staffed build-wave counts:** planned=0; launched=0; active=0; implementation=0; Director excluded'
+$board = Replace-Text $board '- **Staffed build-wave lane IDs:** `<semicolon-separated IDs or NONE before plan acceptance>`' '- **Staffed build-wave lane IDs:** NONE before plan acceptance'
+$board = Replace-Text $board '- **Staffed build-wave receipt:** `<timestamp; exact create/reuse/send receipts or NOT APPLICABLE before plan acceptance>`' '- **Staffed build-wave receipt:** NOT APPLICABLE before plan acceptance'
+$board = Replace-Text $board '- **Integration regroup state:** `<OPEN handoffs=N/N / SATISFIED handoffs=N/N at timestamp / NOT APPLICABLE before build>`' '- **Integration regroup state:** NOT APPLICABLE before build'
 $board = Replace-Text $board '- **Last reconciled:** `<ISO timestamp>`' "- **Last reconciled:** $snapshotText"
 $board = Replace-Text $board '- **Last state rehydration:** `<ISO timestamp and reason/receipt>`' "- **Last state rehydration:** $snapshotText; INITIALIZATION, exact task read-back still required before strict validation."
 $board = Replace-Text $board '- **Ready independent lanes:** `<semicolon-separated stable lane IDs or NONE>`' '- **Ready independent lanes:** NONE'
@@ -345,6 +400,7 @@ $coordinatorPath = Join-Path $resolvedTarget $coordinatorRelativePath
 $coordinator = Get-Content -LiteralPath $coordinatorPath -Raw
 $coordinator = Replace-Text $coordinator '- **Agent/task/deeplink:** `<identity>`' '- **Agent/task/deeplink:** Primary coordinator (current Codex task)'
 $coordinator = Replace-Text $coordinator '- **Stable lane ID:** `<permanent lane ID reused across slices/candidates/reviews>`' '- **Stable lane ID:** DIRECTOR'
+$coordinator = Replace-Text $coordinator '- **Worker class:** `<IMPLEMENTATION / PRODUCT / ARCHITECTURE / QA / VISUAL / INTEGRATION / RELEASE / RESEARCH>`' '- **Worker class:** DIRECTOR'
 $coordinator = Replace-Text $coordinator '- **Task type:** `<TOP-LEVEL CODEX TASK / CURRENT DIRECTOR TASK>`' '- **Task type:** CURRENT DIRECTOR TASK'
 $coordinator = Replace-Text $coordinator '- **Creation mechanism/receipt:** `<create_thread plus returned receipt / current Director task>`' '- **Creation mechanism/receipt:** current Director task'
 $coordinator = Replace-Text $coordinator '- **Actual task startup read-back:** `<timestamp; exact ID/deeplink; actual model/effort; actual project/root/worktree; checklist; status>`' "- **Actual task startup read-back:** $snapshotText; $DirectorTaskId; $DirectorDeeplink; model/effort=$DirectorModelEffort; actual project/root/worktree=$resolvedTarget; $repoState; checklist=agent-checklists/coordinator.md; status=ACTIVE"
@@ -357,12 +413,14 @@ $coordinator = Replace-Text $coordinator '- **Critical journey transaction contr
 $coordinator = Replace-Text $coordinator '- **Change impact classification:** `<LOCAL/SHARED SEAM/PERSISTENT MIGRATION/EXTERNAL-EFFECT TRANSACTION/CROSS-CUTTING INVARIANT>`' '- **Change impact classification:** PENDING inspected plan.'
 $coordinator = Replace-Text $coordinator '- **Coordinator:** `<identity>`' '- **Coordinator:** Self; primary coordinator (current Codex task)'
 $coordinator = Replace-Text $coordinator '- **Parent master checklist:** `../MASTER_CHECKLIST.md`' '- **Parent master checklist:** `../MASTER_CHECKLIST.md`'
-$coordinator = Replace-Text $coordinator '- **Assigned master IDs:** `<exact IDs>`' '- **Assigned master IDs:** REQ-001, GATE-001 through GATE-030'
+$coordinator = Replace-Text $coordinator '- **Assigned master IDs:** `<exact IDs>`' '- **Assigned master IDs:** REQ-001, GATE-001 through GATE-032'
 $coordinator = Replace-Text $coordinator '- **Authoritative root/branch/HEAD:** `<path and identity>`' "- **Authoritative root/branch/HEAD:** $resolvedTarget; $repoState"
 $coordinator = Replace-Text $coordinator '- **Exact write ownership:** `<files, folders, regions, resources>`' '- **Exact write ownership:** Project control Markdown files and coordination records; implementation ownership must be assigned separately.'
 $coordinator = Replace-Text $coordinator '- **Start/deadline:** `<ISO timestamps and timezone>`' "- **Start/deadline:** $startedText / $deadlineText"
 $coordinator = Replace-Text $coordinator '- **Lane time budget:** `<duration>`' "- **Lane time budget:** $TimeboxMinutes minutes"
 $coordinator = Replace-Text $coordinator '- **Model/effort:** `<Luna Max read-only; Sol Low/Light for bounded QA; Sol Medium default; or Sol Max>`' '- **Model/effort:** Sol Medium'
+$coordinator = Replace-Text $coordinator '- **User-selected worker model policy:** `<exact charter policy clause governing this lane>`' "- **User-selected worker model policy:** $workerModelPolicyText; worker policy recorded for scheduling, NOT APPLICABLE to the current Director task."
+$coordinator = Replace-Text $coordinator '- **Model policy match receipt:** `<MATCH at timestamp: assigned canonical model/effort equals actual startup read-back / MISMATCH and stop receipt>`' "- **Model policy match receipt:** NOT APPLICABLE at $snapshotText; this is the current Director, not one of the $WorkerCount requested workers."
 $coordinator = Replace-Text $coordinator '- **Why this effort level is proportionate:** `<normal lane or exact complex critical reason>`' '- **Why this effort level is proportionate:** Default Director and coordination workload.'
 $coordinator = Replace-Text $coordinator '- **Timebox stage:** `<EARLY/MIDPOINT/SCOPE FREEZE/STABILIZE/OVERRUN>`' '- **Timebox stage:** EARLY'
 $coordinator = Replace-Text $coordinator '- **Assigned pre-mortem risks:** `<PM IDs and warning triggers>`' '- **Assigned pre-mortem risks:** PM-001 through PM-005'
@@ -373,6 +431,8 @@ $coordinator = Replace-Text $coordinator '- **Runtime lock receipt:** `<RLOCK-##
 $coordinator = Replace-Text $coordinator '- **Decision/review deadline:** `<exact timestamp and fallback owner>`' "- **Decision/review deadline:** $deadlineText; fallback owner Project Director"
 $coordinator = Replace-Text $coordinator '- **Workspace isolation:** `<same-tree exact paths / worktree / isolated copy; root and base identity>`' '- **Workspace isolation:** Project Director control files only; implementation task workspaces pending inspection.'
 $coordinator = Replace-Text $coordinator '- **Shared seam contracts:** `<SEAM-### IDs or none>`' '- **Shared seam contracts:** none at initialization'
+$coordinator = Replace-Text $coordinator '- **Integration batch/order:** `<BATCH-N and position>`' '- **Integration batch/order:** COORDINATION; not a worker handoff batch.'
+$coordinator = Replace-Text $coordinator '- **Staffed-wave handoff state:** `<OPEN / READY with commit-artifact-evidence / INTEGRATED / CHANGES REQUESTED>`' '- **Staffed-wave handoff state:** NOT APPLICABLE; Director coordinates and does not supply a worker handoff.'
 $coordinator = Replace-Text $coordinator '- **Resource budget/attempt limit:** `<model/usage/disk/RAM/GPU/processes/whole-path attempts>`' '- **Resource budget/attempt limit:** Set one whole-path attempt limit; add resource caps only if this project actually needs them.'
 $coordinator = Replace-Text $coordinator '- **Task-owned background processes:** `<PIDs/components/purpose/stop condition or none>`' '- **Task-owned background processes:** none at initialization'
 $coordinator = Replace-Text $coordinator '- **Visible UI authority:** `<background-only or exact allowed interaction>`' '- **Visible UI authority:** background-only unless user asks or a genuine human interaction boundary requires it'
@@ -402,6 +462,8 @@ Write-Output "Acceptance journey: $AcceptanceJourney"
 Write-Output "Timebox: $startedText to $deadlineText ($TimeboxMinutes minutes)"
 Write-Output "Project deadline: $projectDeadlineText"
 Write-Output "Director address: $DirectorTaskId / $DirectorDeeplink"
+Write-Output "Requested worker wave: $WorkerCount ($TeamMode)"
+Write-Output "Worker model/effort policy: $workerModelPolicyText"
 Write-Output "Created files: $($coreFiles.Count + 1)"
 Write-Output 'Next: inspect references and project state, complete bounded prior-art research, accept PROJECT_PLAN.md, derive detailed checklists, then run Test-ProjectControls.ps1 -Strict.'
 exit 0

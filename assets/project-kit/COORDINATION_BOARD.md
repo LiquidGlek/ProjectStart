@@ -34,6 +34,10 @@ The coordinator must:
 26. Create a replacement only after recording why the existing task is absent, misconfigured, irrecoverable, duplicate, superseded, or explicitly stopped. Verify actual startup metadata rather than intended launch arguments.
 27. Archive terminal lifecycle debris only after preserving handoff evidence, dirty/unintegrated work, and task-owned process state. Idle, waiting, blocked, or reusable is not terminal. If the host proves a terminal task cannot be archived because its backing record is gone, record `UNARCHIVABLE` with the failed archive receipt and proof that no unintegrated changes/processes remain; do not block disjoint product work or claim it was archived.
 28. Capture exploratory ideas in the master backlog and affected checklists; do not let unpromoted `IDEA-###` rows consume a lane or completion percentage.
+29. Obey the selected team mode. FULL TEAM requires 10–15 concurrent non-Director workers during BUILD, with `IMPLEMENTATION` a strict majority; the Director is excluded and duplicate audits/tiny tests do not count.
+30. Before calling a lane blocked on sibling work, freeze the seam and attempt contract-first progress with fixtures/test doubles, owned-side adapters, and isolated worktrees.
+31. At the staffed-wave handoff barrier, freeze new feature work, collect every lane handoff, integrate in declared batches/order, route conflicts and fixes to original stable owners, produce one exact candidate, and then launch independent QA.
+32. Before initialization, obtain and persist the user's exact 1–15 worker count and worker model/effort policy. Plan and launch exactly that count; verify every actual startup model against its policy-backed assignment. Never infer or silently substitute either answer.
 
 The coordinator must not silently implement shared integration work, waive a gate, self-approve human acceptance, or mark external behavior complete from local proof.
 
@@ -41,6 +45,15 @@ The coordinator must not silently implement shared integration work, waive a gat
 
 - **Coordinator:** `<name/task/deeplink>`
 - **Team mode and active roles:** `<SOLO/SMALL/FULL; roles>`
+- **Requested simultaneous workers:** `<exact integer 1-15; excludes Director>`
+- **Worker model/effort policy:** `<exact user answer copied from charter>`
+- **Staffing intake receipt:** `<ISO timestamp; answer/source verified>`
+- **Staffed wave phase:** `<PLANNING/BUILD/REGROUP/INTEGRATION/QA/RELEASE>`
+- **First staffed build wave:** `<wave ID or NONE before plan acceptance>`
+- **Staffed build-wave counts:** `<planned=N; launched=N; active=N; implementation=N; Director excluded>`
+- **Staffed build-wave lane IDs:** `<semicolon-separated IDs or NONE before plan acceptance>`
+- **Staffed build-wave receipt:** `<timestamp; exact create/reuse/send receipts or NOT APPLICABLE before plan acceptance>`
+- **Integration regroup state:** `<OPEN handoffs=N/N / SATISFIED handoffs=N/N at timestamp / NOT APPLICABLE before build>`
 - **Last reconciled:** `<ISO timestamp>`
 - **Last state rehydration:** `<ISO timestamp and reason/receipt>`
 - **Ready independent lanes:** `<semicolon-separated stable lane IDs or NONE>`
@@ -82,9 +95,9 @@ The coordinator must not silently implement shared integration work, waive a gat
 
 One row per top-level Codex task or durable lane, retaining archived/replaced rows as history. Every stable lane has at most one non-archived live task. Every non-Director row must retain its original `create_thread` receipt. A task without that receipt, exact task ID/deeplink, actual startup read-back, checklist, and exact ownership is not authorized to read project files, edit, test, or coordinate.
 
-| Stable lane ID | Task/lane | Creation/reuse receipt | Task ID/deeplink | Actual model/effort | Actual project/root/worktree | Checklist | Master IDs | Exact write ownership | Hard prerequisites | Time budget/deadline | Excluded/shared regions | Lifecycle/archive receipt | State | Last meaningful update | Next action |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| `<LANE-ID>` | `<lane>` | `create_thread / <returned receipt>; <reuse/replacement receipt>` | `<task ID/deeplink>` | `<actual task read-back>` | `<actual project/root/worktree read-back>` | `agent-checklists/<name>.md` | `<IDs>` | `<paths/regions/systems>` | `<NONE or exact prerequisite>` | `<budget/deadline>` | `<paths>` | `<LIVE / ARCHIVED receipt / ARCHIVE PENDING retry / UNARCHIVABLE failed-attempt receipt>` | `PROPOSED` | `<timestamp>` | `<action>` |
+| Stable lane ID | Worker class | Task/lane | Creation/reuse receipt | Task ID/deeplink | Actual model/effort | Actual project/root/worktree | Checklist | Master IDs | Exact write ownership | Hard prerequisites | Integration batch/order | Time budget/deadline | Excluded/shared regions | Lifecycle/archive receipt | State | Last meaningful update | Next action |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| `<LANE-ID>` | `<IMPLEMENTATION/PRODUCT/ARCHITECTURE/QA/VISUAL/INTEGRATION/RELEASE/RESEARCH>` | `<lane>` | `create_thread / <returned receipt>; <reuse/replacement receipt>` | `<task ID/deeplink>` | `<actual task read-back>` | `<actual project/root/worktree read-back>` | `agent-checklists/<name>.md` | `<IDs>` | `<paths/regions/systems>` | `<NONE or exact prerequisite after contract-first challenge>` | `<BATCH-N and order>` | `<budget/deadline>` | `<paths>` | `<LIVE / ARCHIVED receipt / ARCHIVE PENDING retry / UNARCHIVABLE failed-attempt receipt>` | `PROPOSED` | `<timestamp>` | `<action>` |
 
 Allowed states: `PROPOSED`, `ASSIGNED`, `ACTIVE`, `BLOCKED`, `READY FOR REVIEW`, `CHANGES REQUESTED`, `ACCEPTED`, `STOPPED`, `REPLACED`, `MISCONFIGURED`, `DUPLICATE`, `SUPERSEDED`. `STOPPED`, `REPLACED`, `MISCONFIGURED`, `DUPLICATE`, and `SUPERSEDED` are terminal and require an archive receipt after safe lifecycle reconciliation, or a verified `UNARCHIVABLE` receipt when the host has lost the backing task and no unintegrated changes/processes remain.
 
@@ -116,9 +129,9 @@ Ownership changes only after both the board and affected checklists are updated.
 
 Ready does not mean integrated. Preserve order when lanes share contracts.
 
-| Order | Lane | Master IDs | Candidate identity | Required preconditions | Reviewer | Result |
-|---|---|---|---|---|---|---|
-| 1 | `<lane>` | `<IDs>` | `<commit/hash/files>` | `<conditions>` | `<reviewer>` | `<PENDING/PASS/FAIL>` |
+| Batch/order | Lane | Master IDs | Handoff identity | Required preconditions | Integrator result | Reviewer | Result |
+|---|---|---|---|---|---|---|---|
+| BATCH-1 / 1 | `<lane>` | `<IDs>` | `<commit/hash/files/evidence>` | `<conditions>` | `<PENDING/INTEGRATED/CONFLICT>` | `<reviewer>` | `<PENDING/PASS/FAIL>` |
 
 ## Coordinator review checklist
 
@@ -126,6 +139,10 @@ Ready does not mean integrated. Preserve order when lanes share contracts.
 - [ ] The task creation receipt, ID, deeplink, actual model/effort, actual project/root/worktree, checklist, and startup state were registered and matched before lane work began.
 - [ ] Existing stable-lane tasks were reconciled and reused; any replacement has a recorded reason and old/new task IDs.
 - [ ] Every simultaneously ready independent lane was launched/resumed before waiting, and the wait covered all active targets together.
+- [ ] The selected team-mode staffing contract is met; FULL TEAM has 10–15 launched workers with an implementation majority and a complete staffed-wave receipt.
+- [ ] Requested, planned, launched, and active worker counts match exactly; each actual worker model/effort matches its user-policy-backed assignment.
+- [ ] Every hard prerequisite was challenged with frozen-contract/fixture/owned-side parallelization before it reduced staffing.
+- [ ] Regroup did not start until every planned lane produced a coherent handoff or accepted blocker disposition; integration follows the declared batch/order.
 - [ ] Terminal/duplicate/superseded/misconfigured tasks were archived only after dirty work, handoff, and processes were reconciled, or carry verified `UNARCHIVABLE` evidence; reusable blocked/waiting tasks remain available.
 - [ ] Agent stayed inside exact ownership.
 - [ ] Changed and preserved files are listed.
